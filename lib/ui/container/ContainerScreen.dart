@@ -66,10 +66,13 @@ class _ContainerScreen extends State<ContainerScreen> {
     super.initState();
     user = widget.user;
     _currentWidget = HomeScreen();
+
+    print("Home Screen");
     setCurrency();
     updateCurrentLocation();
 
     /// On iOS, we request notification permissions, Does nothing and returns null on Android
+    /*
     FireStoreUtils.firebaseMessaging.requestPermission(
       alert: true,
       announcement: false,
@@ -79,6 +82,8 @@ class _ContainerScreen extends State<ContainerScreen> {
       provisional: false,
       sound: true,
     );
+
+     */
     getplaceholderimage();
   }
 

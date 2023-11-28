@@ -78,7 +78,8 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="foodie-driver" />
+            android:value="foodie-driver"
+            android:resource="@raw/tune"/>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -120,6 +121,8 @@
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
+
+
 
     </application>
 </manifest>

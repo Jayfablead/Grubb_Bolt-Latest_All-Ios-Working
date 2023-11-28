@@ -22,8 +22,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/User.dart';
 
+NotificationService notificationService = NotificationService();
+
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  notificationService.showNotification(message);
+
 }
 
 void main() async {
@@ -31,21 +36,25 @@ void main() async {
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+ // String token = await NotificationService.getToken();
+ // log(":::::::TOKEN:::::: $token");
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
+  //
+  // await FirebaseMessaging.instance.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
 
-  await FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
+
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await UserPreference.init();
@@ -65,6 +74,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   static User? currentUser;
   NotificationService notificationService = NotificationService();
 
+  /*
   notificationInit() {
     notificationService.initInfo().then((value) async {
       String token = await NotificationService.getToken();
@@ -80,6 +90,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       }
     });
   }
+
+   */
 
   void initializeFlutterFire() async {
     try {
@@ -135,9 +147,10 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    notificationInit();
+    //notificationInit();
     initializeFlutterFire();
     WidgetsBinding.instance.addObserver(this);
+
     super.initState();
   }
 
