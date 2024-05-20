@@ -76,7 +76,7 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
                     height: 30,
                   ),
                   buildTextFiled(validator: validateName, title: "Bank Name".tr(), controller: bankNameController),
-                  buildTextFiled(validator: validateOthers, title: "Branch Name".tr(), controller: branchNameController),
+                  buildTextFiled(validator: validateOthers, title: "Ifsc code".tr(), controller: branchNameController),
                   buildTextFiled(validator: validateOthers, title: "Holder Name".tr(), controller: holderNameController),
                   buildTextFiled(validator: validateOthers, title: "Account Number".tr(), controller: accountNoController),
                   buildTextFiled(validator: (String? value) {
