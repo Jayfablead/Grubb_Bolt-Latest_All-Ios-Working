@@ -358,14 +358,31 @@ class FireStoreUtils {
     List<OrderModel> orders = [];
 
     QuerySnapshot<Map<String, dynamic>> ordersQuery = await firestore.collection(ORDERS).where('driverID', isEqualTo: userID).orderBy('createdAt', descending: true).get();
-    await Future.forEach(ordersQuery.docs, (QueryDocumentSnapshot<Map<String, dynamic>> document) {
+    // await Future.forEach(ordersQuery.docs, (QueryDocumentSnapshot<Map<String, dynamic>> document) {
+    //   try {
+    //     orders.add(OrderModel.fromJson(document.data()));
+    //   print("document.data${document.data()}");
+    //   } catch (e, stacksTrace) {
+    //     print('FireStoreUtils.getDriverOrders Parse error ${document.id} $e '
+    //         '$stacksTrace');
+    //   }
+    // });
+    await Future.forEach(ordersQuery.docs, (QueryDocumentSnapshot<Map<String, dynamic>> document) async {
       try {
-        orders.add(OrderModel.fromJson(document.data()));
-      } catch (e, stacksTrace) {
-        print('FireStoreUtils.getDriverOrders Parse error ${document.id} $e '
-            '$stacksTrace');
+        var data = document.data();
+        print("Raw document data: ${data}");
+
+        if (data is Map<String, dynamic>) {
+          orders.add(OrderModel.fromJson(data));
+          print("Parsed document data: ${data}");
+        } else {
+          print("Unexpected document data type: ${data.runtimeType}");
+        }
+      } catch (e, stackTrace) {
+        print('FireStoreUtils.getDriverOrders Parse error ${document.id} $e $stackTrace');
       }
     });
+
     return orders;
   }
 

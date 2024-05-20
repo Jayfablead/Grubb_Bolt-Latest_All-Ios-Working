@@ -59,71 +59,10 @@ class NotificationService {
 
     await _flutterLocalNotificationsPlugin.initialize(
         initializationSetting,
-        onDidReceiveBackgroundNotificationResponse: (payload){
-          /*
-          print("payload 1 $payload");
-          if (payload == 'ACCEPT') {
-            // Handle action click
-            print('Action clicked!');
-            // You can add your logic here when the action is clicked
-          }
-
-           */
-        },
-        /*
-        onDidReceiveNotificationResponse: (payload)async{
-          /*
-          print("payload  $payload");
-          if (payload.payload == 'action') {
-
-            if(payload.actionId=='1'){
-              print("Action clicked 1");
-            }else if(payload.actionId=='2'){
-              print("Action clicked 2");
-
-            }
-            print('Action clicked!');
-          }
-
-           */
+        onDidReceiveNotificationResponse: (payload){
+          // handleMessage(context, message);
         }
-
-         */
     );
-  }
-
-
-
-  acceptOrder(User? _driverModel) async {
-    print("user data ");
-    OrderModel orderModel = _driverModel!.orderRequestData!;
-
-    _driverModel!.orderRequestData = null;
-    _driverModel!.inProgressOrderID = orderModel.id;
-
-    await FireStoreUtils.updateCurrentUser(_driverModel!);
-
-    orderModel.status = ORDER_STATUS_DRIVER_ACCEPTED;
-    orderModel.driverID = _driverModel!.userID;
-    orderModel.driver = _driverModel!;
-
-    await FireStoreUtils.updateOrder(orderModel);
-
-    await FireStoreUtils.sendFcmMessage(driverAccepted, orderModel.author.fcmToken);
-    await FireStoreUtils.sendFcmMessage(driverAccepted, orderModel.vendor.fcmToken);
-
-  }
-
-  rejectOrder(User? _driverModel) async {
-    OrderModel orderModel = _driverModel!.orderRequestData!;
-    if (orderModel.rejectedByDrivers == null) {
-      orderModel.rejectedByDrivers = [];
-    }
-    orderModel.rejectedByDrivers!.add(_driverModel!.userID);
-    orderModel.status = ORDER_STATUS_DRIVER_REJECTED;
-    await FireStoreUtils.updateOrder(orderModel);
-    _driverModel!.orderRequestData = null;
-    await FireStoreUtils.updateCurrentUser(_driverModel!);
   }
 
 
@@ -131,7 +70,8 @@ class NotificationService {
     print("ask firebase");
     FirebaseMessaging.onMessage.listen((message) {
       print("Data Message 2  "+message.data['title'].toString());
-
+      // print(message.notification!.body.toString());
+      // print(message.data.toString());
       if(message !=null){
         print("ask firebase Message");
         initLocalNotification(message);
@@ -146,7 +86,7 @@ class NotificationService {
 
     print("ask Show Data");
     String imgUrl="";
-    if(event.data['image'] !=""){
+    if(event.data['image'] !=null){
       imgUrl=event.data['image'];
     }else{
       imgUrl="";
@@ -155,7 +95,7 @@ class NotificationService {
     print("image url  $imgUrl");
     if(imgUrl==""){
       AndroidNotificationChannel channel = AndroidNotificationChannel(
-          "0",
+          Random.secure().nextInt(999999).toString(),
           'foodie-driver'
       );
 
@@ -167,12 +107,8 @@ class NotificationService {
         playSound: true,
         enableLights: true,
         enableVibration: true,
-        // payload: jsonEncode(message.data),
-        // actions: [
-        //   AndroidNotificationAction( "1",'ACCEPT',cancelNotification: true,showsUserInterface: true),
-        //   AndroidNotificationAction("2", 'REJECT',cancelNotification: false,showsUserInterface: true),
-        // ],
         sound: RawResourceAndroidNotificationSound("tune"),
+       // sound: const UriAndroidNotificationSound("assets/tune/tune.mp3"),
       );
 
       DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(
@@ -190,7 +126,7 @@ class NotificationService {
 
       Future.delayed(Duration.zero, (){
 
-        _flutterLocalNotificationsPlugin.show(0, event.data['title'].toString(), event.data['message'], notificationDetails);
+        _flutterLocalNotificationsPlugin.show(0, event.data['title'].toString(), event.data['body'], notificationDetails);
       });
     }else{
       final http.Response response = await http.get(Uri.parse(imgUrl));
@@ -201,10 +137,8 @@ class NotificationService {
       );
 
       AndroidNotificationChannel channel = AndroidNotificationChannel(
-          "0",
-        'foodie-driver',
-        description: 'Show foodie Notification',
-        importance: Importance.max,
+          Random.secure().nextInt(999999).toString(),
+          'foodie-driver'
       );
 
       AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(channel.id.toString(), channel.name.toString(),
@@ -214,13 +148,10 @@ class NotificationService {
         ticker: 'ticker',
         styleInformation: bigPictureStyleInformation,
         playSound: true,
+
         enableLights: true,
         enableVibration: true,
-        // actions: [
-        //    AndroidNotificationAction( "1",'ACCEPT',cancelNotification: true,showsUserInterface: true),
-        //    AndroidNotificationAction("2", 'REJECT',cancelNotification: false,showsUserInterface: true),
-        // ],
-        sound: RawResourceAndroidNotificationSound("tune"),
+        sound:  RawResourceAndroidNotificationSound("tune"),
       );
 
       DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(
@@ -237,8 +168,8 @@ class NotificationService {
       );
 
       Future.delayed(Duration.zero, (){
-        print("Notification call");
-        _flutterLocalNotificationsPlugin.show(0, event.data['title'].toString(), event.data['message'], notificationDetails);
+
+        _flutterLocalNotificationsPlugin.show(0, event.data['title'].toString(), event.data['body'], notificationDetails);
       });
     }
 
@@ -275,7 +206,7 @@ class NotificationService {
   void handleMessage(BuildContext context,RemoteMessage message){
 
     if(message.data['redirect']=='product'){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>OnBoarding()));
+     // Navigator.push(context, MaterialPageRoute(builder: (context)=>SplashScreen()));
     }
   }
 

@@ -79,47 +79,100 @@ class OrderModel {
         this.createdAt = createdAt ?? Timestamp.now(),
         this.vendor = vendor ?? VendorModel();
 
+  // factory OrderModel.fromJson(Map<String, dynamic> parsedJson) {
+  //   List<OrderProductModel> products =
+  //       parsedJson.containsKey('products') ? List<OrderProductModel>.from((parsedJson['products'] as List<dynamic>).map((e) => OrderProductModel.fromJson(e))).toList() : [].cast<OrderProductModel>();
+  //
+  //
+  //   List<TaxModel>? taxList;
+  //   if (parsedJson['taxSetting'] != null) {
+  //     taxList = <TaxModel>[];
+  //     parsedJson['taxSetting'].forEach((v) {
+  //       taxList!.add(TaxModel.fromJson(v));
+  //     });
+  //   }
+  //
+  //   return OrderModel(
+  //     address: parsedJson.containsKey('address') ? AddressModel.fromJson(parsedJson['address']) : AddressModel(),
+  //     author: parsedJson.containsKey('author') ? User.fromJson(parsedJson['author']) : User(),
+  //     authorID: parsedJson['authorID'] ?? '',
+  //     createdAt: parsedJson['createdAt'] ?? Timestamp.now(),
+  //     id: parsedJson['id'] ?? '',
+  //     products: products,
+  //     status: parsedJson['status'] ?? '',
+  //     discount: double.parse(parsedJson['discount'].toString()),
+  //     couponCode: parsedJson['couponCode'] ?? '',
+  //     couponId: parsedJson['couponId'] ?? '',
+  //     notes: (parsedJson["notes"] != null && parsedJson["notes"].toString().isNotEmpty) ? parsedJson["notes"] : "",
+  //     vendor: parsedJson.containsKey('vendor') ? VendorModel.fromJson(parsedJson['vendor']) : VendorModel(),
+  //     vendorID: parsedJson['vendorID'] ?? '',
+  //     driver: parsedJson.containsKey('driver')
+  //         ? parsedJson['driver'] != null
+  //             ? User.fromJson(parsedJson['driver'])
+  //             : null
+  //         : null,
+  //     driverID: parsedJson.containsKey('driverID') ? parsedJson['driverID'] : null,
+  //     adminCommission: parsedJson["adminCommission"] != null ? parsedJson["adminCommission"] : "",
+  //     adminCommissionType: parsedJson["adminCommissionType"] != null ? parsedJson["adminCommissionType"] : "",
+  //     tipValue: parsedJson["tip_amount"] != null ? parsedJson["tip_amount"] : "",
+  //     specialDiscount: parsedJson["specialDiscount"] ?? {},
+  //
+  //     takeAway: parsedJson["takeAway"] != null ? parsedJson["takeAway"] : false,
+  //     //extras: parsedJson["extras"]!=null?parsedJson["extras"]:[],
+  //     // extra_size: parsedJson["extras_price"]!=null?parsedJson["extras_price"]:"",
+  //     deliveryCharge: parsedJson["deliveryCharge"],
+  //     paymentMethod: parsedJson["payment_method"] ?? '',
+  //     estimatedTimeToPrepare: parsedJson["estimatedTimeToPrepare"] ?? '',
+  //     triggerDelevery: parsedJson["triggerDelevery"] ?? Timestamp.now(),
+  //     scheduleTime: parsedJson["scheduleTime"],
+  //     rejectedByDrivers: parsedJson["rejectedByDrivers"],
+  //     taxModel: taxList,
+  //   );
+  // }
   factory OrderModel.fromJson(Map<String, dynamic> parsedJson) {
-    List<OrderProductModel> products =
-        parsedJson.containsKey('products') ? List<OrderProductModel>.from((parsedJson['products'] as List<dynamic>).map((e) => OrderProductModel.fromJson(e))).toList() : [].cast<OrderProductModel>();
-
+    List<OrderProductModel> products = [];
+    if (parsedJson.containsKey('products') && parsedJson['products'] is List) {
+      products = (parsedJson['products'] as List)
+          .map((e) => OrderProductModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
 
     List<TaxModel>? taxList;
-    if (parsedJson['taxSetting'] != null) {
-      taxList = <TaxModel>[];
-      parsedJson['taxSetting'].forEach((v) {
-        taxList!.add(TaxModel.fromJson(v));
-      });
+    if (parsedJson['taxSetting'] != null && parsedJson['taxSetting'] is List) {
+      taxList = (parsedJson['taxSetting'] as List)
+          .map((v) => TaxModel.fromJson(v as Map<String, dynamic>))
+          .toList();
     }
 
     return OrderModel(
-      address: parsedJson.containsKey('address') ? AddressModel.fromJson(parsedJson['address']) : AddressModel(),
-      author: parsedJson.containsKey('author') ? User.fromJson(parsedJson['author']) : User(),
+      address: parsedJson.containsKey('address') && parsedJson['address'] is Map<String, dynamic>
+          ? AddressModel.fromJson(parsedJson['address'])
+          : AddressModel(),
+      author: parsedJson.containsKey('author') && parsedJson['author'] is Map<String, dynamic>
+          ? User.fromJson(parsedJson['author'])
+          : User(),
       authorID: parsedJson['authorID'] ?? '',
       createdAt: parsedJson['createdAt'] ?? Timestamp.now(),
       id: parsedJson['id'] ?? '',
       products: products,
       status: parsedJson['status'] ?? '',
-      discount: double.parse(parsedJson['discount'].toString()),
+      discount: double.parse(parsedJson['discount']?.toString() ?? '0.0'),
       couponCode: parsedJson['couponCode'] ?? '',
       couponId: parsedJson['couponId'] ?? '',
-      notes: (parsedJson["notes"] != null && parsedJson["notes"].toString().isNotEmpty) ? parsedJson["notes"] : "",
-      vendor: parsedJson.containsKey('vendor') ? VendorModel.fromJson(parsedJson['vendor']) : VendorModel(),
+      notes: parsedJson["notes"] != null && parsedJson["notes"].toString().isNotEmpty ? parsedJson["notes"] : "",
+      vendor: parsedJson.containsKey('vendor') && parsedJson['vendor'] is Map<String, dynamic>
+          ? VendorModel.fromJson(parsedJson['vendor'])
+          : VendorModel(),
       vendorID: parsedJson['vendorID'] ?? '',
-      driver: parsedJson.containsKey('driver')
-          ? parsedJson['driver'] != null
-              ? User.fromJson(parsedJson['driver'])
-              : null
+      driver: parsedJson.containsKey('driver') && parsedJson['driver'] is Map<String, dynamic>
+          ? User.fromJson(parsedJson['driver'])
           : null,
-      driverID: parsedJson.containsKey('driverID') ? parsedJson['driverID'] : null,
-      adminCommission: parsedJson["adminCommission"] != null ? parsedJson["adminCommission"] : "",
-      adminCommissionType: parsedJson["adminCommissionType"] != null ? parsedJson["adminCommissionType"] : "",
-      tipValue: parsedJson["tip_amount"] != null ? parsedJson["tip_amount"] : "",
+      driverID: parsedJson['driverID'] ?? null,
+      adminCommission: parsedJson["adminCommission"]?.toString() ?? "",
+      adminCommissionType: parsedJson["adminCommissionType"]?.toString() ?? "",
+      tipValue: parsedJson["tip_amount"]?.toString() ?? "",
       specialDiscount: parsedJson["specialDiscount"] ?? {},
-
-      takeAway: parsedJson["takeAway"] != null ? parsedJson["takeAway"] : false,
-      //extras: parsedJson["extras"]!=null?parsedJson["extras"]:[],
-      // extra_size: parsedJson["extras_price"]!=null?parsedJson["extras_price"]:"",
+      takeAway: parsedJson["takeAway"] ?? false,
       deliveryCharge: parsedJson["deliveryCharge"],
       paymentMethod: parsedJson["payment_method"] ?? '',
       estimatedTimeToPrepare: parsedJson["estimatedTimeToPrepare"] ?? '',
@@ -129,6 +182,7 @@ class OrderModel {
       taxModel: taxList,
     );
   }
+
 
   Map<String, dynamic> toJson() {
     return {

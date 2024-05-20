@@ -50,7 +50,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                     value: userBankDetails!.bankName,
                   ),
                   buildDetails(
-                    title: "Branch Name".tr(),
+                    title: "Ifsc Code".tr(),
                     icon: Icons.account_balance,
                     value: userBankDetails!.branchName,
                   ),

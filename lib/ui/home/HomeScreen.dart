@@ -156,20 +156,20 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   getDriver() {
-    driverStream = FireStoreUtils().getDriver(MyAppState.currentUser!.userID);
+    driverStream = FireStoreUtils().getDriver(MyAppState.currentUser?.userID.toString() ?? "");
     driverStream.listen((event) {
       _driverModel = event;
       setState(() {
         MyAppState.currentUser = _driverModel;
       });
       getDirections();
-      print("--->${_driverModel!.isActive}");
-      // if (_driverModel!.isActive) {
-      //   print("--->${_driverModel!.orderRequestData}");
-      //   if (_driverModel!.orderRequestData != null) {
-      //     showDriverBottomSheet();
-      //   }
-      // }
+      print("driver${_driverModel!.isActive}");
+      if (_driverModel!.isActive) {
+        print("--->${_driverModel!.orderRequestData}");
+        if (_driverModel!.orderRequestData != null) {
+          showDriverBottomSheet();
+        }
+      }
       if (_driverModel!.inProgressOrderID != null) {
         getCurrentOrder();
       }
@@ -239,7 +239,7 @@ class HomeScreenState extends State<HomeScreen> {
               myLocationEnabled: _driverModel!.inProgressOrderID != null ? false : true,
               myLocationButtonEnabled: true,
               mapType: MapType.terrain,
-              zoomControlsEnabled: false,
+              zoomControlsEnabled: true,
               polylines: Set<Polyline>.of(polyLines.values),
               markers: _markers.values.toSet(),
               initialCameraPosition: CameraPosition(

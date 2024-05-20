@@ -22,8 +22,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     super.initState();
-    print("------>${ordersList.length}");
+
     ordersFuture = _fireStoreUtils.getDriverOrders(MyAppState.currentUser!.userID);
+
+    print("userid:-${MyAppState.currentUser!.userID}");
+    print("ordersFuture:-${ordersFuture}");
+    print("ordersList.length:-${ordersList.length}");
   }
 
   @override

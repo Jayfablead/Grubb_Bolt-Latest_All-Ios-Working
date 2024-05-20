@@ -41,7 +41,7 @@ import 'package:http/http.dart' as http;
 import '../../constants.dart';
 import '../../main.dart';
 import '../../model/User.dart';
-import 'package:flutter_stripe/flutter_stripe.dart' as stripe1;
+// import 'package:flutter_stripe/flutter_stripe.dart' as stripe1;
 import 'package:foodie_driver/model/paypalPaymentSettle.dart' as payPalSettel;
 import 'package:foodie_driver/model/PayPalCurrencyCodeErrorModel.dart' as payPalCurrModel;
 import 'package:flutterwave_standard/flutterwave.dart';
@@ -147,9 +147,9 @@ class WalletScreenState extends State<WalletScreen> {
 
     await UserPreference.getStripeData().then((value) async {
       stripeData = value;
-      stripe1.Stripe.publishableKey = stripeData!.clientpublishableKey;
-      stripe1.Stripe.merchantIdentifier = 'Grubb Locate';
-      await stripe1.Stripe.instance.applySettings();
+     // stripe1.Stripe.publishableKey = stripeData!.clientpublishableKey;
+     // stripe1.Stripe.merchantIdentifier = 'Grubb Locate';
+     // await stripe1.Stripe.instance.applySettings();
     });
 
     razorPayData = await UserPreference.getRazorPayData();
@@ -985,7 +985,7 @@ class WalletScreenState extends State<WalletScreen> {
                             if (selectedRadioTile == "Stripe" && stripeData?.isEnabled == true) {
                               Navigator.pop(context);
                               showLoadingAlert();
-                              stripeMakePayment(amount: _amountController.text);
+                             // stripeMakePayment(amount: _amountController.text);
                               //push(context, CardDetailsScreen(paymentMode: selectedRadioTile,),);
                             } else if (selectedRadioTile == "MercadoPago") {
                               Navigator.pop(context);
@@ -1273,6 +1273,8 @@ class WalletScreenState extends State<WalletScreen> {
     });
   }
 
+
+  /*
   /// Stripe Payment Gateway
   Future<void> stripeMakePayment({required String amount}) async {
     try {
@@ -1283,6 +1285,7 @@ class WalletScreenState extends State<WalletScreen> {
         Navigator.pop(context);
         showAlert(_scaffoldKey.currentContext, response: "Something went wrong, please contact admin.".tr(), colors: Colors.red);
       } else {
+
         await stripe1.Stripe.instance
             .initPaymentSheet(
                 paymentSheetParameters: stripe1.SetupPaymentSheetParameters(
@@ -1373,6 +1376,8 @@ class WalletScreenState extends State<WalletScreen> {
     final a = (int.parse(amount)) * 100;
     return a.toString();
   }
+
+   */
 
   /// RazorPay Payment Gateway
   void openCheckout({required amount, required orderId}) async {
