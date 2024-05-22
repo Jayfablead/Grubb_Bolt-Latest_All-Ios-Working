@@ -5,18 +5,12 @@ import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:foodie_driver/constants.dart';
-import 'package:foodie_driver/main.dart';
-import 'package:foodie_driver/model/OrderModel.dart';
-import 'package:foodie_driver/model/User.dart';
-import 'package:foodie_driver/services/FirebaseHelper.dart';
 import 'package:http/http.dart' as http;
-import 'package:foodie_driver/services/helper.dart';
-
 
 Future<void> firebaseMessageBackgroundHandle(RemoteMessage message) async {
   print("BackGround Message :: ${message.messageId}");
 }
+
 
 class NotificationService {
 
@@ -69,9 +63,9 @@ class NotificationService {
   void firebaseInit(){
     print("ask firebase");
     FirebaseMessaging.onMessage.listen((message) {
-      print("Data Message 2  "+message.data['title'].toString());
-      // print(message.notification!.body.toString());
-      // print(message.data.toString());
+      //  print("Data Message 2  "+message.data['title'].toString());
+      //  print(message.notification!.body.toString());
+      print(message.data.toString());
       if(message !=null){
         print("ask firebase Message");
         initLocalNotification(message);
@@ -86,11 +80,13 @@ class NotificationService {
 
     print("ask Show Data");
     String imgUrl="";
+    String title="";
     if(event.data['image'] !=null){
       imgUrl=event.data['image'];
     }else{
       imgUrl="";
     }
+
 
     print("image url  $imgUrl");
     if(event.data['body']=="You have receive new order"){
@@ -99,7 +95,22 @@ class NotificationService {
           'foodie-driver'
       );
 
-      AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(channel.id.toString(), channel.name.toString(),
+      // AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+      //   channel.id.toString(),
+      //   channel.name.toString(),
+      //   channelDescription: 'Show foodie Notification',
+      //   importance: Importance.high,
+      //   priority: Priority.high,
+      //   ticker: 'ticker',
+      //   playSound: true,
+      //   enableLights: true,
+      //   enableVibration: true,
+      //   sound: RawResourceAndroidNotificationSound("tune"),
+      //   // sound: const UriAndroidNotificationSound("assets/tune/tune.mp3"),
+      // );
+       AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+        channel.id.toString(),
+        channel.name.toString(),
         channelDescription: 'Show foodie Notification',
         importance: Importance.high,
         priority: Priority.high,
@@ -108,9 +119,8 @@ class NotificationService {
         enableLights: true,
         enableVibration: true,
         sound: RawResourceAndroidNotificationSound("tune"),
-       // sound: const UriAndroidNotificationSound("assets/tune/tune.mp3"),
+        audioAttributesUsage: AudioAttributesUsage.notificationRingtone,
       );
-
       DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(
         presentAlert: true,
         presentBadge: true,
@@ -125,33 +135,37 @@ class NotificationService {
       );
 
       Future.delayed(Duration.zero, (){
-
+        //_flutterLocalNotificationsPlugin.show(0, event.notification!.title.toString(), event.notification!.body, notificationDetails);
+        // _flutterLocalNotificationsPlugin.show(0, 'New Order', 'You have recieved new orders', notificationDetails);
         _flutterLocalNotificationsPlugin.show(0, event.data['title'].toString(), event.data['body'], notificationDetails);
       });
     }else{
-      final http.Response response = await http.get(Uri.parse(imgUrl));
-      BigPictureStyleInformation bigPictureStyleInformation =
-      BigPictureStyleInformation(
-        ByteArrayAndroidBitmap.fromBase64String(base64Encode(response.bodyBytes)),
-        largeIcon: ByteArrayAndroidBitmap.fromBase64String(base64Encode(response.bodyBytes)),
-      );
+      // final http.Response response = await http.get(Uri.parse(imgUrl));
+      // BigPictureStyleInformation bigPictureStyleInformation =
+      // BigPictureStyleInformation(
+      //   ByteArrayAndroidBitmap.fromBase64String(base64Encode(response.bodyBytes)),
+      //   largeIcon: ByteArrayAndroidBitmap.fromBase64String(base64Encode(response.bodyBytes)),
+      // );
 
       AndroidNotificationChannel channel = AndroidNotificationChannel(
           Random.secure().nextInt(999999).toString(),
           'foodie-driver'
       );
 
-      AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(channel.id.toString(), channel.name.toString(),
+      AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+        channel.id.toString(),
+        channel.name.toString(),
         channelDescription: 'Show foodie Notification',
         importance: Importance.high,
         priority: Priority.high,
         ticker: 'ticker',
-        styleInformation: bigPictureStyleInformation,
+        // styleInformation: bigPictureStyleInformation,
         playSound: true,
 
         enableLights: true,
         enableVibration: true,
         sound:  RawResourceAndroidNotificationSound("tune"),
+        audioAttributesUsage: AudioAttributesUsage.notificationRingtone,
       );
 
       DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(
@@ -168,8 +182,11 @@ class NotificationService {
       );
 
       Future.delayed(Duration.zero, (){
+        //  _flutterLocalNotificationsPlugin.show(0, event.notification!.title.toString(), event.notification!.body, notificationDetails);
+        //   _flutterLocalNotificationsPlugin.show(0, 'New Order', 'You have recieved new orders', notificationDetails);
 
         _flutterLocalNotificationsPlugin.show(0, event.data['title'].toString(), event.data['body'], notificationDetails);
+
       });
     }
 
@@ -206,18 +223,16 @@ class NotificationService {
   void handleMessage(BuildContext context,RemoteMessage message){
 
     if(message.data['redirect']=='product'){
-     // Navigator.push(context, MaterialPageRoute(builder: (context)=>SplashScreen()));
+      // Navigator.push(context, MaterialPageRoute(builder: (context)=>SplashScreen()));
     }
   }
 
 
+}
 
 
-
-
-
-  /*
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+/*
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   initInfo() async {
     await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -281,8 +296,8 @@ class NotificationService {
 
       AndroidNotificationChannel channel = const AndroidNotificationChannel(
         '0',
-        'foodie-driver',
-        description: 'Show foodie Notification',
+        'grubb-customer',
+        description: 'Show grubb Notification',
         importance: Importance.max,
       );
       AndroidNotificationDetails notificationDetails =
@@ -301,5 +316,5 @@ class NotificationService {
     }
   }
 
-   */
-}
+
+ */

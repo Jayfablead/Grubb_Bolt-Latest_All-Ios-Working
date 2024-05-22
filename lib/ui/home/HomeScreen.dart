@@ -113,11 +113,11 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
 
-    // notificationService.requestNotificationPermission();
-    // notificationService.firebaseInit();
-    // notificationService.getDeviceToken().then((value){
-    //   print("device token    $value");
-    // });
+    notificationService.requestNotificationPermission();
+    notificationService.firebaseInit();
+    notificationService.getDeviceToken().then((value){
+      print("device token    $value");
+    });
     getDriver();
     setIcons();
     updateDriverOrder();

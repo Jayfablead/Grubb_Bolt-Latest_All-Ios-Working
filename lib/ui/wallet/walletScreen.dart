@@ -322,7 +322,7 @@ class WalletScreenState extends State<WalletScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
               child: Text(
                 "TOPUP WALLET".tr(),
-                style: TextStyle(color: Color(DARK_CARD_BG_COLOR), fontWeight: FontWeight.w700, fontSize: 16),
+                style: TextStyle(color: Color(DARK_CARD_BG_COLOR), fontWeight: FontWeight.w700, fontSize: 15),
               ),
             ),
           ),
@@ -338,10 +338,10 @@ class WalletScreenState extends State<WalletScreen> {
               borderRadius: BorderRadius.circular(32),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: Text(
                 "TOPUP HISTORY".tr(),
-                style: TextStyle(color: Color(DARK_CARD_BG_COLOR), fontWeight: FontWeight.w700, fontSize: 16),
+                style: TextStyle(color: Color(DARK_CARD_BG_COLOR), fontWeight: FontWeight.w700, fontSize: 15),
               ),
             ),
           ),

@@ -870,7 +870,7 @@ class FireStoreUtils {
 
         notificationModel = NotificationModel.fromJson(value.docs.first.data());
       } else {
-        notificationModel = NotificationModel(id: "", message: "Notification setup is pending", subject: "setup notification", type: "");
+        notificationModel = NotificationModel(id: notificationModel?.id.toString(), message:notificationModel?.message.toString(), subject: notificationModel?.subject.toString(), type:notificationModel?.type.toString());
       }
     });
     return notificationModel;
