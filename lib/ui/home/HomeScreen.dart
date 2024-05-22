@@ -112,11 +112,12 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    notificationService.requestNotificationPermission();
-    notificationService.firebaseInit();
-    notificationService.getDeviceToken().then((value){
-      print("device token    $value");
-    });
+
+    // notificationService.requestNotificationPermission();
+    // notificationService.firebaseInit();
+    // notificationService.getDeviceToken().then((value){
+    //   print("device token    $value");
+    // });
     getDriver();
     setIcons();
     updateDriverOrder();
@@ -145,6 +146,7 @@ class HomeScreenState extends State<HomeScreen> {
   User? _driverModel = User();
 
   getCurrentOrder() async {
+
     ordersFuture = FireStoreUtils().getOrderByID(_driverModel!.inProgressOrderID.toString());
     ordersFuture.listen((event) {
       print("------->${event!.status}");
@@ -168,6 +170,7 @@ class HomeScreenState extends State<HomeScreen> {
         print("--->${_driverModel!.orderRequestData}");
         if (_driverModel!.orderRequestData != null) {
           showDriverBottomSheet();
+          playSound();
         }
       }
       if (_driverModel!.inProgressOrderID != null) {
@@ -915,6 +918,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   acceptOrder() async {
     print("user data ");
+    audioPlayer.stop();
     OrderModel orderModel = _driverModel!.orderRequestData!;
 
     _driverModel!.orderRequestData = null;
@@ -965,6 +969,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   rejectOrder() async {
+    audioPlayer.stop();
     OrderModel orderModel = _driverModel!.orderRequestData!;
     if (orderModel.rejectedByDrivers == null) {
       orderModel.rejectedByDrivers = [];
@@ -1151,17 +1156,42 @@ class HomeScreenState extends State<HomeScreen> {
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
 
+  // playSound() async {
+  //   final path = await rootBundle.load("assets/audio/mixkit-happy-bells-notification-937.mp3");
+  //
+  //   audioPlayer.setSourceBytes(path.buffer.asUint8List());
+  //   audioPlayer.setReleaseMode(ReleaseMode.loop);
+  //   //audioPlayer.setSourceUrl(url);
+  //   audioPlayer.play(BytesSource(path.buffer.asUint8List()),
+  //       volume: 15,
+  //       ctx: AudioContext(
+  //           android:
+  //               AudioContextAndroid(contentType: AndroidContentType.music, isSpeakerphoneOn: true, stayAwake: true, usageType: AndroidUsageType.alarm, audioFocus: AndroidAudioFocus.gainTransient),
+  //           iOS: AudioContextIOS(category: AVAudioSessionCategory.playback, options: [])));
+  // }
   playSound() async {
+    print("audioplayer");
     final path = await rootBundle.load("assets/audio/mixkit-happy-bells-notification-937.mp3");
 
     audioPlayer.setSourceBytes(path.buffer.asUint8List());
     audioPlayer.setReleaseMode(ReleaseMode.loop);
-    //audioPlayer.setSourceUrl(url);
-    audioPlayer.play(BytesSource(path.buffer.asUint8List()),
-        volume: 15,
-        ctx: AudioContext(
-            android:
-                AudioContextAndroid(contentType: AndroidContentType.music, isSpeakerphoneOn: true, stayAwake: true, usageType: AndroidUsageType.alarm, audioFocus: AndroidAudioFocus.gainTransient),
-            iOS: AudioContextIOS(category: AVAudioSessionCategory.playback, options: [])));
+    await audioPlayer.play(
+      BytesSource(path.buffer.asUint8List()),
+      volume: 50,
+      ctx: AudioContext(
+        android: AudioContextAndroid(
+          contentType: AndroidContentType.music,
+          isSpeakerphoneOn: true,
+          stayAwake: true,
+          usageType: AndroidUsageType.alarm,
+          audioFocus: AndroidAudioFocus.gainTransient,
+          audioMode: AndroidAudioMode.ringtone,
+        ),
+        iOS: AudioContextIOS(
+          category: AVAudioSessionCategory.playback,
+          options: [],
+        ),
+      ),
+    );
   }
 }

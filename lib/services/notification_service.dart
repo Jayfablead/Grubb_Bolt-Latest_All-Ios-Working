@@ -15,7 +15,7 @@ import 'package:foodie_driver/services/helper.dart';
 
 
 Future<void> firebaseMessageBackgroundHandle(RemoteMessage message) async {
-  //log("BackGround Message :: ${message.messageId}");
+  print("BackGround Message :: ${message.messageId}");
 }
 
 class NotificationService {
@@ -93,7 +93,7 @@ class NotificationService {
     }
 
     print("image url  $imgUrl");
-    if(imgUrl==""){
+    if(event.data['body']=="You have receive new order"){
       AndroidNotificationChannel channel = AndroidNotificationChannel(
           Random.secure().nextInt(999999).toString(),
           'foodie-driver'
