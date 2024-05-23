@@ -20,6 +20,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
+import '../../services/notification_service.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -112,7 +114,11 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-
+    NotificationService notificationService = NotificationService();
+    notificationService.requestNotificationPermission();
+    notificationService.initLocalNotification();
+    notificationService.firebaseInit();
+    notificationService.setupInteractMessage(context);
     notificationService.requestNotificationPermission();
     notificationService.firebaseInit();
     notificationService.getDeviceToken().then((value){
