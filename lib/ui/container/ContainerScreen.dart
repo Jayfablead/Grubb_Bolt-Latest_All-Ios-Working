@@ -408,8 +408,8 @@ class _ContainerScreen extends State<ContainerScreen> {
                       selectedColor: Color(COLOR_PRIMARY),
                       child: ListTile(
                         selected: _drawerSelection == DrawerSelection.privacyPolicy,
-                        leading: const Icon(Icons.privacy_tip),
-                        title: const Text('Privacy policy').tr(),
+                        leading: const Icon(Icons.phone_android),
+                        title: const Text('App Update').tr(),
                         onTap: () async {
                           push(context, const PrivacyPolicyScreen());
                         },

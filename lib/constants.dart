@@ -48,7 +48,8 @@ String razorpaySecret = "";
 
 String placeholderImage = 'https://firebasestorage.googleapis.com/v0/b/grubb-ba0e4.appspot.com/o/app_logo%20copy.png?alt=media&token=64b5554c-9ad3-472f-8b15-fc110484d545';
 
-const GlobalURL = "http://13.233.108.89/admin_panel/";
+// const GlobalURL = "http://13.233.108.89/admin_panel/";
+const GlobalURL = "https://grubb.co.in/admin_panel/";
 
 const ORDER_STATUS_PLACED = 'Order Placed';
 const ORDER_STATUS_ACCEPTED = 'Order Accepted';
