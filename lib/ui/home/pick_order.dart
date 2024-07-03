@@ -180,7 +180,7 @@ class _PickOrderState extends State<PickOrder> {
                 title: Text(
                   "Confirm Items".tr(),
                   style: TextStyle(
-                    color: _value ? Color(0xff3DAE7D) : Colors.white,
+                    color:Color(0xff3DAE7D),
                     fontFamily: 'Poppinsm',
                   ),
                 ),

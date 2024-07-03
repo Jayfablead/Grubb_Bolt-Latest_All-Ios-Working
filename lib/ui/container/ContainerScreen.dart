@@ -206,7 +206,7 @@ class _ContainerScreen extends State<ContainerScreen> {
                           children: <Widget>[
                             displayCircleImage(user.profilePictureURL, 60, false),
                             Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
+                              padding: const EdgeInsets.only(top: 2.0),
                               child: Text(
                                 user.fullName(),
                                 style: TextStyle(color: Colors.white),
@@ -237,8 +237,10 @@ class _ContainerScreen extends State<ContainerScreen> {
                                 FireStoreUtils.updateCurrentUser(user);
                               },
                             ),
+
                           ],
                         ),
+
                         decoration: BoxDecoration(
                           color: Color(COLOR_PRIMARY),
                         ),

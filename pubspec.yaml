@@ -57,6 +57,7 @@ dependencies:
   flutter_inappwebview:
   flutter_background:
   permission_handler:
+  get:
 #  flutter_stripe: any
   mercadopago_sdk: any
   flutter_braintree: ^3.0.0

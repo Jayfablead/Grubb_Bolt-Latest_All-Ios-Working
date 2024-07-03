@@ -122,17 +122,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           radius: 13,
                           backgroundColor: Color(COLOR_PRIMARY),
                           child: Text(
-                            '${product.quantity}',
+                            'X ${product.quantity}',
                             style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
                           ),
                         ),
                         title: Text(
                           product.name,
-                          style: TextStyle(color: isDarkMode(context) ? Colors.black : Colors.white, fontSize: 18, letterSpacing: 0.5, fontFamily: 'Poppinsr'),
+                          style: TextStyle(color: !isDarkMode(context) ? Colors.black : Colors.white, fontSize: 18, letterSpacing: 0.5, fontFamily: 'Poppinsr'),
                         ),
                         trailing: Text(
                           amountShow(amount: double.parse((product.extrasPrice!.isNotEmpty && double.parse(product.extrasPrice!) != 0.0) ? (double.parse(product.extrasPrice!) + double.parse(product.price)).toString() : product.price).toString()),
-                          style: TextStyle(color: isDarkMode(context) ? Colors.black : Colors.white, fontSize: 17, letterSpacing: 0.5, fontFamily: 'Poppinssm'),
+                          style: TextStyle(color:!isDarkMode(context) ? Colors.black : Colors.white, fontSize: 17, letterSpacing: 0.5, fontFamily: 'Poppinssm'),
                         ),
                       ),
                       product.variantInfo != null && product.variantInfo!.variant_options != null
@@ -190,11 +190,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     ),
                     title: Text(
                       product.name,
-                      style: TextStyle(fontWeight: FontWeight.bold,color: isDarkMode(context) ? Colors.black : Colors.white),
+                      style: TextStyle(fontWeight: FontWeight.bold,color: !isDarkMode(context) ? Colors.black : Colors.white),
                     ),
                     trailing: Text(
                       amountShow(amount: product.price,),
-                      style: TextStyle(fontWeight: FontWeight.bold,color: isDarkMode(context) ? Colors.black : Colors.white),
+                      style: TextStyle(fontWeight: FontWeight.bold,color: !isDarkMode(context) ? Colors.black : Colors.white),
                     ),
                   );
                 }),

@@ -18,6 +18,7 @@ import 'package:foodie_driver/ui/auth/AuthScreen.dart';
 import 'package:foodie_driver/ui/container/ContainerScreen.dart';
 import 'package:foodie_driver/ui/onBoarding/OnBoardingScreen.dart';
 import 'package:foodie_driver/userPrefrence.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/User.dart';
@@ -116,7 +117,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,

@@ -16,6 +16,10 @@ import 'package:foodie_driver/services/helper.dart';
 import 'package:foodie_driver/ui/chat_screen/chat_screen.dart';
 import 'package:foodie_driver/ui/home/pick_order.dart';
 import 'package:geolocator/geolocator.dart';
+
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -72,9 +76,14 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   updateDriverOrder() async {
-    await FireStoreUtils.firestore.collection(Setting).doc("DriverNearBy").get().then((value) {
+    await FireStoreUtils.firestore
+        .collection(Setting)
+        .doc("DriverNearBy")
+        .get()
+        .then((value) {
       setState(() {
-        minimumDepositToRideAccept = value.data()!['minimumDepositToRideAccept'];
+        minimumDepositToRideAccept =
+            value.data()!['minimumDepositToRideAccept'];
       });
     });
 
@@ -88,12 +97,14 @@ class HomeScreenState extends State<HomeScreen> {
     print('-->startTime${startTimestamp.toDate()}');
     await FirebaseFirestore.instance
         .collection(ORDERS)
-        .where('status', whereIn: [ORDER_STATUS_ACCEPTED, ORDER_STATUS_DRIVER_REJECTED])
+        .where('status',
+            whereIn: [ORDER_STATUS_ACCEPTED, ORDER_STATUS_DRIVER_REJECTED])
         .where('createdAt', isGreaterThan: startTimestamp)
         .get()
         .then((value) async {
           print('---->${value.docs.length}');
-          await Future.forEach(value.docs, (QueryDocumentSnapshot<Map<String, dynamic>> element) {
+          await Future.forEach(value.docs,
+              (QueryDocumentSnapshot<Map<String, dynamic>> element) {
             try {
               orders.add(OrderModel.fromJson(element.data()));
             } catch (e, s) {
@@ -106,11 +117,17 @@ class HomeScreenState extends State<HomeScreen> {
       OrderModel orderModel = element;
       print('---->${orderModel.id}');
       orderModel.triggerDelevery = Timestamp.now();
-      FirebaseFirestore.instance.collection(ORDERS).doc(element.id).set(orderModel.toJson(), SetOptions(merge: true)).then((order) {
+      FirebaseFirestore.instance
+          .collection(ORDERS)
+          .doc(element.id)
+          .set(orderModel.toJson(), SetOptions(merge: true))
+          .then((order) {
         print('Done.');
       });
     });
   }
+
+  RxBool _value = false.obs;
 
   @override
   void initState() {
@@ -121,7 +138,7 @@ class HomeScreenState extends State<HomeScreen> {
     notificationService.setupInteractMessage(context);
     notificationService.requestNotificationPermission();
     notificationService.firebaseInit();
-    notificationService.getDeviceToken().then((value){
+    notificationService.getDeviceToken().then((value) {
       print("device token    $value");
     });
     getDriver();
@@ -136,7 +153,8 @@ class HomeScreenState extends State<HomeScreen> {
     _mapController!.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
-          target: LatLng(locationDataFinal!.latitude ?? 0.0, locationDataFinal!.longitude ?? 0.0),
+          target: LatLng(locationDataFinal!.latitude ?? 0.0,
+              locationDataFinal!.longitude ?? 0.0),
           zoom: 20,
           bearing: double.parse(_driverModel!.rotation.toString()),
         ),
@@ -152,8 +170,8 @@ class HomeScreenState extends State<HomeScreen> {
   User? _driverModel = User();
 
   getCurrentOrder() async {
-
-    ordersFuture = FireStoreUtils().getOrderByID(_driverModel!.inProgressOrderID.toString());
+    ordersFuture = FireStoreUtils()
+        .getOrderByID(_driverModel!.inProgressOrderID.toString());
     ordersFuture.listen((event) {
       print("------->${event!.status}");
       setState(() {
@@ -164,7 +182,8 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   getDriver() {
-    driverStream = FireStoreUtils().getDriver(MyAppState.currentUser?.userID.toString() ?? "");
+    driverStream = FireStoreUtils()
+        .getDriver(MyAppState.currentUser?.userID.toString() ?? "");
     driverStream.listen((event) {
       _driverModel = event;
       setState(() {
@@ -229,15 +248,19 @@ class HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Visibility(
-            visible: _driverModel!.inProgressOrderID == null && _driverModel!.walletAmount <= double.parse(minimumDepositToRideAccept),
+            visible: _driverModel!.inProgressOrderID == null &&
+                _driverModel!.walletAmount <=
+                    double.parse(minimumDepositToRideAccept),
             child: Align(
               alignment: Alignment.topCenter,
               child: Container(
                 color: Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("You have to minimum ${amountShow(amount: minimumDepositToRideAccept.toString())} wallet amount to receiving Order",
-                      style: TextStyle(color: Colors.white), textAlign: TextAlign.center),
+                  child: Text(
+                      "You have to minimum ${amountShow(amount: minimumDepositToRideAccept.toString())} wallet amount to receiving Order",
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center),
                 ),
               ),
             ),
@@ -245,7 +268,8 @@ class HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: GoogleMap(
               onMapCreated: _onMapCreated,
-              myLocationEnabled: _driverModel!.inProgressOrderID != null ? false : true,
+              myLocationEnabled:
+                  _driverModel!.inProgressOrderID != null ? false : true,
               myLocationButtonEnabled: true,
               mapType: MapType.terrain,
               zoomControlsEnabled: true,
@@ -253,15 +277,23 @@ class HomeScreenState extends State<HomeScreen> {
               markers: _markers.values.toSet(),
               initialCameraPosition: CameraPosition(
                 zoom: 15,
-                target: LatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
+                target: LatLng(_driverModel!.location.latitude,
+                    _driverModel!.location.longitude),
               ),
             ),
           ),
-          _driverModel!.inProgressOrderID != null && currentOrder != null && isShow == true ? buildOrderActionsCard() : Container(),
-          _driverModel!.orderRequestData != null ? showDriverBottomSheet() : Container()
+          _driverModel!.inProgressOrderID != null &&
+                  currentOrder != null &&
+                  isShow == true
+              ? buildOrderActionsCard()
+              : Container(),
+          _driverModel!.orderRequestData != null
+              ? showDriverBottomSheet()
+              : Container()
         ],
       ),
-      floatingActionButton: _driverModel!.orderRequestData != null || _driverModel!.inProgressOrderID == null
+      floatingActionButton: _driverModel!.orderRequestData != null ||
+              _driverModel!.inProgressOrderID == null
           ? null
           : FloatingActionButton(
               onPressed: () {
@@ -290,9 +322,11 @@ class HomeScreenState extends State<HomeScreen> {
   openChatWithCustomer() async {
     await showProgress(context, "Please wait".tr(), false);
 
-    User? customer = await FireStoreUtils.getCurrentUser(currentOrder!.authorID);
+    User? customer =
+        await FireStoreUtils.getCurrentUser(currentOrder!.authorID);
     print(currentOrder!.driverID);
-    User? driver = await FireStoreUtils.getCurrentUser(currentOrder!.driverID.toString());
+    User? driver =
+        await FireStoreUtils.getCurrentUser(currentOrder!.driverID.toString());
 
     hideProgress();
     push(
@@ -311,8 +345,13 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   showDriverBottomSheet() {
-    double distanceInMeters = Geolocator.distanceBetween(_driverModel!.orderRequestData!.vendor.latitude, _driverModel!.orderRequestData!.vendor.longitude,
-        _driverModel!.orderRequestData!.author.shippingAddress.location.latitude, _driverModel!.orderRequestData!.author.shippingAddress.location.longitude);
+    double distanceInMeters = Geolocator.distanceBetween(
+        _driverModel!.orderRequestData!.vendor.latitude,
+        _driverModel!.orderRequestData!.vendor.longitude,
+        _driverModel!
+            .orderRequestData!.author.shippingAddress.location.latitude,
+        _driverModel!
+            .orderRequestData!.author.shippingAddress.location.longitude);
     double kilometer = distanceInMeters / 1000;
     return Padding(
       padding: EdgeInsets.all(10),
@@ -333,13 +372,19 @@ class HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: Text(
                     "Trip Distance".tr(),
-                    style: TextStyle(color: Color(0xffADADAD), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                    style: TextStyle(
+                        color: Color(0xffADADAD),
+                        fontFamily: "Poppinsr",
+                        letterSpacing: 0.5),
                   ),
                 ),
                 Text(
                   // '0',
                   "${kilometer.toStringAsFixed(currencyModel!.decimal)} km",
-                  style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                  style: TextStyle(
+                      color: Color(0xffFFFFFF),
+                      fontFamily: "Poppinsm",
+                      letterSpacing: 0.5),
                 ),
               ],
             ),
@@ -352,13 +397,19 @@ class HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: Text(
                     "Delivery charge".tr(),
-                    style: TextStyle(color: Color(0xffADADAD), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                    style: TextStyle(
+                        color: Color(0xffADADAD),
+                        fontFamily: "Poppinsr",
+                        letterSpacing: 0.5),
                   ),
                 ),
                 Text(
                   // '0',
                   "${amountShow(amount: _driverModel!.orderRequestData!.deliveryCharge.toString())}",
-                  style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                  style: TextStyle(
+                      color: Color(0xffFFFFFF),
+                      fontFamily: "Poppinsm",
+                      letterSpacing: 0.5),
                 ),
               ],
             ),
@@ -366,7 +417,8 @@ class HomeScreenState extends State<HomeScreen> {
             Card(
               color: Color(0xffFFFFFF),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10),
                 child: Row(
                   children: [
                     Image.asset(
@@ -383,7 +435,10 @@ class HomeScreenState extends State<HomeScreen> {
                             "${_driverModel!.orderRequestData!.vendor.location} ",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Color(0xff333333), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                            style: TextStyle(
+                                color: Color(0xff333333),
+                                fontFamily: "Poppinsr",
+                                letterSpacing: 0.5),
                           ),
                         ),
                         SizedBox(height: 22),
@@ -395,7 +450,10 @@ class HomeScreenState extends State<HomeScreen> {
                             "${_driverModel!.orderRequestData!.address.city}",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Color(0xff333333), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                            style: TextStyle(
+                                color: Color(0xff333333),
+                                fontFamily: "Poppinsr",
+                                letterSpacing: 0.5),
                           ),
                         ),
                       ],
@@ -413,7 +471,8 @@ class HomeScreenState extends State<HomeScreen> {
                   width: MediaQuery.of(context).size.width / 2.5,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 12),
                       backgroundColor: Color(COLOR_PRIMARY),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
@@ -423,11 +482,15 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Text(
                       'Reject',
-                      style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                      style: TextStyle(
+                          color: Color(0xffFFFFFF),
+                          fontFamily: "Poppinsm",
+                          letterSpacing: 0.5),
                     ),
                     onPressed: () async {
                       showProgress(context, 'Rejecting order...'.tr(), false);
                       try {
+                        audioPlayer.stop();
                         await rejectOrder();
                         hideProgress();
                         setState(() {});
@@ -443,7 +506,8 @@ class HomeScreenState extends State<HomeScreen> {
                   width: MediaQuery.of(context).size.width / 2.5,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6, horizontal: 12),
                         backgroundColor: Color(COLOR_PRIMARY),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
@@ -453,10 +517,14 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Text(
                         'Accept'.tr(),
-                        style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                        style: TextStyle(
+                            color: Color(0xffFFFFFF),
+                            fontFamily: "Poppinsm",
+                            letterSpacing: 0.5),
                       ),
                       onPressed: () async {
                         showProgress(context, 'Accepting order...'.tr(), false);
+                        audioPlayer.stop();
                         await acceptOrder();
                         hideProgress();
                       }),
@@ -472,7 +540,8 @@ class HomeScreenState extends State<HomeScreen> {
   Widget buildOrderActionsCard() {
     late String title;
     String? buttonText;
-    if (currentOrder!.status == ORDER_STATUS_SHIPPED || currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
+    if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
+        currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
       title = '${currentOrder!.vendor.title}';
       buttonText = 'REACHED STORE FOR PICKUP'.tr();
     } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT) {
@@ -486,7 +555,8 @@ class HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.symmetric(vertical: 15),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(18)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8), topRight: Radius.circular(18)),
         color: isDarkMode(context) ? Color(0xff000000) : Color(0xffFFFFFF),
       ),
       child: SingleChildScrollView(
@@ -494,20 +564,31 @@ class HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (currentOrder!.status == ORDER_STATUS_SHIPPED || currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED)
+            if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
+                currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED)
               Column(
                 children: [
                   ListTile(
                     title: Text(
                       title,
-                      style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                      style: TextStyle(
+                          color: isDarkMode(context)
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff000000),
+                          fontFamily: "Poppinsm",
+                          letterSpacing: 0.5),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4.0),
                       child: Text(
                         '${currentOrder!.vendor.location}',
                         maxLines: 2,
-                        style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                        style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff000000),
+                            fontFamily: "Poppinsr",
+                            letterSpacing: 0.5),
                       ),
                     ),
                     trailing: TextButton.icon(
@@ -522,7 +603,8 @@ class HomeScreenState extends State<HomeScreen> {
                           backgroundColor: Color(0xffFFFFFF),
                         ),
                         onPressed: () {
-                          UrlLauncher.launchUrl(Uri.parse("tel://${currentOrder!.vendor.phonenumber}"));
+                          UrlLauncher.launchUrl(Uri.parse(
+                              "tel://${currentOrder!.vendor.phonenumber}"));
                         },
                         icon: Image.asset(
                           'assets/images/call3x.png',
@@ -531,17 +613,26 @@ class HomeScreenState extends State<HomeScreen> {
                         ),
                         label: Text(
                           "CALL",
-                          style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                          style: TextStyle(
+                              color: Color(0xff3DAE7D),
+                              fontFamily: "Poppinsm",
+                              letterSpacing: 0.5),
                         )),
                   ),
                   ListTile(
                     tileColor: Color(0xffF1F4F8),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                     title: Row(
                       children: [
                         Text(
                           'ORDER ID '.tr(),
-                          style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff555555), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                          style: TextStyle(
+                              color: isDarkMode(context)
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff555555),
+                              fontFamily: "Poppinsr",
+                              letterSpacing: 0.5),
                         ),
                         SizedBox(
                           width: 110,
@@ -549,7 +640,12 @@ class HomeScreenState extends State<HomeScreen> {
                             '${currentOrder!.id}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                            style: TextStyle(
+                                color: isDarkMode(context)
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff000000),
+                                fontFamily: "Poppinsr",
+                                letterSpacing: 0.5),
                           ),
                         ),
                       ],
@@ -558,7 +654,12 @@ class HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(top: 4.0),
                       child: Text(
                         '${currentOrder!.author.shippingAddress.name}',
-                        style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff333333), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                        style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff333333),
+                            fontFamily: "Poppinsm",
+                            letterSpacing: 0.5),
                       ),
                     ),
                   ),
@@ -578,7 +679,12 @@ class HomeScreenState extends State<HomeScreen> {
                       '${currentOrder!.author.shippingAddress.name}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                      style: TextStyle(
+                          color: isDarkMode(context)
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff000000),
+                          fontFamily: "Poppinsm",
+                          letterSpacing: 0.5),
                     ),
                     subtitle: Row(
                       children: [
@@ -586,7 +692,10 @@ class HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(top: 4.0),
                           child: Text(
                             'ORDER ID '.tr(),
-                            style: TextStyle(color: Color(0xff555555), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                            style: TextStyle(
+                                color: Color(0xff555555),
+                                fontFamily: "Poppinsr",
+                                letterSpacing: 0.5),
                           ),
                         ),
                         Padding(
@@ -597,7 +706,12 @@ class HomeScreenState extends State<HomeScreen> {
                               '${currentOrder!.id} ',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff000000),
+                                  fontFamily: "Poppinsr",
+                                  letterSpacing: 0.5),
                             ),
                           ),
                         ),
@@ -618,7 +732,8 @@ class HomeScreenState extends State<HomeScreen> {
                               backgroundColor: Color(0xffFFFFFF),
                             ),
                             onPressed: () {
-                              UrlLauncher.launchUrl(Uri.parse("tel://${currentOrder!.author.phoneNumber}"));
+                              UrlLauncher.launchUrl(Uri.parse(
+                                  "tel://${currentOrder!.author.phoneNumber}"));
                             },
                             icon: Image.asset(
                               'assets/images/call3x.png',
@@ -627,7 +742,10 @@ class HomeScreenState extends State<HomeScreen> {
                             ),
                             label: Text(
                               "CALL".tr(),
-                              style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: Color(0xff3DAE7D),
+                                  fontFamily: "Poppinsm",
+                                  letterSpacing: 0.5),
                             )),
                       ],
                     ),
@@ -641,7 +759,10 @@ class HomeScreenState extends State<HomeScreen> {
                     ),
                     title: Text(
                       'DELIVER'.tr(),
-                      style: TextStyle(color: Color(0xff9091A4), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                      style: TextStyle(
+                          color: Color(0xff9091A4),
+                          fontFamily: "Poppinsr",
+                          letterSpacing: 0.5),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4.0),
@@ -649,7 +770,12 @@ class HomeScreenState extends State<HomeScreen> {
                         '${currentOrder!.author.shippingAddress.line1},${currentOrder!.author.shippingAddress.line2},${currentOrder!.author.shippingAddress.city},${currentOrder!.author.shippingAddress.country}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff333333), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                        style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff333333),
+                            fontFamily: "Poppinsr",
+                            letterSpacing: 0.5),
                       ),
                     ),
                     trailing: Column(
@@ -679,7 +805,10 @@ class HomeScreenState extends State<HomeScreen> {
                             // ),
                             label: Text(
                               "Message",
-                              style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: Color(0xff3DAE7D),
+                                  fontFamily: "Poppinsm",
+                                  letterSpacing: 0.5),
                             )),
                       ],
                     ),
@@ -701,12 +830,14 @@ class HomeScreenState extends State<HomeScreen> {
                     backgroundColor: Color(COLOR_PRIMARY),
                   ),
                   onPressed: () async {
-                    if (currentOrder!.status == ORDER_STATUS_SHIPPED || currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
+                    if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
+                        currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
                       push(
                         context,
                         PickOrder(currentOrder: currentOrder),
                       );
-                    } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT) {
+                    } else if (currentOrder!.status ==
+                        ORDER_STATUS_IN_TRANSIT) {
                       push(
                         context,
                         Scaffold(
@@ -718,20 +849,29 @@ class HomeScreenState extends State<HomeScreen> {
                             titleSpacing: -8,
                             title: Text(
                               "Deliver".tr() + ": ${currentOrder!.id}",
-                              style: TextStyle(color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff000000), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                              style: TextStyle(
+                                  color: isDarkMode(context)
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff000000),
+                                  fontFamily: "Poppinsr",
+                                  letterSpacing: 0.5),
                             ),
                             centerTitle: false,
                           ),
                           body: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 20),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 25.0, vertical: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0, vertical: 20),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(2),
-                                      border: Border.all(color: Colors.grey.shade100, width: 0.1),
+                                      border: Border.all(
+                                          color: Colors.grey.shade100,
+                                          width: 0.1),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.shade200,
@@ -742,28 +882,38 @@ class HomeScreenState extends State<HomeScreen> {
                                       ],
                                       color: Colors.white),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'DELIVER'.tr().toUpperCase(),
-                                            style: TextStyle(color: Color(0xff9091A4), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                                            style: TextStyle(
+                                                color: Color(0xff9091A4),
+                                                fontFamily: "Poppinsr",
+                                                letterSpacing: 0.5),
                                           ),
                                           TextButton.icon(
                                               style: TextButton.styleFrom(
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(6.0),
-                                                  side: BorderSide(color: Color(0xff3DAE7D)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          6.0),
+                                                  side: BorderSide(
+                                                      color: Color(0xff3DAE7D)),
                                                 ),
                                                 padding: EdgeInsets.zero,
                                                 minimumSize: Size(85, 30),
                                                 alignment: Alignment.center,
-                                                backgroundColor: Color(0xffFFFFFF),
+                                                backgroundColor:
+                                                    Color(0xffFFFFFF),
                                               ),
                                               onPressed: () {
-                                                UrlLauncher.launchUrl(Uri.parse("tel://${currentOrder!.author.phoneNumber}"));
+                                                UrlLauncher.launchUrl(Uri.parse(
+                                                    "tel://${currentOrder!.author.phoneNumber}"));
                                               },
                                               icon: Image.asset(
                                                 'assets/images/call3x.png',
@@ -772,23 +922,33 @@ class HomeScreenState extends State<HomeScreen> {
                                               ),
                                               label: Text(
                                                 "CALL".tr().toUpperCase(),
-                                                style: TextStyle(color: Color(0xff3DAE7D), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                                                style: TextStyle(
+                                                    color: Color(0xff3DAE7D),
+                                                    fontFamily: "Poppinsm",
+                                                    letterSpacing: 0.5),
                                               )),
                                         ],
                                       ),
                                       Text(
                                         '${currentOrder!.author.shippingAddress.name}',
-                                        style: TextStyle(color: Color(0xff333333), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                                        style: TextStyle(
+                                            color: Color(0xff333333),
+                                            fontFamily: "Poppinsm",
+                                            letterSpacing: 0.5),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 4.0),
+                                        padding:
+                                            const EdgeInsets.only(top: 4.0),
                                         child: Text(
                                           '${currentOrder!.author.shippingAddress.line1},'
                                           '${currentOrder!.author.shippingAddress.line2},'
                                           '${currentOrder!.author.shippingAddress.city}',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(color: Color(0xff9091A4), fontFamily: "Poppinsr", letterSpacing: 0.5),
+                                          style: TextStyle(
+                                              color: Color(0xff9091A4),
+                                              fontFamily: "Poppinsr",
+                                              letterSpacing: 0.5),
                                         ),
                                       ),
                                     ],
@@ -797,7 +957,10 @@ class HomeScreenState extends State<HomeScreen> {
                                 SizedBox(height: 28),
                                 Text(
                                   "ITEMS".tr().toUpperCase(),
-                                  style: TextStyle(color: Color(0xff9091A4), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                                  style: TextStyle(
+                                      color: Color(0xff9091A4),
+                                      fontFamily: "Poppinsm",
+                                      letterSpacing: 0.5),
                                 ),
                                 SizedBox(height: 24),
                                 ListView.builder(
@@ -813,27 +976,52 @@ class HomeScreenState extends State<HomeScreen> {
                                                 child: CachedNetworkImage(
                                                     height: 55,
                                                     // width: 50,
-                                                    imageUrl: '${currentOrder!.products[index].photo}',
-                                                    imageBuilder: (context, imageProvider) => Container(
-                                                          decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(8),
-                                                              image: DecorationImage(
-                                                                image: imageProvider,
-                                                                fit: BoxFit.cover,
-                                                              )),
+                                                    imageUrl:
+                                                        '${currentOrder!.products[index].photo}',
+                                                    imageBuilder: (context,
+                                                            imageProvider) =>
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                  image:
+                                                                      DecorationImage(
+                                                                    image:
+                                                                        imageProvider,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )),
                                                         )),
                                               ),
                                               Expanded(
                                                 flex: 10,
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(left: 14.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 14.0),
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       Text(
                                                         '${currentOrder!.products[index].name}',
-                                                        style: TextStyle(fontFamily: 'Poppinsr', letterSpacing: 0.5, color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff333333)),
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Poppinsr',
+                                                            letterSpacing: 0.5,
+                                                            color: isDarkMode(
+                                                                    context)
+                                                                ? Color(
+                                                                    0xffFFFFFF)
+                                                                : Color(
+                                                                    0xff333333)),
                                                       ),
                                                       SizedBox(height: 5),
                                                       Row(
@@ -841,13 +1029,18 @@ class HomeScreenState extends State<HomeScreen> {
                                                           Icon(
                                                             Icons.close,
                                                             size: 15,
-                                                            color: Color(COLOR_PRIMARY),
+                                                            color: Color(
+                                                                COLOR_PRIMARY),
                                                           ),
-                                                          Text('${currentOrder!.products[index].quantity}',
+                                                          Text(
+                                                              '${currentOrder!.products[index].quantity}',
                                                               style: TextStyle(
-                                                                fontFamily: 'Poppinsm',
-                                                                letterSpacing: 0.5,
-                                                                color: Color(COLOR_PRIMARY),
+                                                                fontFamily:
+                                                                    'Poppinsm',
+                                                                letterSpacing:
+                                                                    0.5,
+                                                                color: Color(
+                                                                    COLOR_PRIMARY),
                                                               )),
                                                         ],
                                                       ),
@@ -862,27 +1055,54 @@ class HomeScreenState extends State<HomeScreen> {
                                       // );
                                     }),
                                 SizedBox(height: 28),
-                                Container(
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: Color(0xffC2C4CE)), color: Colors.white),
-                                  child: ListTile(
-                                    minLeadingWidth: 20,
-                                    leading: Image.asset(
-                                      'assets/images/mark_selected3x.png',
-                                      height: 24,
-                                      width: 24,
-                                    ),
-                                    title: Text(
-                                      "Given".tr() + " ${currentOrder!.products.length} " + "item to customer".tr(),
-                                      style: TextStyle(color: Color(0xff3DAE7D), fontFamily: 'Poppinsm', letterSpacing: 0.5),
-                                    ),
-                                  ),
-                                ),
+                                Obx(() => Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          border: Border.all(
+                                              color: Color(0xffC2C4CE)),
+                                          color: Colors.white),
+                                      child: ListTile(
+                                        minLeadingWidth: 20,
+                                        onTap: () {
+                                          setState(() {
+                                            _value.value = !_value.value;
+                                          });
+                                          print(
+                                              'HomeScreenState.completePickUp${_value}');
+                                        },
+                                        selected: _value.value,
+                                        leading: _value.value
+                                            ? Image.asset(
+                                                'assets/images/mark_selected3x.png',
+                                                height: 21,
+                                                width: 21,
+                                              )
+                                            : Image.asset(
+                                                'assets/images/mark_unselected3x.png',
+                                                height: 21,
+                                                width: 21,
+                                              ),
+                                        title: Text(
+                                          "Given".tr() +
+                                              " ${currentOrder!.products.length} " +
+                                              "item to customer".tr(),
+                                          style: TextStyle(
+                                              color: Color(0xff3DAE7D),
+                                              fontFamily: 'Poppinsm',
+                                              letterSpacing: 0.5),
+                                        ),
+                                      ),
+                                    )),
                                 SizedBox(height: 26),
                               ],
                             ),
                           ),
-                          bottomNavigationBar: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 26),
+                          bottomNavigationBar:
+
+                          Obx(() => _value.value?Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14.0, horizontal: 26),
                             child: SizedBox(
                               height: 45,
                               child: ElevatedButton(
@@ -904,6 +1124,38 @@ class HomeScreenState extends State<HomeScreen> {
                                 onPressed: () => completeOrder(),
                               ),
                             ),
+                          ):Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14.0, horizontal: 26),
+                            child: SizedBox(
+                              height: 45,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8),
+                                    ),
+                                  ),
+                                  backgroundColor: Color(COLOR_PRIMARY),
+                                ),
+                                child: Text(
+                                  "MARK ORDER DELIVER".tr(),
+                                  style: TextStyle(
+                                    letterSpacing: 0.5,
+                                    fontFamily: 'Poppinsm',
+                                  ),
+                                ),
+                                onPressed: (){
+                                  final snackBar = SnackBar(
+                                    content: Text('Please Confirm Order'),
+                                  );
+
+                                  // Find the ScaffoldMessenger in the widget tree and use it to show a SnackBar.
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                } ,
+                              ),
+                            ),
+                          )
                           ),
                         ),
                       );
@@ -911,7 +1163,10 @@ class HomeScreenState extends State<HomeScreen> {
                   },
                   child: Text(
                     buttonText ?? "",
-                    style: TextStyle(color: Color(0xffFFFFFF), fontFamily: "Poppinsm", letterSpacing: 0.5),
+                    style: TextStyle(
+                        color: Color(0xffFFFFFF),
+                        fontFamily: "Poppinsm",
+                        letterSpacing: 0.5),
                   ),
                 ),
               ),
@@ -938,8 +1193,10 @@ class HomeScreenState extends State<HomeScreen> {
 
     await FireStoreUtils.updateOrder(orderModel);
 
-    await FireStoreUtils.sendFcmMessage(driverAccepted, orderModel.author.fcmToken);
-    await FireStoreUtils.sendFcmMessage(driverAccepted, orderModel.vendor.fcmToken);
+    await FireStoreUtils.sendFcmMessage(
+        driverAccepted, orderModel.author.fcmToken);
+    await FireStoreUtils.sendFcmMessage(
+        driverAccepted, orderModel.vendor.fcmToken);
     setState(() {
       isShow = true;
     });
@@ -950,8 +1207,10 @@ class HomeScreenState extends State<HomeScreen> {
     currentOrder!.status = ORDER_STATUS_COMPLETED;
     updateWallateAmount(currentOrder!);
     await FireStoreUtils.updateOrder(currentOrder!);
-    await FireStoreUtils.sendFcmMessage(driverCompleted, currentOrder!.author.fcmToken);
-    await FireStoreUtils.sendFcmMessage(driverAccepted, currentOrder!.vendor.fcmToken);
+    await FireStoreUtils.sendFcmMessage(
+        driverCompleted, currentOrder!.author.fcmToken);
+    await FireStoreUtils.sendFcmMessage(
+        driverAccepted, currentOrder!.vendor.fcmToken);
     await FireStoreUtils.getFirestOrderOrNOt(currentOrder!).then((value) async {
       if (value == true) {
         await FireStoreUtils.updateReferralAmount(currentOrder!);
@@ -960,14 +1219,18 @@ class HomeScreenState extends State<HomeScreen> {
     Position? locationData = await getCurrentLocation();
 
     _driverModel!.inProgressOrderID = null;
-    _driverModel!.location = UserLocation(latitude: locationData.latitude, longitude: locationData.longitude);
+    _driverModel!.location = UserLocation(
+        latitude: locationData.latitude, longitude: locationData.longitude);
     await FireStoreUtils.updateCurrentUser(_driverModel!);
     hideProgress();
     _markers.clear();
     polyLines.clear();
     _mapController?.moveCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(locationData.latitude, locationData.longitude), zoom: 20, bearing: double.parse(_driverModel!.rotation.toString())),
+        CameraPosition(
+            target: LatLng(locationData.latitude, locationData.longitude),
+            zoom: 20,
+            bearing: double.parse(_driverModel!.rotation.toString())),
       ),
     );
     setState(() {});
@@ -995,8 +1258,10 @@ class HomeScreenState extends State<HomeScreen> {
 
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
           GOOGLE_API_KEY,
-          PointLatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
-          PointLatLng(currentOrder!.vendor.latitude, currentOrder!.vendor.longitude),
+          PointLatLng(_driverModel!.location.latitude,
+              _driverModel!.location.longitude),
+          PointLatLng(
+              currentOrder!.vendor.latitude, currentOrder!.vendor.longitude),
           travelMode: TravelMode.driving,
         );
 
@@ -1011,7 +1276,8 @@ class HomeScreenState extends State<HomeScreen> {
           _markers['Driver'] = Marker(
               markerId: const MarkerId('Driver'),
               infoWindow: const InfoWindow(title: "Driver"),
-              position: LatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
+              position: LatLng(_driverModel!.location.latitude,
+                  _driverModel!.location.longitude),
               icon: taxiIcon!,
               rotation: double.parse(_driverModel!.rotation.toString()));
         });
@@ -1020,7 +1286,8 @@ class HomeScreenState extends State<HomeScreen> {
         _markers['Destination'] = Marker(
           markerId: const MarkerId('Destination'),
           infoWindow: const InfoWindow(title: "Destination"),
-          position: LatLng(currentOrder!.vendor.latitude, currentOrder!.vendor.longitude),
+          position: LatLng(
+              currentOrder!.vendor.latitude, currentOrder!.vendor.longitude),
           icon: destinationIcon!,
         );
         addPolyLine(polylineCoordinates);
@@ -1029,8 +1296,10 @@ class HomeScreenState extends State<HomeScreen> {
 
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
           GOOGLE_API_KEY,
-          PointLatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
-          PointLatLng(currentOrder!.author.shippingAddress.location.latitude, currentOrder!.author.shippingAddress.location.longitude),
+          PointLatLng(_driverModel!.location.latitude,
+              _driverModel!.location.longitude),
+          PointLatLng(currentOrder!.author.shippingAddress.location.latitude,
+              currentOrder!.author.shippingAddress.location.longitude),
           travelMode: TravelMode.driving,
         );
 
@@ -1045,7 +1314,8 @@ class HomeScreenState extends State<HomeScreen> {
           _markers['Driver'] = Marker(
             markerId: const MarkerId('Driver'),
             infoWindow: const InfoWindow(title: "Driver"),
-            position: LatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
+            position: LatLng(_driverModel!.location.latitude,
+                _driverModel!.location.longitude),
             rotation: double.parse(_driverModel!.rotation.toString()),
             icon: taxiIcon!,
           );
@@ -1055,7 +1325,9 @@ class HomeScreenState extends State<HomeScreen> {
         _markers['Destination'] = Marker(
           markerId: const MarkerId('Destination'),
           infoWindow: const InfoWindow(title: "Destination"),
-          position: LatLng(currentOrder!.author.shippingAddress.location.latitude, currentOrder!.author.shippingAddress.location.longitude),
+          position: LatLng(
+              currentOrder!.author.shippingAddress.location.latitude,
+              currentOrder!.author.shippingAddress.location.longitude),
           icon: destinationIcon!,
         );
         addPolyLine(polylineCoordinates);
@@ -1066,8 +1338,10 @@ class HomeScreenState extends State<HomeScreen> {
 
         PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
           GOOGLE_API_KEY,
-          PointLatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
-          PointLatLng(_driverModel!.orderRequestData!.vendor.latitude, _driverModel!.orderRequestData!.vendor.longitude),
+          PointLatLng(_driverModel!.location.latitude,
+              _driverModel!.location.longitude),
+          PointLatLng(_driverModel!.orderRequestData!.vendor.latitude,
+              _driverModel!.orderRequestData!.vendor.longitude),
           travelMode: TravelMode.driving,
         );
 
@@ -1082,7 +1356,8 @@ class HomeScreenState extends State<HomeScreen> {
           _markers['Driver'] = Marker(
               markerId: const MarkerId('Driver'),
               infoWindow: const InfoWindow(title: "Driver"),
-              position: LatLng(_driverModel!.location.latitude, _driverModel!.location.longitude),
+              position: LatLng(_driverModel!.location.latitude,
+                  _driverModel!.location.longitude),
               icon: taxiIcon!,
               rotation: double.parse(_driverModel!.rotation.toString()));
         });
@@ -1091,7 +1366,8 @@ class HomeScreenState extends State<HomeScreen> {
         _markers['Destination'] = Marker(
             markerId: const MarkerId('Destination'),
             infoWindow: const InfoWindow(title: "Destination"),
-            position: LatLng(_driverModel!.orderRequestData!.vendor.latitude, _driverModel!.orderRequestData!.vendor.longitude),
+            position: LatLng(_driverModel!.orderRequestData!.vendor.latitude,
+                _driverModel!.orderRequestData!.vendor.longitude),
             icon: destinationIcon!);
         addPolyLine(polylineCoordinates);
       }
@@ -1110,7 +1386,8 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() {
       polyLines[id] = polyline;
     });
-    updateCameraLocation(polylineCoordinates.first, polylineCoordinates.last, _mapController);
+    updateCameraLocation(
+        polylineCoordinates.first, polylineCoordinates.last, _mapController);
   }
 
   Future<void> updateCameraLocation(
@@ -1146,7 +1423,8 @@ class HomeScreenState extends State<HomeScreen> {
     // return checkCameraLocation(cameraUpdate, mapController);
   }
 
-  Future<void> checkCameraLocation(CameraUpdate cameraUpdate, GoogleMapController mapController) async {
+  Future<void> checkCameraLocation(
+      CameraUpdate cameraUpdate, GoogleMapController mapController) async {
     mapController.animateCamera(cameraUpdate);
     LatLngBounds l1 = await mapController.getVisibleRegion();
     LatLngBounds l2 = await mapController.getVisibleRegion();
@@ -1177,7 +1455,8 @@ class HomeScreenState extends State<HomeScreen> {
   // }
   playSound() async {
     print("audioplayer");
-    final path = await rootBundle.load("assets/audio/mixkit-happy-bells-notification-937.mp3");
+    final path = await rootBundle
+        .load("assets/audio/mixkit-happy-bells-notification-937.mp3");
 
     audioPlayer.setSourceBytes(path.buffer.asUint8List());
     audioPlayer.setReleaseMode(ReleaseMode.loop);
