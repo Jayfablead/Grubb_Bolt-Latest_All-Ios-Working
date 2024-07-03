@@ -131,6 +131,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    _value.value =false;
     NotificationService notificationService = NotificationService();
     notificationService.requestNotificationPermission();
     notificationService.initLocalNotification();

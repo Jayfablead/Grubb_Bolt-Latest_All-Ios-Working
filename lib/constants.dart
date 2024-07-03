@@ -57,7 +57,7 @@ const ORDER_STATUS_REJECTED = 'Order Rejected';
 const ORDER_STATUS_DRIVER_PENDING = 'Driver Pending';
 const ORDER_STATUS_DRIVER_ACCEPTED = 'Driver Accepted';
 const ORDER_STATUS_DRIVER_REJECTED = 'Driver Rejected';
-const ORDER_STATUS_SHIPPED = 'Order Shipped';
+const ORDER_STATUS_SHIPPED = 'Assign Driver';
 const ORDER_STATUS_IN_TRANSIT = 'In Transit';
 const ORDER_STATUS_COMPLETED = 'Order Completed';
 
