@@ -75,7 +75,7 @@ class User with ChangeNotifier {
       this.inProgressOrderID,
       this.walletAmount = 0.0,
       userBankDetails,
-        this.createdAt,
+      this.createdAt,
       this.orderRequestData})
       : this.lastOnlineTimestamp = lastOnlineTimestamp ?? Timestamp.now(),
         this.settings = settings ?? UserSettings(),
@@ -100,29 +100,38 @@ class User with ChangeNotifier {
                 geoPoint: GeoPoint(0.0, 0.0),
               ),
         rotation: parsedJson['rotation'] ?? 0.0,
-        userBankDetails: parsedJson.containsKey('userBankDetails') ? UserBankDetails.fromJson(parsedJson['userBankDetails']) : UserBankDetails(),
+        userBankDetails: parsedJson.containsKey('userBankDetails')
+            ? UserBankDetails.fromJson(parsedJson['userBankDetails'])
+            : UserBankDetails(),
         firstName: parsedJson['firstName'] ?? '',
         lastName: parsedJson['lastName'] ?? '',
         isActive: parsedJson['isActive'] ?? false,
         active: parsedJson['active'] ?? true,
         lastOnlineTimestamp: parsedJson['lastOnlineTimestamp'],
-        settings: parsedJson.containsKey('settings') ? UserSettings.fromJson(parsedJson['settings']) : UserSettings(),
+        settings: parsedJson.containsKey('settings')
+            ? UserSettings.fromJson(parsedJson['settings'])
+            : UserSettings(),
         phoneNumber: parsedJson['phoneNumber'] ?? '',
         userID: parsedJson['id'] ?? parsedJson['userID'] ?? '',
         profilePictureURL: parsedJson['profilePictureURL'] ?? '',
         fcmToken: parsedJson['fcmToken'] ?? '',
-        location: parsedJson.containsKey('location') ? UserLocation.fromJson(parsedJson['location']) : UserLocation(),
-        shippingAddress: parsedJson.containsKey('shippingAddress') ? AddressModel.fromJson(parsedJson['shippingAddress']) : AddressModel(),
+        location: parsedJson.containsKey('location')
+            ? UserLocation.fromJson(parsedJson['location'])
+            : UserLocation(),
+        shippingAddress: parsedJson.containsKey('shippingAddress')
+            ? AddressModel.fromJson(parsedJson['shippingAddress'])
+            : AddressModel(),
         role: parsedJson['role'] ?? '',
         carName: parsedJson['carName'] ?? '',
         carNumber: parsedJson['carNumber'] ?? '',
         carPictureURL: parsedJson['carPictureURL'] ?? '',
         inProgressOrderID: parsedJson['inProgressOrderID'],
         createdAt: parsedJson['createdAt'],
-        orderRequestData: parsedJson.containsKey('orderRequestData') && parsedJson['orderRequestData'] != null ? OrderModel.fromJson(parsedJson['orderRequestData']) : null);
+        orderRequestData: parsedJson.containsKey('orderRequestData') &&
+                parsedJson['orderRequestData'] != null
+            ? OrderModel.fromJson(parsedJson['orderRequestData'])
+            : null);
   }
-
-
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {
@@ -144,7 +153,9 @@ class User with ChangeNotifier {
       'shippingAddress': this.shippingAddress.toJson(),
       'role': this.role,
       'createdAt': this.createdAt,
-      'orderRequestData': this.orderRequestData != null ? this.orderRequestData!.toJson() : null,
+      'orderRequestData': this.orderRequestData != null
+          ? this.orderRequestData!.toJson()
+          : null,
     };
     if (this.role == USER_ROLE_DRIVER) {
       json.addAll({
@@ -160,7 +171,6 @@ class User with ChangeNotifier {
     }
     return json;
   }
-
 }
 
 class UserSettings {
@@ -172,7 +182,11 @@ class UserSettings {
 
   bool promotions;
 
-  UserSettings({this.pushNewMessages = true, this.orderUpdates = true, this.newArrivals = true, this.promotions = true});
+  UserSettings(
+      {this.pushNewMessages = true,
+      this.orderUpdates = true,
+      this.newArrivals = true,
+      this.promotions = true});
 
   factory UserSettings.fromJson(Map<dynamic, dynamic> parsedJson) {
     return UserSettings(

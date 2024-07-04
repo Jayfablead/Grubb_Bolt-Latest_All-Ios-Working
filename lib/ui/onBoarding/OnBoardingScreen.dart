@@ -25,8 +25,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final List<String> _subtitlesList = [
     // 'Log in and order delicious food from restaurants around you.'.tr(),
     // 'Hungry? Order food in just a few clicks and we\'ll take care of you.'.tr(),
-    'Find perfect restaurant nearby or  place order at your favorite restaurant in few clicks.'.tr(),
-    'A diverse list of different dining restaurants throughout the territory and around your area carefully selected'.tr(),
+    'Find perfect restaurant nearby or  place order at your favorite restaurant in few clicks.'
+        .tr(),
+    'A diverse list of different dining restaurants throughout the territory and around your area carefully selected'
+        .tr(),
     'Get your favorite food fastest delivered at your doorstep'.tr(),
   ];
 
@@ -58,9 +60,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         children: <Widget>[
           PageView.builder(
             itemBuilder: (context, index) => getPage(
-                isDarkMode(context) ? _darkimageList[index] : _imageList[index],context, isDarkMode(context) ? (index + 1) == _darkimageList.length : (index + 1) == _imageList.length),
+                isDarkMode(context) ? _darkimageList[index] : _imageList[index],
+                context,
+                isDarkMode(context)
+                    ? (index + 1) == _darkimageList.length
+                    : (index + 1) == _imageList.length),
             controller: pageController,
-            itemCount: isDarkMode(context) ? _darkimageList.length : _imageList.length,
+            itemCount:
+                isDarkMode(context) ? _darkimageList.length : _imageList.length,
             onPageChanged: (int index) {
               setState(() {
                 _currentIndex = index;
@@ -78,7 +85,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       padding: EdgeInsets.all(10),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)),
                           backgroundColor: Color(COLOR_PRIMARY),
                         ),
                         child: Text(
@@ -129,9 +137,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 top: 30,
                 child: GestureDetector(
                     onTap: () {
-                      pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceIn);
+                      pageController.previousPage(
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.bounceIn);
                     },
-                    child: Icon(Icons.chevron_left, size: 40, color: isDarkMode(context) ? Color(0xffFFFFFF) : null))),
+                    child: Icon(Icons.chevron_left,
+                        size: 40,
+                        color:
+                            isDarkMode(context) ? Color(0xffFFFFFF) : null))),
           ),
           Visibility(
             visible: _currentIndex + 3 == _imageList.length,
@@ -140,7 +153,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 top: 30,
                 child: GestureDetector(
                     onTap: () {
-                      pageController.previousPage(duration: Duration(milliseconds: 100), curve: Curves.bounceIn);
+                      pageController.previousPage(
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.bounceIn);
                     },
                     child: Icon(
                       Icons.chevron_left,
@@ -160,7 +175,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       },
                       child: Text(
                         "SKIP".tr(),
-                        style: TextStyle(fontSize: 19, color: Color(COLOR_PRIMARY), fontFamily: 'Poppinsm'),
+                        style: TextStyle(
+                            fontSize: 19,
+                            color: Color(COLOR_PRIMARY),
+                            fontFamily: 'Poppinsm'),
                       )))),
           Visibility(
               visible: _currentIndex + 1 != _imageList.length,
@@ -175,15 +193,22 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           padding: EdgeInsets.all(10),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6)),
                               backgroundColor: Color(COLOR_PRIMARY),
                             ),
                             child: Text(
                               "NEXT".tr(),
-                              style: TextStyle(fontSize: 16, color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0XFF333333)),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: isDarkMode(context)
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0XFF333333)),
                             ),
                             onPressed: () {
-                              pageController.nextPage(duration: Duration(milliseconds: 100), curve: Curves.bounceIn);
+                              pageController.nextPage(
+                                  duration: Duration(milliseconds: 100),
+                                  curve: Curves.bounceIn);
                             },
                           )))))
         ],
@@ -191,7 +216,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  Widget getPage(dynamic image,BuildContext context, bool isLastPage) {
+  Widget getPage(dynamic image, BuildContext context, bool isLastPage) {
     return Container(
         child: Column(
       //  crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -204,13 +229,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 //  height:  MediaQuery.of(context).size.height*0.55,
                 // width: MediaQuery.of(context).size.width * 1,
                 decoration: BoxDecoration(
-                    color: isDarkMode(context) ? Color(0XFF242528) : Color(0XFFFCEEE9),
-                    // borderRadius: BorderRadius.only(bottomLeft: Radius.elliptical(400, 180), bottomRight: Radius.elliptical(400, 180))
+                  color: isDarkMode(context)
+                      ? Color(0XFF242528)
+                      : Color(0XFFFCEEE9),
+                  // borderRadius: BorderRadius.only(bottomLeft: Radius.elliptical(400, 180), bottomRight: Radius.elliptical(400, 180))
                 ),
                 child: Container(
                   // margin: EdgeInsets.only(right: 40, left: 40, top: 30),
 
-                  decoration: BoxDecoration(image: DecorationImage(image: AssetImage(image), fit: BoxFit.fill)),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(image), fit: BoxFit.fill)),
 
                   //  child:
                   //       Image.asset(

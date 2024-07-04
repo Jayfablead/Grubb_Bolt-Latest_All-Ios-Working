@@ -9,7 +9,8 @@ import 'package:foodie_driver/services/helper.dart';
 class EnterBankDetailScreen extends StatefulWidget {
   final bool isNewAccount;
 
-  const EnterBankDetailScreen({Key? key, required this.isNewAccount}) : super(key: key);
+  const EnterBankDetailScreen({Key? key, required this.isNewAccount})
+      : super(key: key);
 
   @override
   State<EnterBankDetailScreen> createState() => _EnterBankDetailScreenState();
@@ -34,11 +35,16 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
         user = value!;
         MyAppState.currentUser = value;
 
-        bankNameController = TextEditingController(text: user!.userBankDetails.bankName);
-        branchNameController = TextEditingController(text: user!.userBankDetails.branchName);
-        holderNameController = TextEditingController(text: user!.userBankDetails.holderName);
-        accountNoController = TextEditingController(text: user!.userBankDetails.accountNumber);
-        otherInfoController = TextEditingController(text: user!.userBankDetails.otherDetails);
+        bankNameController =
+            TextEditingController(text: user!.userBankDetails.bankName);
+        branchNameController =
+            TextEditingController(text: user!.userBankDetails.branchName);
+        holderNameController =
+            TextEditingController(text: user!.userBankDetails.holderName);
+        accountNoController =
+            TextEditingController(text: user!.userBankDetails.accountNumber);
+        otherInfoController =
+            TextEditingController(text: user!.userBankDetails.otherDetails);
       });
     });
     //user = widget.user;
@@ -49,7 +55,8 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
+        backgroundColor:
+            isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () => Navigator.pop(context),
@@ -59,7 +66,8 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
           ),
           title: Text(
             widget.isNewAccount ? "Add Bank".tr() : "Edit Bank".tr(),
-            style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black),
+            style: TextStyle(
+                color: isDarkMode(context) ? Colors.white : Colors.black),
           ),
         ),
         body: Container(
@@ -75,27 +83,51 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
                   SizedBox(
                     height: 30,
                   ),
-                  buildTextFiled(validator: validateName, title: "Bank Name".tr(), controller: bankNameController),
-                  buildTextFiled(validator: validateOthers, title: "Ifsc code".tr(), controller: branchNameController),
-                  buildTextFiled(validator: validateOthers, title: "Holder Name".tr(), controller: holderNameController),
-                  buildTextFiled(validator: validateOthers, title: "Account Number".tr(), controller: accountNoController),
-                  buildTextFiled(validator: (String? value) {
-                    return null;
-                  }, title: "Other Information".tr(), controller: otherInfoController),
+                  buildTextFiled(
+                      validator: validateName,
+                      title: "Bank Name".tr(),
+                      controller: bankNameController),
+                  buildTextFiled(
+                      validator: validateOthers,
+                      title: "Ifsc code".tr(),
+                      controller: branchNameController),
+                  buildTextFiled(
+                      validator: validateOthers,
+                      title: "Holder Name".tr(),
+                      controller: holderNameController),
+                  buildTextFiled(
+                      validator: validateOthers,
+                      title: "Account Number".tr(),
+                      controller: accountNoController),
+                  buildTextFiled(
+                      validator: (String? value) {
+                        return null;
+                      },
+                      title: "Other Information".tr(),
+                      controller: otherInfoController),
                   Padding(
                     padding: const EdgeInsets.only(top: 45.0, bottom: 25),
-                    child: buildButton(context, title: widget.isNewAccount ? "Add Bank".tr() : "Edit Bank".tr(), onPress: () async {
+                    child: buildButton(context,
+                        title: widget.isNewAccount
+                            ? "Add Bank".tr()
+                            : "Edit Bank".tr(), onPress: () async {
                       if (_bankDetailFormKey.currentState!.validate()) {
                         print("----<");
-                        user!.userBankDetails.accountNumber = accountNoController.text;
+                        user!.userBankDetails.accountNumber =
+                            accountNoController.text;
                         print("----<");
                         print(user!.userBankDetails.accountNumber);
-                        user!.userBankDetails.bankName = bankNameController.text;
-                        user!.userBankDetails.branchName = branchNameController.text;
-                        user!.userBankDetails.holderName = holderNameController.text;
-                        user!.userBankDetails.otherDetails = otherInfoController.text;
+                        user!.userBankDetails.bankName =
+                            bankNameController.text;
+                        user!.userBankDetails.branchName =
+                            branchNameController.text;
+                        user!.userBankDetails.holderName =
+                            holderNameController.text;
+                        user!.userBankDetails.otherDetails =
+                            otherInfoController.text;
 
-                        var updatedUser = await FireStoreUtils.updateCurrentUser(user!);
+                        var updatedUser =
+                            await FireStoreUtils.updateCurrentUser(user!);
                         if (updatedUser != null) {
                           MyAppState.currentUser = updatedUser;
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -124,7 +156,10 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
     );
   }
 
-  Widget buildTextFiled({required title, required String? Function(String?)? validator, required TextEditingController controller}) {
+  Widget buildTextFiled(
+      {required title,
+      required String? Function(String?)? validator,
+      required TextEditingController controller}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 25),
       child: Column(
@@ -134,18 +169,24 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: TextFormField(
-              style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black),
+              style: TextStyle(
+                  color: isDarkMode(context) ? Colors.white : Colors.black),
               cursorColor: Color(COLOR_PRIMARY),
               textAlignVertical: TextAlignVertical.center,
               validator: validator,
               controller: controller,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                contentPadding: new EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-                fillColor: isDarkMode(context) ? Color(DARK_CARD_BG_COLOR) : Colors.black.withOpacity(0.06),
+                contentPadding:
+                    new EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                fillColor: isDarkMode(context)
+                    ? Color(DARK_CARD_BG_COLOR)
+                    : Colors.black.withOpacity(0.06),
                 filled: true,
                 focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 1.50)),
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 1.50)),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Theme.of(context).errorColor),
                   borderRadius: BorderRadius.circular(5.0),

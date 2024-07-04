@@ -12,7 +12,7 @@ Future<void> firebaseMessageBackgroundHandle(RemoteMessage message) async {
 class NotificationService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static final NotificationService _instance = NotificationService._internal();
 
@@ -62,7 +62,7 @@ class NotificationService {
       print("Initializing Local Notification");
 
       var androidInitializationSettings =
-      const AndroidInitializationSettings('@mipmap/ic_launcher');
+          const AndroidInitializationSettings('@mipmap/ic_launcher');
 
       var initializationSetting = InitializationSettings(
         android: androidInitializationSettings,
@@ -84,7 +84,7 @@ class NotificationService {
 
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(channel);
     } catch (e) {
       print("Error initializing local notifications: $e");
@@ -99,7 +99,8 @@ class NotificationService {
       });
 
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        print("Handling message when app is opened: ${message.data.toString()}");
+        print(
+            "Handling message when app is opened: ${message.data.toString()}");
         handleMessage(message);
       });
 
@@ -174,7 +175,9 @@ class NotificationService {
         handleMessage(message);
       });
 
-      FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      FirebaseMessaging.instance
+          .getInitialMessage()
+          .then((RemoteMessage? message) {
         if (message != null) {
           handleMessage(message);
         }
@@ -192,4 +195,3 @@ class NotificationService {
     }
   }
 }
-

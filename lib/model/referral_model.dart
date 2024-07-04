@@ -3,7 +3,7 @@ class ReferralModel {
   String? referralCode;
   String? referralBy;
 
-  ReferralModel({this.id,this.referralCode, this.referralBy});
+  ReferralModel({this.id, this.referralCode, this.referralBy});
 
   ReferralModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

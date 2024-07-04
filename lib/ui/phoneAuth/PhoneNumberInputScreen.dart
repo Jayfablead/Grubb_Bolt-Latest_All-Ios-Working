@@ -21,7 +21,8 @@ File? _carImage;
 class PhoneNumberInputScreen extends StatefulWidget {
   final bool login;
 
-  const PhoneNumberInputScreen({Key? key, required this.login}) : super(key: key);
+  const PhoneNumberInputScreen({Key? key, required this.login})
+      : super(key: key);
 
   @override
   _PhoneNumberInputScreenState createState() => _PhoneNumberInputScreenState();
@@ -45,7 +46,8 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: isDarkMode(context) ? Colors.white : Colors.black),
+        iconTheme: IconThemeData(
+            color: isDarkMode(context) ? Colors.white : Colors.black),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -56,16 +58,22 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
             child: Column(
               children: <Widget>[
                 Align(
-                    alignment: Directionality.of(context) == TextDirection.ltr ? Alignment.topLeft : Alignment.topRight,
+                    alignment: Directionality.of(context) == TextDirection.ltr
+                        ? Alignment.topLeft
+                        : Alignment.topRight,
                     child: Text(
                       widget.login ? 'Sign In'.tr() : 'Create new account'.tr(),
-                      style: TextStyle(color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold, fontSize: 25.0),
+                      style: TextStyle(
+                          color: Color(COLOR_PRIMARY),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0),
                     ).tr()),
 
                 /// user profile picture,  this is visible until we verify the
                 /// code in case of sign up with phone number
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 32, right: 8, bottom: 8),
+                  padding: const EdgeInsets.only(
+                      left: 8.0, top: 32, right: 8, bottom: 8),
                   child: Visibility(
                     visible: !_codeSent && !widget.login,
                     child: SizedBox(
@@ -103,7 +111,9 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                                     backgroundColor: Color(COLOR_ACCENT),
                                     child: Icon(
                                       CupertinoIcons.camera,
-                                      color: isDarkMode(context) ? Colors.black : Colors.white,
+                                      color: isDarkMode(context)
+                                          ? Colors.black
+                                          : Colors.white,
                                     ),
                                     mini: true,
                                     onPressed: () => _onCameraClick(true)),
@@ -140,7 +150,9 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                                   backgroundColor: Color(COLOR_ACCENT),
                                   child: Icon(
                                     CupertinoIcons.camera,
-                                    color: isDarkMode(context) ? Colors.black : Colors.white,
+                                    color: isDarkMode(context)
+                                        ? Colors.black
+                                        : Colors.white,
                                   ),
                                   mini: true,
                                   onPressed: () => _onCameraClick(false),
@@ -161,7 +173,8 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minWidth: double.infinity),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+                      padding: const EdgeInsets.only(
+                          top: 16.0, right: 8.0, left: 8.0),
                       child: TextFormField(
                         cursorColor: Color(COLOR_PRIMARY),
                         textAlignVertical: TextAlignVertical.center,
@@ -172,17 +185,22 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                         },
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           fillColor: Colors.white,
                           hintText: 'First Name'.tr(),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                  color: Color(COLOR_PRIMARY), width: 2.0)),
                           errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -202,7 +220,8 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minWidth: double.infinity),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+                      padding: const EdgeInsets.only(
+                          top: 16.0, right: 8.0, left: 8.0),
                       child: TextFormField(
                         validator: validateName,
                         textAlignVertical: TextAlignVertical.center,
@@ -213,17 +232,22 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                         controller: _lastNameController,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           fillColor: Colors.white,
                           hintText: 'Last Name'.tr(),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                  color: Color(COLOR_PRIMARY), width: 2.0)),
                           errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -241,7 +265,8 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minWidth: double.infinity),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+                      padding: const EdgeInsets.only(
+                          top: 16.0, right: 8.0, left: 8.0),
                       child: TextFormField(
                         validator: validateEmptyField,
                         textAlignVertical: TextAlignVertical.center,
@@ -251,17 +276,22 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                         },
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           fillColor: Colors.white,
                           hintText: 'Car Model'.tr(),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                  color: Color(COLOR_PRIMARY), width: 2.0)),
                           errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -278,7 +308,8 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minWidth: double.infinity),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+                      padding: const EdgeInsets.only(
+                          top: 16.0, right: 8.0, left: 8.0),
                       child: TextFormField(
                         validator: validateEmptyField,
                         textAlignVertical: TextAlignVertical.center,
@@ -288,17 +319,22 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                         },
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          contentPadding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           fillColor: Colors.white,
                           hintText: 'Vehicle Plate'.tr(),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                  color: Color(COLOR_PRIMARY), width: 2.0)),
                           errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Theme.of(context).errorColor),
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
                             borderRadius: BorderRadius.circular(25.0),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -323,7 +359,8 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                           shape: BoxShape.rectangle,
                           border: Border.all(color: Colors.grey.shade200)),
                       child: InternationalPhoneNumberInput(
-                        onInputChanged: (PhoneNumber number) => _phoneNumber = number.phoneNumber,
+                        onInputChanged: (PhoneNumber number) =>
+                            _phoneNumber = number.phoneNumber,
                         onInputValidated: (bool value) => _isPhoneValid = value,
                         ignoreBlank: true,
                         autoValidateMode: AutovalidateMode.onUserInteraction,
@@ -340,8 +377,9 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                         inputBorder: OutlineInputBorder(
                           borderSide: BorderSide.none,
                         ),
-                        initialValue: PhoneNumber(isoCode:'IN'),
-                        selectorConfig: SelectorConfig(selectorType: PhoneInputSelectorType.DIALOG),
+                        initialValue: PhoneNumber(isoCode: 'IN'),
+                        selectorConfig: SelectorConfig(
+                            selectorType: PhoneInputSelectorType.DIALOG),
                       ),
                     ),
                   ),
@@ -352,7 +390,8 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                 Visibility(
                   visible: _codeSent,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
+                    padding:
+                        EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
                     child: PinCodeTextField(
                       length: 6,
                       appContext: context,
@@ -364,7 +403,9 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                           fieldHeight: 40,
                           fieldWidth: 40,
                           activeColor: Color(COLOR_PRIMARY),
-                          activeFillColor: isDarkMode(context) ? Colors.grey.shade700 : Colors.grey.shade100,
+                          activeFillColor: isDarkMode(context)
+                              ? Colors.grey.shade700
+                              : Colors.grey.shade100,
                           selectedFillColor: Colors.transparent,
                           selectedColor: Color(COLOR_PRIMARY),
                           inactiveColor: Colors.grey.shade600,
@@ -390,9 +431,11 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                 Visibility(
                   visible: !_codeSent,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 40.0),
+                    padding: const EdgeInsets.only(
+                        right: 40.0, left: 40.0, top: 40.0),
                     child: ConstrainedBox(
-                      constraints: const BoxConstraints(minWidth: double.infinity),
+                      constraints:
+                          const BoxConstraints(minWidth: double.infinity),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(COLOR_PRIMARY),
@@ -408,7 +451,11 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                         child: Text(
                           'Send code'.tr(),
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold, color: isDarkMode(context) ? Colors.black : Colors.white),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode(context)
+                                  ? Colors.black
+                                  : Colors.white),
                         ),
                       ),
                     ),
@@ -419,7 +466,10 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                   child: Center(
                     child: Text(
                       'OR',
-                      style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black),
+                      style: TextStyle(
+                          color: isDarkMode(context)
+                              ? Colors.white
+                              : Colors.black),
                     ).tr(),
                   ),
                 ),
@@ -430,8 +480,14 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                     Navigator.pop(context);
                   },
                   child: Text(
-                    widget.login ? 'Login with E-mail'.tr() : 'Sign up with E-mail'.tr(),
-                    style: TextStyle(color: Colors.lightBlue, fontWeight: FontWeight.bold, fontSize: 15, letterSpacing: 1),
+                    widget.login
+                        ? 'Login with E-mail'.tr()
+                        : 'Sign up with E-mail'.tr(),
+                    style: TextStyle(
+                        color: Colors.lightBlue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        letterSpacing: 1),
                   ),
                 )
               ],
@@ -447,10 +503,12 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
   /// @param code the code from input from code field
   /// creates a new user from phone login
   void _submitCode(String code) async {
-    await showProgress(context, widget.login ? 'Logging in...'.tr() : 'Signing up...'.tr(), false);
+    await showProgress(context,
+        widget.login ? 'Logging in...'.tr() : 'Signing up...'.tr(), false);
     try {
       if (_verificationID != null) {
-        dynamic result = await FireStoreUtils.firebaseSubmitPhoneNumberCode(_verificationID!, code, _phoneNumber!,
+        dynamic result = await FireStoreUtils.firebaseSubmitPhoneNumberCode(
+            _verificationID!, code, _phoneNumber!,
             firstName: _firstNameController.text,
             carImage: _carImage,
             carPlates: carPlate ?? '',
@@ -463,12 +521,14 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
             MyAppState.currentUser = result;
             pushAndRemoveUntil(context, ContainerScreen(user: result), false);
           } else {
-            showAlertDialog(context, "notLogIn".tr(), 'User not activated yet.'.tr(), true);
+            showAlertDialog(
+                context, "notLogIn".tr(), 'User not activated yet.'.tr(), true);
           }
         } else if (result != null && result is String) {
           showAlertDialog(context, 'Failed'.tr(), result, true);
         } else {
-          showAlertDialog(context, 'Failed'.tr(), "notCreatePhoneNumber".tr(), true);
+          showAlertDialog(
+              context, 'Failed'.tr(), "notCreatePhoneNumber".tr(), true);
         }
       } else {
         await hideProgress();
@@ -540,10 +600,13 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
           isDefaultAction: false,
           onPressed: () async {
             Navigator.pop(context);
-            XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+            XFile? image =
+                await _imagePicker.pickImage(source: ImageSource.gallery);
             if (image != null)
               setState(() {
-                isUserImage ? _image = File(image.path) : _carImage = File(image.path);
+                isUserImage
+                    ? _image = File(image.path)
+                    : _carImage = File(image.path);
               });
           },
         ),
@@ -552,10 +615,13 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
           isDestructiveAction: false,
           onPressed: () async {
             Navigator.pop(context);
-            XFile? image = await _imagePicker.pickImage(source: ImageSource.camera);
+            XFile? image =
+                await _imagePicker.pickImage(source: ImageSource.camera);
             if (image != null)
               setState(() {
-                isUserImage ? _image = File(image.path) : _carImage = File(image.path);
+                isUserImage
+                    ? _image = File(image.path)
+                    : _carImage = File(image.path);
               });
           },
         ),
@@ -654,8 +720,10 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
       },
       (auth.PhoneAuthCredential credential) async {
         if (mounted) {
-          auth.UserCredential userCredential = await auth.FirebaseAuth.instance.signInWithCredential(credential);
-          User? user = await FireStoreUtils.getCurrentUser(userCredential.user?.uid ?? '');
+          auth.UserCredential userCredential =
+              await auth.FirebaseAuth.instance.signInWithCredential(credential);
+          User? user = await FireStoreUtils.getCurrentUser(
+              userCredential.user?.uid ?? '');
           if (user != null) {
             hideProgress();
             MyAppState.currentUser = user;
@@ -665,11 +733,14 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
             String profileImageUrl = '';
             String carPicUrl = DEFAULT_CAR_IMAGE;
             if (_image != null) {
-              profileImageUrl = await FireStoreUtils.uploadUserImageToFireStorage(_image!, userCredential.user?.uid ?? '');
+              profileImageUrl =
+                  await FireStoreUtils.uploadUserImageToFireStorage(
+                      _image!, userCredential.user?.uid ?? '');
             }
             if (_carImage != null) {
               updateProgress('Uploading car image, Please wait...'.tr());
-              carPicUrl = await FireStoreUtils.uploadCarImageToFireStorage(_carImage!, userCredential.user?.uid ?? '');
+              carPicUrl = await FireStoreUtils.uploadCarImageToFireStorage(
+                  _carImage!, userCredential.user?.uid ?? '');
             }
             User user = User(
               firstName: _firstNameController.text,
@@ -689,13 +760,15 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
               role: USER_ROLE_DRIVER,
               createdAt: Timestamp.now(),
             );
-            String? errorMessage = await FireStoreUtils.firebaseCreateNewUser(user);
+            String? errorMessage =
+                await FireStoreUtils.firebaseCreateNewUser(user);
             hideProgress();
             if (errorMessage == null) {
               MyAppState.currentUser = user;
               pushAndRemoveUntil(context, ContainerScreen(user: user), false);
             } else {
-              showAlertDialog(context, 'Failed'.tr(), "notCreatePhoneNumber".tr(), true);
+              showAlertDialog(
+                  context, 'Failed'.tr(), "notCreatePhoneNumber".tr(), true);
             }
           }
         }

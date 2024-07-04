@@ -65,8 +65,10 @@ class DefaultFirebaseOptions {
     projectId: 'grubb-ba0e4',
     databaseURL: 'https://grubb-ba0e4.firebaseio.com',
     storageBucket: 'grubb-ba0e4.appspot.com',
-    androidClientId: '150496980543-gmm32rnu3ahl4oqh331131i2234pvtt1.apps.googleusercontent.com',
-    iosClientId: '150496980543-nv833f3j9re3da5ko7gjkhtgankbdjts.apps.googleusercontent.com',
+    androidClientId:
+        '150496980543-gmm32rnu3ahl4oqh331131i2234pvtt1.apps.googleusercontent.com',
+    iosClientId:
+        '150496980543-nv833f3j9re3da5ko7gjkhtgankbdjts.apps.googleusercontent.com',
     iosBundleId: 'com.geubb.driver',
   );
 }

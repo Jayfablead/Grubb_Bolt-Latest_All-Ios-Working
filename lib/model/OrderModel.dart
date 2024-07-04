@@ -145,10 +145,12 @@ class OrderModel {
     }
 
     return OrderModel(
-      address: parsedJson.containsKey('address') && parsedJson['address'] is Map<String, dynamic>
+      address: parsedJson.containsKey('address') &&
+              parsedJson['address'] is Map<String, dynamic>
           ? AddressModel.fromJson(parsedJson['address'])
           : AddressModel(),
-      author: parsedJson.containsKey('author') && parsedJson['author'] is Map<String, dynamic>
+      author: parsedJson.containsKey('author') &&
+              parsedJson['author'] is Map<String, dynamic>
           ? User.fromJson(parsedJson['author'])
           : User(),
       authorID: parsedJson['authorID'] ?? '',
@@ -159,12 +161,17 @@ class OrderModel {
       discount: double.parse(parsedJson['discount']?.toString() ?? '0.0'),
       couponCode: parsedJson['couponCode'] ?? '',
       couponId: parsedJson['couponId'] ?? '',
-      notes: parsedJson["notes"] != null && parsedJson["notes"].toString().isNotEmpty ? parsedJson["notes"] : "",
-      vendor: parsedJson.containsKey('vendor') && parsedJson['vendor'] is Map<String, dynamic>
+      notes: parsedJson["notes"] != null &&
+              parsedJson["notes"].toString().isNotEmpty
+          ? parsedJson["notes"]
+          : "",
+      vendor: parsedJson.containsKey('vendor') &&
+              parsedJson['vendor'] is Map<String, dynamic>
           ? VendorModel.fromJson(parsedJson['vendor'])
           : VendorModel(),
       vendorID: parsedJson['vendorID'] ?? '',
-      driver: parsedJson.containsKey('driver') && parsedJson['driver'] is Map<String, dynamic>
+      driver: parsedJson.containsKey('driver') &&
+              parsedJson['driver'] is Map<String, dynamic>
           ? User.fromJson(parsedJson['driver'])
           : null,
       driverID: parsedJson['driverID'] ?? null,
@@ -182,7 +189,6 @@ class OrderModel {
       taxModel: taxList,
     );
   }
-
 
   Map<String, dynamic> toJson() {
     return {
@@ -203,7 +209,8 @@ class OrderModel {
       'adminCommission': this.adminCommission,
       'adminCommissionType': this.adminCommissionType,
       "tip_amount": this.tipValue,
-      "taxSetting": taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null,
+      "taxSetting":
+          taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null,
       "takeAway": this.takeAway,
       "deliveryCharge": this.deliveryCharge,
       "specialDiscount": this.specialDiscount,

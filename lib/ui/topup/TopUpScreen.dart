@@ -6,7 +6,6 @@ import 'package:foodie_driver/main.dart';
 import 'package:foodie_driver/model/topupTranHistory.dart';
 
 class TopUpScreen extends StatefulWidget {
-
   const TopUpScreen({Key? key}) : super(key: key);
 
   @override
@@ -14,37 +13,37 @@ class TopUpScreen extends StatefulWidget {
 }
 
 class TopUpScreenState extends State<TopUpScreen> {
-
   Stream<QuerySnapshot>? topupHistoryQuery;
   static FirebaseFirestore fireStore = FirebaseFirestore.instance;
   final userId = MyAppState.currentUser!.userID;
 
-
-  void initState(){
+  void initState() {
     getPaymentSettingData();
   }
+
   getPaymentSettingData() async {
-    topupHistoryQuery =
-        fireStore.collection(Wallet).where('user_id', isEqualTo: userId)
-            .orderBy('date', descending: true)
-            .snapshots();
+    topupHistoryQuery = fireStore
+        .collection(Wallet)
+        .where('user_id', isEqualTo: userId)
+        .orderBy('date', descending: true)
+        .snapshots();
   }
-    @override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title : Text("TopUp History",style: TextStyle(color: Colors.black),),
+        title: Text(
+          "TopUp History",
+          style: TextStyle(color: Colors.black),
+        ),
         leading: GestureDetector(
           onTap: () {
-           Navigator.pop(context);
+            Navigator.pop(context);
           },
-          child: Icon(
-            Icons.arrow_back,
-            color:Colors.black
-          ),
+          child: Icon(Icons.arrow_back, color: Colors.black),
         ),
       ),
-
       body: Container(
         child: Padding(
           padding: const EdgeInsets.only(top: 8.0),
@@ -53,6 +52,7 @@ class TopUpScreenState extends State<TopUpScreen> {
       ),
     );
   }
+
   Widget showTopupHistory(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: topupHistoryQuery,
@@ -61,20 +61,22 @@ class TopUpScreenState extends State<TopUpScreen> {
           return Center(child: Text('Something went wrong'.tr()));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: SizedBox(height: 35, width: 35, child: CircularProgressIndicator()));
+          return Center(
+              child: SizedBox(
+                  height: 35, width: 35, child: CircularProgressIndicator()));
         }
         if (snapshot.data!.docs.isEmpty) {
           return Center(
               child: Text(
-                "No Transaction History".tr(),
-                style: TextStyle(fontSize: 18),
-              ));
+            "No Transaction History".tr(),
+            style: TextStyle(fontSize: 18),
+          ));
         } else {
           return ListView(
             physics: BouncingScrollPhysics(),
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
-
-              final topUpData = TopupTranHistoryModel.fromJson(document.data() as Map<String, dynamic>);
+              final topUpData = TopupTranHistoryModel.fromJson(
+                  document.data() as Map<String, dynamic>);
 
               //Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
               return buildTransactionCard(
@@ -87,6 +89,7 @@ class TopUpScreenState extends State<TopUpScreen> {
       },
     );
   }
+
   Widget buildTransactionCard({
     required TopupTranHistoryModel topupTranHistory,
     required DateTime date,
@@ -98,7 +101,8 @@ class TopUpScreenState extends State<TopUpScreen> {
         onTap: () => showTransactionDetails(topupTranHistory: topupTranHistory),
         child: Card(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 12),
             child: Row(
@@ -110,7 +114,8 @@ class TopUpScreenState extends State<TopUpScreen> {
                     color: Color(COLOR_PRIMARY).withOpacity(0.06),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Icon(Icons.account_balance_wallet_rounded, size: 28, color: Color(COLOR_PRIMARY)),
+                      child: Icon(Icons.account_balance_wallet_rounded,
+                          size: 28, color: Color(COLOR_PRIMARY)),
                     ),
                   ),
                 ),
@@ -126,7 +131,9 @@ class TopUpScreenState extends State<TopUpScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              topupTranHistory.isTopup ? "Wallet Topup".tr() : "Wallet Amount Deducted".tr(),
+                              topupTranHistory.isTopup
+                                  ? "Wallet Topup".tr()
+                                  : "Wallet Amount Deducted".tr(),
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
@@ -157,7 +164,9 @@ class TopUpScreenState extends State<TopUpScreen> {
                               "${topupTranHistory.isTopup ? "+" : "-"} ${amountShow(amount: topupTranHistory.amount.toString())}",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: topupTranHistory.isTopup ? Colors.green : Colors.red,
+                                color: topupTranHistory.isTopup
+                                    ? Colors.green
+                                    : Colors.red,
                                 fontSize: 18,
                               ),
                             ),
@@ -188,7 +197,9 @@ class TopUpScreenState extends State<TopUpScreen> {
     final size = MediaQuery.of(context).size;
     return showModalBottomSheet(
         elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15))),
         context: context,
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
@@ -214,11 +225,13 @@ class TopUpScreenState extends State<TopUpScreen> {
                       ),
                       child: Card(
                         elevation: 1.5,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 12),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -250,10 +263,12 @@ class TopUpScreenState extends State<TopUpScreen> {
                       ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 30),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 30),
                         child: Card(
                           elevation: 1.5,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -262,17 +277,22 @@ class TopUpScreenState extends State<TopUpScreen> {
                               children: [
                                 ClipOval(
                                   child: Container(
-                                    color: Color(COLOR_PRIMARY).withOpacity(0.05),
+                                    color:
+                                        Color(COLOR_PRIMARY).withOpacity(0.05),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Icon(Icons.account_balance_wallet_rounded, size: 28, color: Color(COLOR_PRIMARY)),
+                                      child: Icon(
+                                          Icons.account_balance_wallet_rounded,
+                                          size: 28,
+                                          color: Color(COLOR_PRIMARY)),
                                     ),
                                   ),
                                 ),
                                 SizedBox(
                                   width: size.width * 0.48,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "${DateFormat('KK:mm:ss a, dd MMM yyyy').format(topupTranHistory.date.toDate())}",
@@ -287,7 +307,9 @@ class TopUpScreenState extends State<TopUpScreen> {
                                       Opacity(
                                         opacity: 0.7,
                                         child: Text(
-                                          topupTranHistory.isTopup ? "Wallet Topup".tr() : "Wallet Amount Deducted".tr(),
+                                          topupTranHistory.isTopup
+                                              ? "Wallet Topup".tr()
+                                              : "Wallet Amount Deducted".tr(),
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
@@ -304,7 +326,9 @@ class TopUpScreenState extends State<TopUpScreen> {
                                       "${topupTranHistory.isTopup ? "+" : "-"} ${amountShow(amount: topupTranHistory.amount.toString())}",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: topupTranHistory.isTopup ? Colors.green : Colors.red,
+                                        color: topupTranHistory.isTopup
+                                            ? Colors.green
+                                            : Colors.red,
                                         fontSize: 18,
                                       ),
                                     ),
@@ -320,17 +344,21 @@ class TopUpScreenState extends State<TopUpScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Card(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         elevation: 2,
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25.0, vertical: 8),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Payment Details".tr(),
@@ -356,7 +384,9 @@ class TopUpScreenState extends State<TopUpScreen> {
                                           Visibility(
                                             visible: !topupTranHistory.isTopup,
                                             child: Text(
-                                              "  " + topupTranHistory.paymentMethod.toUpperCase(),
+                                              "  " +
+                                                  topupTranHistory.paymentMethod
+                                                      .toUpperCase(),
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 color: Color(COLOR_PRIMARY),
@@ -369,10 +399,12 @@ class TopUpScreenState extends State<TopUpScreen> {
                                     ],
                                   ),
                                   GestureDetector(
-                                    onTap: () {
-                                    },
+                                    onTap: () {},
                                     child: Text(
-                                      topupTranHistory.isTopup ? topupTranHistory.paymentMethod.toUpperCase() : "".tr().toUpperCase(),
+                                      topupTranHistory.isTopup
+                                          ? topupTranHistory.paymentMethod
+                                              .toUpperCase()
+                                          : "".tr().toUpperCase(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: Color(COLOR_PRIMARY),
@@ -390,9 +422,11 @@ class TopUpScreenState extends State<TopUpScreen> {
                             Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0, vertical: 8),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Date in UTC Format".tr(),

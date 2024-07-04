@@ -1,12 +1,10 @@
-
 class NotificationModel {
   String? subject;
   String? id;
   String? type;
   String? message;
 
-  NotificationModel(
-      { this.subject, this.id, this.type, this.message});
+  NotificationModel({this.subject, this.id, this.type, this.message});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     subject = json['subject'];

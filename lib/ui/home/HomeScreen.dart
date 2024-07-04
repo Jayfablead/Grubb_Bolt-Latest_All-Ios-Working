@@ -16,12 +16,9 @@ import 'package:foodie_driver/services/helper.dart';
 import 'package:foodie_driver/ui/chat_screen/chat_screen.dart';
 import 'package:foodie_driver/ui/home/pick_order.dart';
 import 'package:geolocator/geolocator.dart';
-
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 import '../../services/notification_service.dart';
@@ -131,7 +128,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _value.value =false;
+    _value.value = false;
     NotificationService notificationService = NotificationService();
     notificationService.requestNotificationPermission();
     notificationService.initLocalNotification();
@@ -1099,65 +1096,65 @@ class HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
-                          bottomNavigationBar:
-
-                          Obx(() => _value.value?Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 14.0, horizontal: 26),
-                            child: SizedBox(
-                              height: 45,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
+                          bottomNavigationBar: Obx(() => _value.value
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 14.0, horizontal: 26),
+                                  child: SizedBox(
+                                    height: 45,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+                                        backgroundColor: Color(COLOR_PRIMARY),
+                                      ),
+                                      child: Text(
+                                        "MARK ORDER DELIVER".tr(),
+                                        style: TextStyle(
+                                          letterSpacing: 0.5,
+                                          fontFamily: 'Poppinsm',
+                                        ),
+                                      ),
+                                      onPressed: () => completeOrder(),
                                     ),
                                   ),
-                                  backgroundColor: Color(COLOR_PRIMARY),
-                                ),
-                                child: Text(
-                                  "MARK ORDER DELIVER".tr(),
-                                  style: TextStyle(
-                                    letterSpacing: 0.5,
-                                    fontFamily: 'Poppinsm',
-                                  ),
-                                ),
-                                onPressed: () => completeOrder(),
-                              ),
-                            ),
-                          ):Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 14.0, horizontal: 26),
-                            child: SizedBox(
-                              height: 45,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 14.0, horizontal: 26),
+                                  child: SizedBox(
+                                    height: 45,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+                                        backgroundColor: Color(COLOR_PRIMARY),
+                                      ),
+                                      child: Text(
+                                        "MARK ORDER DELIVER".tr(),
+                                        style: TextStyle(
+                                          letterSpacing: 0.5,
+                                          fontFamily: 'Poppinsm',
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        final snackBar = SnackBar(
+                                          content: Text('Please Confirm Order'),
+                                        );
+
+                                        // Find the ScaffoldMessenger in the widget tree and use it to show a SnackBar.
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      },
                                     ),
                                   ),
-                                  backgroundColor: Color(COLOR_PRIMARY),
-                                ),
-                                child: Text(
-                                  "MARK ORDER DELIVER".tr(),
-                                  style: TextStyle(
-                                    letterSpacing: 0.5,
-                                    fontFamily: 'Poppinsm',
-                                  ),
-                                ),
-                                onPressed: (){
-                                  final snackBar = SnackBar(
-                                    content: Text('Please Confirm Order'),
-                                  );
-
-                                  // Find the ScaffoldMessenger in the widget tree and use it to show a SnackBar.
-                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                } ,
-                              ),
-                            ),
-                          )
-                          ),
+                                )),
                         ),
                       );
                     }

@@ -23,6 +23,7 @@ import 'package:foodie_driver/ui/wallet/walletScreen.dart';
 import 'package:foodie_driver/userPrefrence.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum DrawerSelection {
   Home,
@@ -92,7 +93,14 @@ class _ContainerScreen extends State<ContainerScreen> {
       if (value != null) {
         currencyModel = value;
       } else {
-        currencyModel = CurrencyModel(id: "", code: "USD", decimal: 2, isactive: true, name: "US Dollar", symbol: "\$", symbolatright: false);
+        currencyModel = CurrencyModel(
+            id: "",
+            code: "USD",
+            decimal: 2,
+            isactive: true,
+            name: "US Dollar",
+            symbol: "\$",
+            symbolatright: false);
       }
       setState(() {});
     });
@@ -127,14 +135,18 @@ class _ContainerScreen extends State<ContainerScreen> {
     PermissionStatus permissionStatus = await location.hasPermission();
     if (permissionStatus == PermissionStatus.granted) {
       location.enableBackgroundMode(enable: true);
-      location.changeSettings(accuracy: LocationAccuracy.navigation, distanceFilter: 3);
+      location.changeSettings(
+          accuracy: LocationAccuracy.navigation, distanceFilter: 3);
       location.onLocationChanged.listen((locationData) async {
         locationDataFinal = locationData;
-        await FireStoreUtils.getCurrentUser(MyAppState.currentUser!.userID).then((value) {
+        await FireStoreUtils.getCurrentUser(MyAppState.currentUser!.userID)
+            .then((value) {
           if (value != null) {
             User driverUserModel = value;
             if (driverUserModel.isActive == true) {
-              driverUserModel.location = UserLocation(latitude: locationData.latitude ?? 0.0, longitude: locationData.longitude ?? 0.0);
+              driverUserModel.location = UserLocation(
+                  latitude: locationData.latitude ?? 0.0,
+                  longitude: locationData.longitude ?? 0.0);
               driverUserModel.rotation = locationData.heading;
               FireStoreUtils.updateCurrentUser(driverUserModel);
             }
@@ -145,14 +157,18 @@ class _ContainerScreen extends State<ContainerScreen> {
       await location.requestPermission().then((permissionStatus) {
         if (permissionStatus == PermissionStatus.granted) {
           location.enableBackgroundMode(enable: true);
-          location.changeSettings(accuracy: LocationAccuracy.navigation, distanceFilter: 3);
+          location.changeSettings(
+              accuracy: LocationAccuracy.navigation, distanceFilter: 3);
           location.onLocationChanged.listen((locationData) async {
             locationDataFinal = locationData;
-            await FireStoreUtils.getCurrentUser(MyAppState.currentUser!.userID).then((value) {
+            await FireStoreUtils.getCurrentUser(MyAppState.currentUser!.userID)
+                .then((value) {
               if (value != null) {
                 User driverUserModel = value;
                 if (driverUserModel.isActive == true) {
-                  driverUserModel.location = UserLocation(latitude: locationData.latitude ?? 0.0, longitude: locationData.longitude ?? 0.0);
+                  driverUserModel.location = UserLocation(
+                      latitude: locationData.latitude ?? 0.0,
+                      longitude: locationData.longitude ?? 0.0);
                   driverUserModel.rotation = locationData.heading;
                   FireStoreUtils.updateCurrentUser(driverUserModel);
                 }
@@ -193,18 +209,22 @@ class _ContainerScreen extends State<ContainerScreen> {
           builder: (context, user, _) {
             return Scaffold(
               drawer: Drawer(
-                backgroundColor: isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
+                backgroundColor: isDarkMode(context)
+                    ? Color(DARK_VIEWBG_COLOR)
+                    : Colors.white,
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
                     Consumer<User>(builder: (context, user, _) {
-                      return DrawerHeader(
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.21,
                         margin: EdgeInsets.all(0.0),
                         padding: EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            displayCircleImage(user.profilePictureURL, 60, false),
+                            displayCircleImage(
+                                user.profilePictureURL, 60, false),
                             Padding(
                               padding: const EdgeInsets.only(top: 2.0),
                               child: Text(
@@ -217,30 +237,38 @@ class _ContainerScreen extends State<ContainerScreen> {
                               style: TextStyle(color: Colors.white),
                             ),
                             SwitchListTile(
-                              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                              visualDensity:
+                                  VisualDensity(horizontal: 0, vertical: -4),
                               contentPadding: EdgeInsets.zero,
                               title: Text(
-                                user.isActive ==true ?"Online" :"offline",
+                                user.isActive == true ? "Online" : "offline",
                                 style: TextStyle(color: Colors.white),
                               ),
-                              // thumb color (round icon)
                               value: user.isActive,
                               activeColor: Colors.white,
-                              onChanged: (value) {
+                              onChanged: (value) async {
                                 setState(() {
                                   user.isActive = value;
                                 });
-                                if(user.isActive == true){
-                                  updateCurrentLocation();
-                                }
 
-                                FireStoreUtils.updateCurrentUser(user);
+                                if (user.isActive) {
+                                  updateCurrentLocation();
+                                  bool isUserUpdated = await getUpdateFlag();
+                                  if (!isUserUpdated) {
+                                    print('Hum Binod');
+                                    FireStoreUtils.updateCurrentUser(user);
+                                    await setUpdateFlag(true);
+                                  } else {
+                                    print('Kutta Mara ?? ');
+                                  }
+                                } else {
+                                  print(
+                                      'Koi Puche To Hamara Naam Mat Lena Hamara Naam : Binod');
+                                }
                               },
                             ),
-
                           ],
                         ),
-
                         decoration: BoxDecoration(
                           color: Color(COLOR_PRIMARY),
                         ),
@@ -349,14 +377,16 @@ class _ContainerScreen extends State<ContainerScreen> {
                       style: ListTileStyle.drawer,
                       selectedColor: Color(COLOR_PRIMARY),
                       child: ListTile(
-                        selected: _drawerSelection == DrawerSelection.chooseLanguage,
+                        selected:
+                            _drawerSelection == DrawerSelection.chooseLanguage,
                         leading: Icon(
                           Icons.language,
-                          color: _drawerSelection == DrawerSelection.chooseLanguage
-                              ? Color(COLOR_PRIMARY)
-                              : isDarkMode(context)
-                                  ? Colors.grey.shade200
-                                  : Colors.grey.shade600,
+                          color:
+                              _drawerSelection == DrawerSelection.chooseLanguage
+                                  ? Color(COLOR_PRIMARY)
+                                  : isDarkMode(context)
+                                      ? Colors.grey.shade200
+                                      : Colors.grey.shade600,
                         ),
                         title: const Text('Language').tr(),
                         onTap: () {
@@ -397,7 +427,8 @@ class _ContainerScreen extends State<ContainerScreen> {
                       style: ListTileStyle.drawer,
                       selectedColor: Color(COLOR_PRIMARY),
                       child: ListTile(
-                        selected: _drawerSelection == DrawerSelection.termsCondition,
+                        selected:
+                            _drawerSelection == DrawerSelection.termsCondition,
                         leading: const Icon(Icons.policy),
                         title: const Text('Terms and Condition').tr(),
                         onTap: () async {
@@ -409,7 +440,8 @@ class _ContainerScreen extends State<ContainerScreen> {
                       style: ListTileStyle.drawer,
                       selectedColor: Color(COLOR_PRIMARY),
                       child: ListTile(
-                        selected: _drawerSelection == DrawerSelection.privacyPolicy,
+                        selected:
+                            _drawerSelection == DrawerSelection.privacyPolicy,
                         leading: const Icon(Icons.phone_android),
                         title: const Text('App Update').tr(),
                         onTap: () async {
@@ -432,6 +464,9 @@ class _ContainerScreen extends State<ContainerScreen> {
                           await FireStoreUtils.updateCurrentUser(user);
                           await auth.FirebaseAuth.instance.signOut();
                           MyAppState.currentUser = null;
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.remove('isUserUpdated');
                           pushAndRemoveUntil(context, AuthScreen(), false);
                         },
                       ),
@@ -443,8 +478,11 @@ class _ContainerScreen extends State<ContainerScreen> {
                 iconTheme: IconThemeData(
                   color: isDarkMode(context) ? Colors.white : Colors.black,
                 ),
-                centerTitle: _drawerSelection == DrawerSelection.Wallet ? true : false,
-                backgroundColor: isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
+                centerTitle:
+                    _drawerSelection == DrawerSelection.Wallet ? true : false,
+                backgroundColor: isDarkMode(context)
+                    ? Color(DARK_VIEWBG_COLOR)
+                    : Colors.white,
                 title: Text(
                   _appBarTitle,
                   style: TextStyle(
@@ -458,5 +496,15 @@ class _ContainerScreen extends State<ContainerScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> setUpdateFlag(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isUserUpdated', value);
+  }
+
+  Future<bool> getUpdateFlag() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isUserUpdated') ?? false;
   }
 }

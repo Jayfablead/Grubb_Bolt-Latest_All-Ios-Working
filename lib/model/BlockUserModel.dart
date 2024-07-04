@@ -9,7 +9,8 @@ class BlockUserModel {
 
   String type;
 
-  BlockUserModel({createdAt, this.dest = '', this.source = '', this.type = ''}) : this.createdAt = createdAt ?? Timestamp.now();
+  BlockUserModel({createdAt, this.dest = '', this.source = '', this.type = ''})
+      : this.createdAt = createdAt ?? Timestamp.now();
 
   factory BlockUserModel.fromJson(Map<String, dynamic> parsedJson) {
     return BlockUserModel(
@@ -20,6 +21,11 @@ class BlockUserModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {'createdAt': this.createdAt, 'dest': this.dest, 'source': this.source, 'type': this.type};
+    return {
+      'createdAt': this.createdAt,
+      'dest': this.dest,
+      'source': this.source,
+      'type': this.type
+    };
   }
 }

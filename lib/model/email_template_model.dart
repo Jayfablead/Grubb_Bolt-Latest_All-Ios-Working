@@ -1,4 +1,3 @@
-
 class EmailTemplateModel {
   String? id;
   String? type;
@@ -6,9 +5,8 @@ class EmailTemplateModel {
   String? subject;
   bool? isSendToAdmin;
 
-
   EmailTemplateModel(
-      { this.subject, this.id, this.type, this.message,this.isSendToAdmin});
+      {this.subject, this.id, this.type, this.message, this.isSendToAdmin});
 
   EmailTemplateModel.fromJson(Map<String, dynamic> json) {
     subject = json['subject'];

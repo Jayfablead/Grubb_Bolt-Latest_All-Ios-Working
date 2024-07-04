@@ -19,7 +19,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: isDarkMode(context) ? Colors.white : Colors.black),
+        iconTheme: IconThemeData(
+            color: isDarkMode(context) ? Colors.white : Colors.black),
         elevation: 0.0,
       ),
       body: Form(
@@ -31,17 +32,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
+                  padding:
+                      const EdgeInsets.only(top: 32.0, right: 16.0, left: 16.0),
                   child: Text(
                     'Reset Password',
-                    style: TextStyle(color: Color(COLOR_PRIMARY), fontSize: 25.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Color(COLOR_PRIMARY),
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold),
                   ).tr(),
                 ),
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(minWidth: double.infinity),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
+                  padding:
+                      const EdgeInsets.only(top: 32.0, right: 24.0, left: 24.0),
                   child: TextFormField(
                     textAlignVertical: TextAlignVertical.center,
                     textInputAction: TextInputAction.done,
@@ -56,14 +62,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       hintText: 'E-mail'.tr(),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(color: Color(COLOR_PRIMARY), width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(COLOR_PRIMARY), width: 2.0),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).errorColor),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).errorColor),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).errorColor),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).errorColor),
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -75,7 +84,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
+                padding:
+                    const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: ElevatedButton(
@@ -95,7 +105,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode(context) ? Colors.black : Colors.white,
+                        color:
+                            isDarkMode(context) ? Colors.black : Colors.white,
                       ),
                     ),
                   ),
@@ -112,7 +123,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     if (_key.currentState?.validate() ?? false) {
       _key.currentState!.save();
       showProgress(context, 'Sending Email...'.tr(), false);
-      await auth.FirebaseAuth.instance.sendPasswordResetEmail(email: _emailAddress);
+      await auth.FirebaseAuth.instance
+          .sendPasswordResetEmail(email: _emailAddress);
       hideProgress();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

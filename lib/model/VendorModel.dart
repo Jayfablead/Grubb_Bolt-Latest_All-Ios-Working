@@ -64,38 +64,38 @@ class VendorModel {
 
   VendorModel(
       {this.author = '',
-        this.hidephotos = false,
-        this.authorName = '',
-        this.authorProfilePic = '',
-        this.categoryID = '',
-        this.categoryPhoto = '',
-        this.categoryTitle = '',
-        this.createdAt,
-        this.filters = const {},
-        this.description = '',
-        this.phonenumber = '',
-        this.fcmToken = '',
-        this.id = '',
-        this.latitude = 0.1,
-        this.longitude = 0.1,
-        this.photo = '',
-        this.photos = const [],
-        this.restaurantMenuPhotos = const [],
-        this.specialDiscount = const [],
-        this.workingHours = const [],
-        this.specialDiscountEnable = false,
-        this.location = '',
-        this.reviewsCount = 0,
-        this.reviewsSum = 0,
-        this.restaurantCost = 0,
-        this.closetime = '',
-        this.opentime = '',
-        this.closeDineTime = '',
-        this.openDineTime = '',
-        this.title = '',
-        this.reststatus = false,
-        geoFireData,
-        deliveryCharge})
+      this.hidephotos = false,
+      this.authorName = '',
+      this.authorProfilePic = '',
+      this.categoryID = '',
+      this.categoryPhoto = '',
+      this.categoryTitle = '',
+      this.createdAt,
+      this.filters = const {},
+      this.description = '',
+      this.phonenumber = '',
+      this.fcmToken = '',
+      this.id = '',
+      this.latitude = 0.1,
+      this.longitude = 0.1,
+      this.photo = '',
+      this.photos = const [],
+      this.restaurantMenuPhotos = const [],
+      this.specialDiscount = const [],
+      this.workingHours = const [],
+      this.specialDiscountEnable = false,
+      this.location = '',
+      this.reviewsCount = 0,
+      this.reviewsSum = 0,
+      this.restaurantCost = 0,
+      this.closetime = '',
+      this.opentime = '',
+      this.closeDineTime = '',
+      this.openDineTime = '',
+      this.title = '',
+      this.reststatus = false,
+      geoFireData,
+      deliveryCharge})
       : this.deliveryCharge = deliveryCharge ?? null,
         this.geoFireData = geoFireData ??
             GeoFireData(
@@ -106,7 +106,8 @@ class VendorModel {
   factory VendorModel.fromJson(Map<String, dynamic> parsedJson) {
     num restCost = 0;
     if (parsedJson.containsKey("restaurantCost")) {
-      if (parsedJson['restaurantCost'] == null || parsedJson['restaurantCost'].toString().isEmpty) {
+      if (parsedJson['restaurantCost'] == null ||
+          parsedJson['restaurantCost'].toString().isEmpty) {
         restCost = 0;
       } else if (parsedJson['restaurantCost'] is String) {
         restCost = num.parse(parsedJson['restaurantCost']);
@@ -114,13 +115,19 @@ class VendorModel {
         restCost = parsedJson['restaurantCost'];
       }
     }
-    List<SpecialDiscountModel> specialDiscount = parsedJson.containsKey('specialDiscount')
-        ? List<SpecialDiscountModel>.from((parsedJson['specialDiscount'] as List<dynamic>).map((e) => SpecialDiscountModel.fromJson(e))).toList()
-        : [].cast<SpecialDiscountModel>();
+    List<SpecialDiscountModel> specialDiscount =
+        parsedJson.containsKey('specialDiscount')
+            ? List<SpecialDiscountModel>.from(
+                (parsedJson['specialDiscount'] as List<dynamic>)
+                    .map((e) => SpecialDiscountModel.fromJson(e))).toList()
+            : [].cast<SpecialDiscountModel>();
 
-    List<WorkingHoursModel> workingHours = parsedJson.containsKey('workingHours')
-        ? List<WorkingHoursModel>.from((parsedJson['workingHours'] as List<dynamic>).map((e) => WorkingHoursModel.fromJson(e))).toList()
-        : [].cast<WorkingHoursModel>();
+    List<WorkingHoursModel> workingHours =
+        parsedJson.containsKey('workingHours')
+            ? List<WorkingHoursModel>.from(
+                (parsedJson['workingHours'] as List<dynamic>)
+                    .map((e) => WorkingHoursModel.fromJson(e))).toList()
+            : [].cast<WorkingHoursModel>();
     return new VendorModel(
         author: parsedJson['author'] ?? '',
         hidephotos: parsedJson['hidephotos'] ?? false,
@@ -130,7 +137,10 @@ class VendorModel {
         categoryPhoto: parsedJson['categoryPhoto'] ?? '',
         categoryTitle: parsedJson['categoryTitle'] ?? '',
         createdAt: parsedJson['createdAt'],
-        deliveryCharge: (parsedJson.containsKey('DeliveryCharge') && parsedJson['DeliveryCharge'] != null) ? DeliveryChargeModel.fromJson(parsedJson['DeliveryCharge']) : null,
+        deliveryCharge: (parsedJson.containsKey('DeliveryCharge') &&
+                parsedJson['DeliveryCharge'] != null)
+            ? DeliveryChargeModel.fromJson(parsedJson['DeliveryCharge'])
+            : null,
         description: parsedJson['description'] ?? '',
         phonenumber: parsedJson['phonenumber'] ?? '',
         filters: parsedJson['filters'] ?? {},
@@ -139,9 +149,9 @@ class VendorModel {
         geoFireData: parsedJson.containsKey('g')
             ? GeoFireData.fromJson(parsedJson['g'])
             : GeoFireData(
-          geohash: "",
-          geoPoint: GeoPoint(0.0, 0.0),
-        ),
+                geohash: "",
+                geoPoint: GeoPoint(0.0, 0.0),
+              ),
         latitude: getDoubleVal(parsedJson['latitude']),
         longitude: getDoubleVal(parsedJson['longitude']),
         photo: parsedJson['photo'] ?? placeholderImage,
@@ -172,7 +182,7 @@ class VendorModel {
       'categoryID': this.categoryID,
       'categoryPhoto': this.categoryPhoto,
       'categoryTitle': this.categoryTitle,
-      'createdAt':  this.createdAt,
+      'createdAt': this.createdAt,
       'description': this.description,
       'phonenumber': this.phonenumber,
       'filters': this.filters,

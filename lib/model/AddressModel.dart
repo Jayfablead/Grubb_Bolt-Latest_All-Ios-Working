@@ -26,7 +26,8 @@ class AddressModel {
       location,
       this.name = '',
       this.postalCode = ''})
-      : this.location = location ?? UserLocation(longitude: 0.01, latitude: 0.01);
+      : this.location =
+            location ?? UserLocation(longitude: 0.01, latitude: 0.01);
 
   factory AddressModel.fromJson(Map<String, dynamic> parsedJson) {
     return AddressModel(
@@ -35,7 +36,9 @@ class AddressModel {
       email: parsedJson['email'] ?? '',
       line1: parsedJson['line1'] ?? '',
       line2: parsedJson['line2'] ?? '',
-      location: parsedJson.containsKey('location') ? UserLocation.fromJson(parsedJson['location']) : UserLocation(),
+      location: parsedJson.containsKey('location')
+          ? UserLocation.fromJson(parsedJson['location'])
+          : UserLocation(),
       name: parsedJson['name'] ?? '',
       postalCode: parsedJson['postalCode'] ?? '',
     );

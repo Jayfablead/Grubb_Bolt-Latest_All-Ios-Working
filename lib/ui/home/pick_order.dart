@@ -51,9 +51,15 @@ class _PickOrderState extends State<PickOrder> {
                   borderRadius: BorderRadius.circular(2),
                   border: Border.all(color: Colors.grey.shade100, width: 0.1),
                   boxShadow: [
-                    BoxShadow(color: Colors.grey.shade200, blurRadius: 2.0, spreadRadius: 0.4, offset: Offset(0.2, 0.2)),
+                    BoxShadow(
+                        color: Colors.grey.shade200,
+                        blurRadius: 2.0,
+                        spreadRadius: 0.4,
+                        offset: Offset(0.2, 0.2)),
                   ],
-                  color: isDarkMode(context) ? Color(DARK_CARD_BG_COLOR) : Colors.white),
+                  color: isDarkMode(context)
+                      ? Color(DARK_CARD_BG_COLOR)
+                      : Colors.white),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -95,10 +101,13 @@ class _PickOrderState extends State<PickOrder> {
                             child: CachedNetworkImage(
                                 height: 55,
                                 // width: 50,
-                                imageUrl: '${widget.currentOrder!.products[index].photo}',
-                                imageBuilder: (context, imageProvider) => Container(
+                                imageUrl:
+                                    '${widget.currentOrder!.products[index].photo}',
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           image: DecorationImage(
                                             image: imageProvider,
                                             fit: BoxFit.cover,
@@ -111,14 +120,17 @@ class _PickOrderState extends State<PickOrder> {
                               padding: const EdgeInsets.only(left: 14.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     '${widget.currentOrder!.products[index].name}',
                                     style: TextStyle(
                                         fontFamily: 'Poppinsr',
                                         letterSpacing: 0.5,
-                                        color: isDarkMode(context) ? Color(0xffFFFFFF) : Color(0xff333333)),
+                                        color: isDarkMode(context)
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff333333)),
                                   ),
                                   SizedBox(height: 5),
                                   Row(
@@ -128,7 +140,8 @@ class _PickOrderState extends State<PickOrder> {
                                         size: 15,
                                         color: Color(COLOR_PRIMARY),
                                       ),
-                                      Text('${widget.currentOrder!.products[index].quantity}',
+                                      Text(
+                                          '${widget.currentOrder!.products[index].quantity}',
                                           style: TextStyle(
                                             fontFamily: 'Poppinsm',
                                             fontSize: 17,
@@ -158,7 +171,9 @@ class _PickOrderState extends State<PickOrder> {
                   //       spreadRadius: 1.2,
                   //       offset: Offset(0.2, 0.2)),
                   // ],
-                  color: isDarkMode(context) ? Color(DARK_CARD_BG_COLOR) : Colors.white),
+                  color: isDarkMode(context)
+                      ? Color(DARK_CARD_BG_COLOR)
+                      : Colors.white),
               child: ListTile(
                 onTap: () {
                   setState(() {
@@ -180,7 +195,7 @@ class _PickOrderState extends State<PickOrder> {
                 title: Text(
                   "Confirm Items".tr(),
                   style: TextStyle(
-                    color:Color(0xff3DAE7D),
+                    color: Color(0xff3DAE7D),
                     fontFamily: 'Poppinsm',
                   ),
                 ),
@@ -192,9 +207,15 @@ class _PickOrderState extends State<PickOrder> {
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(color: Colors.grey, width: 0.1),
                   boxShadow: [
-                    BoxShadow(color: Colors.grey.shade200, blurRadius: 2.0, spreadRadius: 0.4, offset: Offset(0.2, 0.2)),
+                    BoxShadow(
+                        color: Colors.grey.shade200,
+                        blurRadius: 2.0,
+                        spreadRadius: 0.4,
+                        offset: Offset(0.2, 0.2)),
                   ],
-                  color: isDarkMode(context) ? Color(DARK_CARD_BG_COLOR) : Colors.white),
+                  color: isDarkMode(context)
+                      ? Color(DARK_CARD_BG_COLOR)
+                      : Colors.white),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -203,7 +224,9 @@ class _PickOrderState extends State<PickOrder> {
                     child: Text(
                       "DELIVER".tr(),
                       style: TextStyle(
-                        color: isDarkMode(context) ? Colors.white : Color(0xff9091A4),
+                        color: isDarkMode(context)
+                            ? Colors.white
+                            : Color(0xff9091A4),
                         fontFamily: "Poppinsr",
                       ),
                     ),
@@ -212,7 +235,9 @@ class _PickOrderState extends State<PickOrder> {
                     title: Text(
                       '${widget.currentOrder!.author.shippingAddress.name}',
                       style: TextStyle(
-                        color: isDarkMode(context) ? Colors.white : Color(0xff333333),
+                        color: isDarkMode(context)
+                            ? Colors.white
+                            : Color(0xff333333),
                         fontFamily: "Poppinsm",
                       ),
                     ),
@@ -223,7 +248,9 @@ class _PickOrderState extends State<PickOrder> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: isDarkMode(context) ? Colors.white : Color(0xff9091A4),
+                        color: isDarkMode(context)
+                            ? Colors.white
+                            : Color(0xff9091A4),
                         fontFamily: "Poppinsr",
                       ),
                     ),
@@ -245,7 +272,9 @@ class _PickOrderState extends State<PickOrder> {
                   Radius.circular(8),
                 ),
               ),
-              backgroundColor: _value ? Color(COLOR_PRIMARY) : Color(COLOR_PRIMARY).withOpacity(0.5),
+              backgroundColor: _value
+                  ? Color(COLOR_PRIMARY)
+                  : Color(COLOR_PRIMARY).withOpacity(0.5),
             ),
             child: Text(
               "PICKED ORDER".tr(),

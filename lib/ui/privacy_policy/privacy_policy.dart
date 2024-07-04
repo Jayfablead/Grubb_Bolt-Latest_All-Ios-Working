@@ -58,18 +58,12 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:foodie_driver/constants.dart';
-import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:package_info/package_info.dart';
-
 import 'package:path_provider/path_provider.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({Key? key}) : super(key: key);
@@ -130,7 +124,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
 
       // Listen for data received and write to file
       streamedResponse.stream.listen(
-            (List<int> data) {
+        (List<int> data) {
           sink.add(data);
           downloadedBytes += data.length;
 
@@ -148,7 +142,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             progress: progress * 100,
             // Progress should be in percentage (0 to 100)
             message:
-            'Downloading... \n${(progress * 100).toStringAsFixed(2)}%\n${downloadedMB.toStringAsFixed(2)} MB / ${totalMB.toStringAsFixed(2)} MB ', // Update progress message
+                'Downloading... \n${(progress * 100).toStringAsFixed(2)}%\n${downloadedMB.toStringAsFixed(2)} MB / ${totalMB.toStringAsFixed(2)} MB ', // Update progress message
           );
         },
         onDone: () {
@@ -200,7 +194,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
 
     // Generate random filename
     String randomChars = String.fromCharCodes(Iterable.generate(length,
-            (_) => allowedChars.codeUnitAt(Random().nextInt(allowedChars.length))));
+        (_) => allowedChars.codeUnitAt(Random().nextInt(allowedChars.length))));
 
     // Combine random characters and file extension
     return 'Grubb Driver_${randomChars}.apk';
@@ -275,68 +269,70 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 300,),
+            SizedBox(
+              height: 300,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 version == currentVersion ||
+                        version == '' ||
+                        version == null ||
+                        currentVersion == '' ||
+                        currentVersion == null
+                    ? Text(
+                        "UpDate App Available",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Poppinsm",
+                            fontSize: 17),
+                      )
+                    : InkWell(
+                        onTap: () async {
+                          print("Abc");
+                          await downloadFileWithProgress(link, context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.deepOrange),
+                          child: Text(
+                            "UpDate App Now",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Poppinsm",
+                                fontSize: 17),
+                          ),
+                        ),
+                      ),
+              ],
+            ),
+            version == currentVersion ||
                     version == '' ||
                     version == null ||
                     currentVersion == '' ||
                     currentVersion == null
-                    ?  Text(
-                  "UpDate App Available",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Poppinsm",
-                      fontSize: 17),
-                )
-                    : InkWell(
-                  onTap: () async {
-                    print("Abc");
-                    await downloadFileWithProgress(link, context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.deepOrange),
+                ? Container()
+                : SizedBox(height: 10),
+            version == currentVersion ||
+                    version == '' ||
+                    version == null ||
+                    currentVersion == '' ||
+                    currentVersion == null
+                ? Container()
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      "UpDate App Now",
+                      textAlign: TextAlign.center,
+                      "*Note* New App Update is Available Please Update to Latest Version",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "Poppinsm",
-                          fontSize: 17),
+                          color: Colors.white70,
+                          fontFamily: "Poppinsl",
+                          fontSize: 13),
                     ),
                   ),
-                ),
-              ],
-            ),
-            version == currentVersion ||
-                version == '' ||
-                version == null ||
-                currentVersion == '' ||
-                currentVersion == null
-                ? Container()
-                :  SizedBox(height: 10),
-            version == currentVersion ||
-                version == '' ||
-                version == null ||
-                currentVersion == '' ||
-                currentVersion == null
-                ? Container()
-                :  Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 10),
-              child: Text(textAlign: TextAlign.center,
-                "*Note* New App Update is Available Please Update to Latest Version",
-                style: TextStyle(
-                    color: Colors.white70,
-                    fontFamily: "Poppinsl",
-                    fontSize: 13),
-
-              ),
-            ),
 
             // SizedBox(
             //   height: 15,

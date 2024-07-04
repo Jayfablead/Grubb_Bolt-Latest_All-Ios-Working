@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:foodie_driver/constants.dart';
 import 'package:foodie_driver/main.dart';
 import 'package:foodie_driver/model/User.dart';
@@ -15,7 +14,7 @@ import 'package:foodie_driver/ui/accountDetails/AccountDetailsScreen.dart';
 import 'package:foodie_driver/ui/auth/AuthScreen.dart';
 import 'package:foodie_driver/ui/contactUs/ContactUsScreen.dart';
 import 'package:foodie_driver/ui/reauthScreen/reauth_user_screen.dart';
-import 'package:foodie_driver/ui/settings/SettingsScreen.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   final User user;
@@ -39,7 +38,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
+      backgroundColor:
+          isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           Padding(
@@ -52,7 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Stack(
                     alignment: Alignment.bottomCenter,
                     children: <Widget>[
-                      Center(child: displayCircleImage(user.profilePictureURL, 130, false)),
+                      Center(
+                          child: displayCircleImage(
+                              user.profilePictureURL, 130, false)),
                       Positioned.directional(
                         textDirection: Directionality.of(context),
                         start: 80,
@@ -62,7 +64,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             backgroundColor: Color(COLOR_PRIMARY),
                             child: Icon(
                               Icons.camera_alt,
-                              color: isDarkMode(context) ? Colors.black : Colors.white,
+                              color: isDarkMode(context)
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                             mini: true,
                             onPressed: () => _onCameraClick(true)),
@@ -72,7 +76,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Stack(
                     alignment: Alignment.bottomCenter,
                     children: <Widget>[
-                      Center(child: displayCarImage(user.carPictureURL, 130, false)),
+                      Center(
+                          child:
+                              displayCarImage(user.carPictureURL, 130, false)),
                       Positioned.directional(
                         textDirection: Directionality.of(context),
                         start: 80,
@@ -82,7 +88,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             backgroundColor: Color(COLOR_PRIMARY),
                             child: Icon(
                               Icons.camera_alt,
-                              color: isDarkMode(context) ? Colors.black : Colors.white,
+                              color: isDarkMode(context)
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                             mini: true,
                             onPressed: () => _onCameraClick(false)),
@@ -97,7 +105,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.only(top: 16.0, right: 32, left: 32),
             child: Text(
               user.fullName(),
-              style: TextStyle(color: isDarkMode(context) ? Colors.white : Colors.black, fontSize: 20),
+              style: TextStyle(
+                  color: isDarkMode(context) ? Colors.white : Colors.black,
+                  fontSize: 20),
               textAlign: TextAlign.center,
             ),
           ),
@@ -150,7 +160,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ListTile(
                   onTap: () async {
                     AuthProviders? authProvider;
-                    List<auth.UserInfo> userInfoList = auth.FirebaseAuth.instance.currentUser?.providerData ?? [];
+                    List<auth.UserInfo> userInfoList =
+                        auth.FirebaseAuth.instance.currentUser?.providerData ??
+                            [];
                     await Future.forEach(userInfoList, (auth.UserInfo info) {
                       switch (info.providerId) {
                         case 'password':
@@ -172,12 +184,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context) => ReAuthUserScreen(
                         provider: authProvider!,
                         email: auth.FirebaseAuth.instance.currentUser!.email,
-                        phoneNumber: auth.FirebaseAuth.instance.currentUser!.phoneNumber,
+                        phoneNumber:
+                            auth.FirebaseAuth.instance.currentUser!.phoneNumber,
                         deleteUser: true,
                       ),
                     );
                     if (result != null && result) {
-                      await showProgress(context, 'Deleting account...'.tr(), false);
+                      await showProgress(
+                          context, 'Deleting account...'.tr(), false);
                       await FireStoreUtils.deleteUser();
                       await hideProgress();
                       MyAppState.currentUser = null;
@@ -206,12 +220,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.only(top: 12, bottom: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                    side: BorderSide(color: isDarkMode(context) ? Colors.grey.shade700 : Colors.grey.shade200),
+                    side: BorderSide(
+                        color: isDarkMode(context)
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade200),
                   ),
                 ),
                 child: Text(
                   'Logout',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDarkMode(context) ? Colors.white : Colors.black),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkMode(context) ? Colors.white : Colors.black),
                 ).tr(),
                 onPressed: () async {
                   user.isActive = false;
@@ -253,7 +273,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Text('Choose image from gallery').tr(),
           onPressed: () async {
             Navigator.pop(context);
-            XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
+            XFile? image =
+                await _imagePicker.pickImage(source: ImageSource.gallery);
             if (image != null) {
               await _imagePicked(File(image.path), isUserImage);
             }
@@ -264,7 +285,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Text('Take a picture').tr(),
           onPressed: () async {
             Navigator.pop(context);
-            XFile? image = await _imagePicker.pickImage(source: ImageSource.camera);
+            XFile? image =
+                await _imagePicker.pickImage(source: ImageSource.camera);
             if (image != null) {
               await _imagePicked(File(image.path), isUserImage);
             }
@@ -283,11 +305,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _imagePicked(File image, bool isUserImage) async {
-    showProgress(context, isUserImage ? 'Uploading image...'.tr() : 'Uploading car image...'.tr(), false);
+    showProgress(
+        context,
+        isUserImage ? 'Uploading image...'.tr() : 'Uploading car image...'.tr(),
+        false);
     if (isUserImage)
-      user.profilePictureURL = await FireStoreUtils.uploadUserImageToFireStorage(image, user.userID);
+      user.profilePictureURL =
+          await FireStoreUtils.uploadUserImageToFireStorage(image, user.userID);
     else
-      user.carPictureURL = await FireStoreUtils.uploadCarImageToFireStorage(image, user.userID);
+      user.carPictureURL =
+          await FireStoreUtils.uploadCarImageToFireStorage(image, user.userID);
     await FireStoreUtils.updateCurrentUser(user);
     MyAppState.currentUser = user;
     setState(() {});

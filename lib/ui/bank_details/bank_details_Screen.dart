@@ -27,7 +27,8 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
+        backgroundColor:
+            isDarkMode(context) ? Color(DARK_VIEWBG_COLOR) : Colors.white,
         body: isBankDetailsAdded ? showBankDetails() : addBankDetail(context));
   }
 
@@ -95,7 +96,8 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
             )));
     print("--->" + result.toString());
     if (result) {
-      User? user = await FireStoreUtils.getCurrentUser(MyAppState.currentUser!.userID);
+      User? user =
+          await FireStoreUtils.getCurrentUser(MyAppState.currentUser!.userID);
       setState(() {
         MyAppState.currentUser = user;
         userBankDetails = MyAppState.currentUser!.userBankDetails;
@@ -116,7 +118,8 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 30.0, horizontal: 0),
               child: Image.asset(
                 "assets/images/add_bank_image.png",
                 height: size.height * 0.48,
@@ -148,7 +151,8 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
     );
   }
 
-  buildDetails({required String title, required IconData icon, required String value}) {
+  buildDetails(
+      {required String title, required IconData icon, required String value}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

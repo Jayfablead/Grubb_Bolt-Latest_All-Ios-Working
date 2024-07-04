@@ -38,7 +38,8 @@ const newOrderPlaced = "new_order_placed";
 const SECOND_MILLIS = 1000;
 const MINUTE_MILLIS = 60 * SECOND_MILLIS;
 const HOUR_MILLIS = 60 * MINUTE_MILLIS;
-const SERVER_KEY = 'AAAAIwpRrj8:APA91bEhuNv9PEcdmAG6aS1XbdG9sdud4MTbREky_BnrpFpT9l12r4fCRFgqT2fDcuKOPI6-DgMiU7wTc1pPheAvwPY0LftXhsDsslX4DVWn5Vk_1p16dlchetUFuKagRnEkQlQKwRsu';
+const SERVER_KEY =
+    'AAAAIwpRrj8:APA91bEhuNv9PEcdmAG6aS1XbdG9sdud4MTbREky_BnrpFpT9l12r4fCRFgqT2fDcuKOPI6-DgMiU7wTc1pPheAvwPY0LftXhsDsslX4DVWn5Vk_1p16dlchetUFuKagRnEkQlQKwRsu';
 String GOOGLE_API_KEY = 'AIzaSyDX2aEkrEXqRDGS9BLfICMpDXGvYgEIcew';
 
 bool isRazorPayEnabled = false;
@@ -46,7 +47,8 @@ bool isRazorPaySandboxEnabled = false;
 String razorpayKey = "";
 String razorpaySecret = "";
 
-String placeholderImage = 'https://firebasestorage.googleapis.com/v0/b/grubb-ba0e4.appspot.com/o/app_logo%20copy.png?alt=media&token=64b5554c-9ad3-472f-8b15-fc110484d545';
+String placeholderImage =
+    'https://firebasestorage.googleapis.com/v0/b/grubb-ba0e4.appspot.com/o/app_logo%20copy.png?alt=media&token=64b5554c-9ad3-472f-8b15-fc110484d545';
 
 // const GlobalURL = "http://13.233.108.89/admin_panel/";
 const GlobalURL = "https://grubb.co.in/admin_panel/";
@@ -57,13 +59,15 @@ const ORDER_STATUS_REJECTED = 'Order Rejected';
 const ORDER_STATUS_DRIVER_PENDING = 'Driver Pending';
 const ORDER_STATUS_DRIVER_ACCEPTED = 'Driver Accepted';
 const ORDER_STATUS_DRIVER_REJECTED = 'Driver Rejected';
-const ORDER_STATUS_SHIPPED = 'Assign Driver';
+const ORDER_STATUS_SHIPPED = 'Order Shipped';
+const ORDER_STATUS_ASSIGN = 'Assign Driver';
 const ORDER_STATUS_IN_TRANSIT = 'In Transit';
 const ORDER_STATUS_COMPLETED = 'Order Completed';
 
 const USER_ROLE_DRIVER = 'driver';
 
-const DEFAULT_CAR_IMAGE = 'https://firebasestorage.googleapis.com/v0/b/grubb-ba0e4.appspot.com/o/place.png?alt=media&token=f790bd03-4182-4b85-bc7f-fe4d8e2d09d7';
+const DEFAULT_CAR_IMAGE =
+    'https://firebasestorage.googleapis.com/v0/b/grubb-ba0e4.appspot.com/o/place.png?alt=media&token=f790bd03-4182-4b85-bc7f-fe4d8e2d09d7';
 
 const scheduleOrder = "schedule_order";
 const dineInPlaced = "dinein_placed";
@@ -98,7 +102,9 @@ double calculateTax({String? amount, TaxModel? taxModel}) {
     if (taxModel.type == "fix") {
       taxAmount = double.parse(taxModel.tax.toString());
     } else {
-      taxAmount = (double.parse(amount.toString()) * double.parse(taxModel.tax!.toString())) / 100;
+      taxAmount = (double.parse(amount.toString()) *
+              double.parse(taxModel.tax!.toString())) /
+          100;
     }
   }
   return taxAmount;
@@ -125,15 +131,25 @@ MailSettings? mailSettings;
 // String password = "8#bb\$1)E@#f3";
 
 final smtpServer = SmtpServer(mailSettings!.host.toString(),
-    username: mailSettings!.userName.toString(), password: mailSettings!.password.toString(), port: 465, ignoreBadCertificate: false, ssl: true, allowInsecure: true);
+    username: mailSettings!.userName.toString(),
+    password: mailSettings!.password.toString(),
+    port: 465,
+    ignoreBadCertificate: false,
+    ssl: true,
+    allowInsecure: true);
 
-sendMail({String? subject, String? body, bool? isAdmin = false, List<dynamic>? recipients}) async {
+sendMail(
+    {String? subject,
+    String? body,
+    bool? isAdmin = false,
+    List<dynamic>? recipients}) async {
   // Create our message.
   if (isAdmin == true) {
     recipients!.add(mailSettings!.userName.toString());
   }
   final message = Message()
-    ..from = Address(mailSettings!.userName.toString(), mailSettings!.fromName.toString())
+    ..from = Address(
+        mailSettings!.userName.toString(), mailSettings!.fromName.toString())
     ..recipients = recipients!
     ..subject = subject
     ..text = body

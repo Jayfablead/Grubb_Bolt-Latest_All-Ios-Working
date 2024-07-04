@@ -10,13 +10,13 @@ class MailSettings {
 
   MailSettings(
       {this.emailSetting,
-        this.fromName,
-        this.host,
-        this.mailEncryptionType,
-        this.mailMethod,
-        this.password,
-        this.port,
-        this.userName});
+      this.fromName,
+      this.host,
+      this.mailEncryptionType,
+      this.mailMethod,
+      this.password,
+      this.port,
+      this.userName});
 
   MailSettings.fromJson(Map<String, dynamic> json) {
     emailSetting = json['emailSetting'];

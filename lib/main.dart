@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -8,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodie_driver/constants.dart';
 import 'package:foodie_driver/model/mail_setting.dart';
 import 'package:foodie_driver/services/FirebaseHelper.dart';
@@ -29,7 +26,6 @@ NotificationService notificationService = NotificationService();
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   notificationService.showNotification(message);
-
 }
 
 void main() async {
@@ -37,8 +33,8 @@ void main() async {
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
 
- // String token = await NotificationService.getToken();
- // log(":::::::TOKEN:::::: $token");
+  // String token = await NotificationService.getToken();
+  // log(":::::::TOKEN:::::: $token");
   // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
   //   alert: true,
   //   badge: true,
@@ -55,12 +51,16 @@ void main() async {
   //   sound: true,
   // );
 
-
-
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await UserPreference.init();
   runApp(
-    EasyLocalization(supportedLocales: [Locale('en'), Locale('ar')], path: 'assets/translations', fallbackLocale: Locale('en'), useOnlyLangCode: true, useFallbackTranslations: true, child: MyApp()),
+    EasyLocalization(
+        supportedLocales: [Locale('en'), Locale('ar')],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en'),
+        useOnlyLangCode: true,
+        useFallbackTranslations: true,
+        child: MyApp()),
   );
 }
 
@@ -96,18 +96,33 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   void initializeFlutterFire() async {
     try {
-      await FirebaseFirestore.instance.collection(Setting).doc("globalSettings").get().then((dineinresult) {
-        if (dineinresult.exists && dineinresult.data() != null && dineinresult.data()!.containsKey("website_color")) {
-          COLOR_PRIMARY = int.parse(dineinresult.data()!["website_color"].replaceFirst("#", "0xff"));
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("globalSettings")
+          .get()
+          .then((dineinresult) {
+        if (dineinresult.exists &&
+            dineinresult.data() != null &&
+            dineinresult.data()!.containsKey("website_color")) {
+          COLOR_PRIMARY = int.parse(
+              dineinresult.data()!["website_color"].replaceFirst("#", "0xff"));
         }
       });
 
-      await FirebaseFirestore.instance.collection(Setting).doc("googleMapKey").get().then((value) {
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("googleMapKey")
+          .get()
+          .then((value) {
         print(value.data());
         GOOGLE_API_KEY = value.data()!['key'].toString();
       });
 
-      await FirebaseFirestore.instance.collection(Setting).doc("emailSetting").get().then((value) {
+      await FirebaseFirestore.instance
+          .collection(Setting)
+          .doc("emailSetting")
+          .get()
+          .then((value) {
         if (value.exists) {
           mailSettings = MailSettings.fromJson(value.data()!);
         }
@@ -130,16 +145,32 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
               actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
               iconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
             ),
-            bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+            bottomSheetTheme:
+                BottomSheetThemeData(backgroundColor: Colors.white),
             primaryColor: Color(COLOR_PRIMARY),
-            textTheme: TextTheme(headline6: TextStyle(color: Colors.black, fontSize: 17.0, letterSpacing: 0, fontWeight: FontWeight.w700)),
+            textTheme: TextTheme(
+                headline6: TextStyle(
+                    color: Colors.black,
+                    fontSize: 17.0,
+                    letterSpacing: 0,
+                    fontWeight: FontWeight.w700)),
             brightness: Brightness.light),
         darkTheme: ThemeData(
             appBarTheme: AppBarTheme(
-                centerTitle: true, color: Colors.transparent, elevation: 0, actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)), iconTheme: IconThemeData(color: Color(COLOR_PRIMARY))),
-            bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.grey.shade900),
+                centerTitle: true,
+                color: Colors.transparent,
+                elevation: 0,
+                actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
+                iconTheme: IconThemeData(color: Color(COLOR_PRIMARY))),
+            bottomSheetTheme:
+                BottomSheetThemeData(backgroundColor: Colors.grey.shade900),
             primaryColor: Color(COLOR_PRIMARY),
-            textTheme: TextTheme(headline6: TextStyle(color: Colors.grey[200], fontSize: 17.0, letterSpacing: 0, fontWeight: FontWeight.w700)),
+            textTheme: TextTheme(
+                headline6: TextStyle(
+                    color: Colors.grey[200],
+                    fontSize: 17.0,
+                    letterSpacing: 0,
+                    fontWeight: FontWeight.w700)),
             brightness: Brightness.dark),
         debugShowCheckedModeBanner: false,
         color: Color(COLOR_PRIMARY),
@@ -209,14 +240,17 @@ class OnBoardingState extends State<OnBoarding> {
           if (user.active) {
             user.isActive = true;
             user.role = USER_ROLE_DRIVER;
-            user.fcmToken = await FireStoreUtils.firebaseMessaging.getToken() ?? '';
+            user.fcmToken =
+                await FireStoreUtils.firebaseMessaging.getToken() ?? '';
             await FireStoreUtils.updateCurrentUser(user);
+            print('User Ka Id He : ${user.userID}');
             MyAppState.currentUser = user;
             pushReplacement(context, ContainerScreen(user: user));
           } else {
             user.isActive = false;
             user.lastOnlineTimestamp = Timestamp.now();
             await FireStoreUtils.updateCurrentUser(user);
+            print('User Ka Id He : ${user.userID}');
             await auth.FirebaseAuth.instance.signOut();
             MyAppState.currentUser = null;
             pushAndRemoveUntil(context, AuthScreen(), false);
