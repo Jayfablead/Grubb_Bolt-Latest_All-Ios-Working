@@ -283,11 +283,12 @@ class HomeScreenState extends State<HomeScreen> {
           _driverModel!.inProgressOrderID != null &&
                   currentOrder != null &&
                   isShow == true
-              ? buildOrderActionsCard()
+              ? currentOrder?.status == ORDER_STATUS_DRIVER_ACCEPTED ? Container():buildOrderActionsCard()
               : Container(),
           _driverModel!.orderRequestData != null
               ? showDriverBottomSheet()
-              : Container()
+              : Container(),
+          Text(currentOrder?.status ??''),
         ],
       ),
       floatingActionButton: _driverModel!.orderRequestData != null ||
