@@ -191,7 +191,7 @@ class HomeScreenState extends State<HomeScreen> {
       print("driver${_driverModel!.isActive}");
       if (_driverModel!.isActive) {
         print("--->${_driverModel!.orderRequestData}");
-        if (_driverModel!.orderRequestData != null) {
+        if (_driverModel!.orderRequestData != null ) {
           showDriverBottomSheet();
           playSound();
         }
@@ -283,12 +283,11 @@ class HomeScreenState extends State<HomeScreen> {
           _driverModel!.inProgressOrderID != null &&
                   currentOrder != null &&
                   isShow == true
-              ? currentOrder?.status == ORDER_STATUS_DRIVER_ACCEPTED ? Container():buildOrderActionsCard()
+              ? buildOrderActionsCard()
               : Container(),
           _driverModel!.orderRequestData != null
               ? showDriverBottomSheet()
-              : Container(),
-          Text(currentOrder?.status ??''),
+              : Container()
         ],
       ),
       floatingActionButton: _driverModel!.orderRequestData != null ||
@@ -1175,7 +1174,28 @@ class HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  Future<void> updateAllDriversExceptCurrent(String orderModeid) async {
+    // Assume _driverModel is your current user's driver model.
+    final String currentUserId = _driverModel!.userID;
+    final CollectionReference driversCollection = FirebaseFirestore.instance.collection('users');
 
+    // Fetch all drivers except the current user.
+    QuerySnapshot querySnapshot = await driversCollection.where('role', isEqualTo: 'driver').get();
+
+    // Begin a batch update
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    // Iterate through each document (driver) and update the 'orderRequestData' to null if it matches the orderModeid.
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      if (data['orderRequestData'] != null && data['orderRequestData']['id'] == orderModeid) {
+        batch.update(doc.reference, {'orderRequestData': null});
+      }
+    }
+
+    // Commit the batch update
+    await batch.commit();
+  }
   acceptOrder() async {
     print("user data ");
     audioPlayer.stop();
@@ -1185,6 +1205,7 @@ class HomeScreenState extends State<HomeScreen> {
     _driverModel!.inProgressOrderID = orderModel.id;
 
     await FireStoreUtils.updateCurrentUser(_driverModel!);
+    updateAllDriversExceptCurrent(orderModel.id);
 
     orderModel.status = ORDER_STATUS_DRIVER_ACCEPTED;
     orderModel.driverID = _driverModel!.userID;
