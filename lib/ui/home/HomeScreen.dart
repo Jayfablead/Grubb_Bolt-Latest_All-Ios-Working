@@ -343,6 +343,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   showDriverBottomSheet() {
+
     double distanceInMeters = Geolocator.distanceBetween(
         _driverModel!.orderRequestData!.vendor.latitude,
         _driverModel!.orderRequestData!.vendor.longitude,
@@ -351,6 +352,7 @@ class HomeScreenState extends State<HomeScreen> {
         _driverModel!
             .orderRequestData!.author.shippingAddress.location.longitude);
     double kilometer = distanceInMeters / 1000;
+    num deliverycharge = num.parse(kilometer.toStringAsFixed(currencyModel!.decimal)) * num.parse(_driverModel!.orderRequestData!.deliveryCharge.toString()) ;
     return Padding(
       padding: EdgeInsets.all(10),
       child: Container(
@@ -384,6 +386,31 @@ class HomeScreenState extends State<HomeScreen> {
                       fontFamily: "Poppinsm",
                       letterSpacing: 0.5),
                 ),
+
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Text(
+                    "paymentMethod : -".tr(),
+                    style: TextStyle(
+                        color: Color(0xffADADAD),
+                        fontFamily: "Poppinsr",
+                        letterSpacing: 0.5),
+                  ),
+                ),
+                Text(
+                  // '0',
+                            _driverModel!.orderRequestData!.paymentMethod.toString(),
+                  style: TextStyle(
+                      color: Color(0xffFFFFFF),
+                      fontFamily: "Poppinsm",
+                      letterSpacing: 0.5),
+                ),
+
+
               ],
             ),
             SizedBox(
