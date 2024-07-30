@@ -46,10 +46,20 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            keyAlias "grubbdriver"
+            keyPassword "123456"
+            storeFile file("/Users/imac/StudioProjects/Grubb_Driver/android/grubbdriver.jks")
+            storePassword "123456"
+        }
+    }
+
+
     buildTypes {
         release {
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
