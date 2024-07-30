@@ -67,10 +67,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   Widget buildOrderItem(OrderModel orderModel) {
     double total = 0.0;
+    double deliverycharge = 0.0;
+    double pakingcharge = 0.0;
+
     total = 0.0;
+    pakingcharge = 0.0;
+    deliverycharge = 0.0;
+
     String extrasDisVal = '';
     orderModel.products.forEach((element) {
-      total += element.quantity * double.parse(element.price);
+      total += element.quantity * double.parse(element.price) + num.parse(element.packingcharges.toString());
+      print("element.packingcharges${element.packingcharges}");
+      // pakingcharge +=num.parse(element.packingcharges.toString());
+
+      deliverycharge += num.parse(orderModel.deliveryCharge! )+ num.parse(total.toString()) ;
 
       for (int i = 0; i < element.extras.length; i++) {
         extrasDisVal +=
@@ -126,52 +136,52 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ListTile(
-                        minLeadingWidth: 10,
-                        contentPadding: EdgeInsets.only(left: 10, right: 10),
-                        visualDensity:
-                            VisualDensity(horizontal: 0, vertical: -4),
-                        leading: CircleAvatar(
-                          radius: 13,
-                          backgroundColor: Color(COLOR_PRIMARY),
-                          child: Text(
-                            'X ${product.quantity}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        title: Text(
-                          product.name,
-                          style: TextStyle(
-                              color: !isDarkMode(context)
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 18,
-                              letterSpacing: 0.5,
-                              fontFamily: 'Poppinsr'),
-                        ),
-                        trailing: Text(
-                          amountShow(
-                              amount: double.parse((product
-                                              .extrasPrice!.isNotEmpty &&
-                                          double.parse(product.extrasPrice!) !=
-                                              0.0)
-                                      ? (double.parse(product.extrasPrice!) +
-                                              double.parse(product.price))
-                                          .toString()
-                                      : product.price)
-                                  .toString()),
-                          style: TextStyle(
-                              color: !isDarkMode(context)
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 17,
-                              letterSpacing: 0.5,
-                              fontFamily: 'Poppinssm'),
-                        ),
-                      ),
+                      // ListTile(
+                      //   minLeadingWidth: 10,
+                      //   contentPadding: EdgeInsets.only(left: 10, right: 10),
+                      //   visualDensity:
+                      //       VisualDensity(horizontal: 0, vertical: -4),
+                      //   leading: CircleAvatar(
+                      //     radius: 13,
+                      //     backgroundColor: Color(COLOR_PRIMARY),
+                      //     child: Text(
+                      //       'X ${product.quantity}',
+                      //       style: TextStyle(
+                      //           color: Colors.white,
+                      //           fontSize: 15,
+                      //           fontWeight: FontWeight.bold),
+                      //     ),
+                      //   ),
+                      //   title: Text(
+                      //     product.name,
+                      //     style: TextStyle(
+                      //         color: !isDarkMode(context)
+                      //             ? Colors.black
+                      //             : Colors.white,
+                      //         fontSize: 18,
+                      //         letterSpacing: 0.5,
+                      //         fontFamily: 'Poppinsr'),
+                      //   ),
+                      //   trailing: Text(
+                      //     amountShow(
+                      //         amount: double.parse((product
+                      //                         .extrasPrice!.isNotEmpty &&
+                      //                     double.parse(product.extrasPrice!) !=
+                      //                         0.0)
+                      //                 ? (double.parse(product.extrasPrice!) +
+                      //                         double.parse(product.price))
+                      //                     .toString()
+                      //                 : product.price)
+                      //             .toString()),
+                      //     style: TextStyle(
+                      //         color: !isDarkMode(context)
+                      //             ? Colors.black
+                      //             : Colors.white,
+                      //         fontSize: 17,
+                      //         letterSpacing: 0.5,
+                      //         fontFamily: 'Poppinssm'),
+                      //   ),
+                      // ),
                       product.variantInfo != null &&
                               product.variantInfo!.variant_options != null
                           ? Padding(
@@ -227,7 +237,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         border: Border.all(color: Color(COLOR_PRIMARY)),
                       ),
                       child: Text(
-                        '${product.quantity}',
+                        '${product.quantity} x',
                         style: TextStyle(
                             color: Color(COLOR_PRIMARY),
                             fontSize: 18,
@@ -259,12 +269,23 @@ class _OrdersScreenState extends State<OrdersScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Text(
-                  'Total : '.tr() + amountShow(amount: total.toString()),
+                  'Your Earning :'.tr() + amountShow(amount: orderModel.deliveryCharge),
                   style: TextStyle(
                       color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold),
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Center(
+                child: Text(
+                  'Total : '.tr() + amountShow(amount: deliverycharge.toString()),
+                  style: TextStyle(
+                      color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+
             SizedBox(
               height: 10,
             ),

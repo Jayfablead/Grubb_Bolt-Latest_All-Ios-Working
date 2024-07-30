@@ -1,3 +1,5 @@
+
+
 import 'package:foodie_driver/constants.dart';
 import 'package:foodie_driver/model/variant_info.dart';
 
@@ -9,6 +11,7 @@ class OrderProductModel {
   String name;
   String photo;
   String price;
+  String packingcharges;
   String discountPrice;
   int quantity;
   String vendorID;
@@ -16,16 +19,17 @@ class OrderProductModel {
 
   OrderProductModel(
       {this.id = '',
-      this.photo = '',
-      this.price = '',
-      this.name = '',
-      this.quantity = 0,
-      this.vendorID = '',
-      this.extras = const [],
-      this.extrasPrice = "",
-      this.variantInfo,
-      this.categoryId = '',
-      this.discountPrice = ''});
+        this.photo = '',
+        this.price = '',
+        this.packingcharges = '',
+        this.name = '',
+        this.quantity = 0,
+        this.vendorID = '',
+        this.extras = const [],
+        this.extrasPrice = "",
+        this.variantInfo,
+        this.categoryId = '',
+        this.discountPrice = ''});
 
   factory OrderProductModel.fromJson(Map<String, dynamic> parsedJson) {
     dynamic extrasVal;
@@ -36,11 +40,7 @@ class OrderProductModel {
         if (parsedJson['extras'] == '[]') {
           extrasVal = List<String>.empty();
         } else {
-          String extraDecode = parsedJson['extras']
-              .toString()
-              .replaceAll("[", "")
-              .replaceAll("]", "")
-              .replaceAll("\"", "");
+          String extraDecode = parsedJson['extras'].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("\"", "");
           if (extraDecode.contains(",")) {
             extrasVal = extraDecode.split(",");
           } else {
@@ -54,37 +54,28 @@ class OrderProductModel {
     }
 
     int quanVal = 0;
-    if (parsedJson['quantity'] == null ||
-        parsedJson['quantity'] == double.nan ||
-        parsedJson['quantity'] == double.infinity) {
+    if (parsedJson['quantity'] == null || parsedJson['quantity'] == double.nan || parsedJson['quantity'] == double.infinity) {
       quanVal = 0;
     } else {
       if (parsedJson['quantity'] is String) {
         quanVal = int.parse(parsedJson['quantity']);
       } else {
-        quanVal = (parsedJson['quantity'] is double)
-            ? (parsedJson["quantity"].isNaN
-                ? 0
-                : (parsedJson['quantity'] as double).toInt())
-            : parsedJson['quantity'];
+        quanVal = (parsedJson['quantity'] is double) ? (parsedJson["quantity"].isNaN ? 0 : (parsedJson['quantity'] as double).toInt()) : parsedJson['quantity'];
       }
     }
     return new OrderProductModel(
       id: parsedJson['id'] ?? '',
       photo: parsedJson['photo'] == '' ? placeholderImage : parsedJson['photo'],
       price: parsedJson['price'] ?? '',
+      packingcharges: parsedJson['packingcharges'] ?? '',
       discountPrice: parsedJson['discount_price'] ?? '',
       quantity: quanVal,
       name: parsedJson['name'] ?? '',
       vendorID: parsedJson['vendorID'] ?? '',
       categoryId: parsedJson['category_id'] ?? '',
       extras: extrasVal,
-      extrasPrice:
-          parsedJson["extras_price"] != null ? parsedJson["extras_price"] : "",
-      variantInfo: (parsedJson.containsKey('variant_info') &&
-              parsedJson['variant_info'] != null)
-          ? VariantInfo.fromJson(parsedJson['variant_info'])
-          : null,
+      extrasPrice: parsedJson["extras_price"] != null ? parsedJson["extras_price"] : "",
+      variantInfo: (parsedJson.containsKey('variant_info') && parsedJson['variant_info'] != null) ? VariantInfo.fromJson(parsedJson['variant_info']) : null,
     );
   }
 
@@ -93,6 +84,7 @@ class OrderProductModel {
       'id': this.id,
       'photo': this.photo,
       'price': this.price,
+      'packingcharges': this.packingcharges,
       'discount_price': this.discountPrice,
       'name': this.name,
       'quantity': this.quantity,

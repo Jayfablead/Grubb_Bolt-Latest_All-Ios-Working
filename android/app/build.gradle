@@ -50,7 +50,7 @@ android {
         release {
             keyAlias "grubbdriver"
             keyPassword "123456"
-            storeFile file("/Users/imac/StudioProjects/Grubb_Driver/android/grubbdriver.jks")
+            storeFile file("D:\\Grubb_Driver\\android\\grubbdriver.jks")
             storePassword "123456"
         }
     }
