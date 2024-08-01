@@ -269,7 +269,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Text(
-                  'Payment Method :'.tr() + ' ${orderModel.paymentMethod=="cod"?"Cash on delivery":orderModel.paymentMethod.toString()}',
+                  'Payment Method :'.tr() + ' ${orderModel.paymentMethod=="cod"?"Cash on delivery":"Online"}',
                   style: TextStyle(
                       color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold),
                 ),
