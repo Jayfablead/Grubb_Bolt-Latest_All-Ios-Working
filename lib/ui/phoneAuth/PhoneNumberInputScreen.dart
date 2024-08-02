@@ -268,7 +268,12 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                       padding: const EdgeInsets.only(
                           top: 16.0, right: 8.0, left: 8.0),
                       child: TextFormField(
-                        validator: validateEmptyField,
+                        validator: (String? val) {
+                          if (val == null || val.isEmpty) {
+                            return 'Please enter vehicle Model';
+                          }
+                          return null;
+                        },
                         textAlignVertical: TextAlignVertical.center,
                         cursorColor: Color(COLOR_PRIMARY),
                         onSaved: (String? val) {
@@ -279,7 +284,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           fillColor: Colors.white,
-                          hintText: 'Car Model'.tr(),
+                          hintText: 'Vehicle Model'.tr(),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
@@ -311,7 +316,12 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                       padding: const EdgeInsets.only(
                           top: 16.0, right: 8.0, left: 8.0),
                       child: TextFormField(
-                        validator: validateEmptyField,
+                        validator: (String? val) {
+                          if (val == null || val.isEmpty) {
+                            return 'Please enter vehicle Plate';
+                          }
+                          return null;
+                        },
                         textAlignVertical: TextAlignVertical.center,
                         cursorColor: Color(COLOR_PRIMARY),
                         onSaved: (String? val) {

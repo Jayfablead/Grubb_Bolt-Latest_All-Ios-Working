@@ -322,7 +322,12 @@ class _SignUpState extends State<SignUpScreen> {
           child: Padding(
             padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
             child: TextFormField(
-              validator: validateEmptyField,
+              validator: (String? val) {
+                if (val == null || val.isEmpty) {
+                  return 'Please enter vehicle model';
+                }
+                return null;
+              },
               textAlignVertical: TextAlignVertical.center,
               cursorColor: Color(COLOR_PRIMARY),
               onSaved: (String? val) {
@@ -359,7 +364,12 @@ class _SignUpState extends State<SignUpScreen> {
           child: Padding(
             padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
             child: TextFormField(
-              validator: validateEmptyField,
+              validator: (String? val) {
+                if (val == null || val.isEmpty) {
+                  return 'Please enter Vehicle Plate';
+                }
+                return null;
+              },
               textAlignVertical: TextAlignVertical.center,
               cursorColor: Color(COLOR_PRIMARY),
               onSaved: (String? val) {

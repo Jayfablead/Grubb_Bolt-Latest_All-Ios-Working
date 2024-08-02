@@ -18,9 +18,9 @@ String? validateName(String? value) {
   String pattern = r'(^[a-zA-Z ]*$)';
   RegExp regExp = RegExp(pattern);
   if (value?.length == 0) {
-    return 'Name is required'.tr();
+    return 'Please Enter Name'.tr();
   } else if (!regExp.hasMatch(value ?? '')) {
-    return 'Name must be valid'.tr();
+    return 'Please Enter Name'.tr();
   }
   return null;
 }
@@ -57,16 +57,16 @@ String? validateEmail(String? value) {
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex = RegExp(pattern);
   if (!regex.hasMatch(value ?? ''))
-    return 'Please use a valid mail'.tr();
+    return 'Please Enter Email'.tr();
   else
     return null;
 }
 
 String? validateConfirmPassword(String? password, String? confirmPassword) {
   if (password != confirmPassword) {
-    return 'Password must match'.tr();
+    return 'Password And Conform  must match'.tr();
   } else if (confirmPassword?.length == 0) {
-    return 'Confirm password is required'.tr();
+    return 'Please Enter Conform Password'.tr();
   } else {
     return null;
   }
