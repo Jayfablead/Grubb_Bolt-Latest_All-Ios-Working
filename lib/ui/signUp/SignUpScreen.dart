@@ -642,7 +642,7 @@ class _SignUpState extends State<SignUpScreen> {
         carPlate!,
         firstName!,
         lastName!,
-        mobile!);
+        mobile ?? "0");
     await hideProgress();
     if (result != null && result is User) {
       MyAppState.currentUser = result;
