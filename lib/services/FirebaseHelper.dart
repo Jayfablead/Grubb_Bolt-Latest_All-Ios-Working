@@ -1096,7 +1096,7 @@ class FireStoreUtils {
         "notification": {
           "title": notificationModel!.subject ?? '',
           "body": notificationModel.message ?? '',
-          "sound": "default",
+          "sound": "tune.aiff",
         },
         "priority": "high",
         'data': {},
@@ -1126,7 +1126,7 @@ class FireStoreUtils {
         "notification": {
           "title": title,
           "body": message,
-          "sound": "default",
+          "sound": "tune.aiff",
           // "color": COLOR_PRIMARY,
         },
         "priority": "high",

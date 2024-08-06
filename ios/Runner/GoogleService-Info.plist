@@ -27,7 +27,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:150496980543:ios:1f79dce2aebfd9e08fd28a</string>
+	<string>1:150496980543:ios:9ca77c870358408a8fd28a</string>
 	<key>DATABASE_URL</key>
 	<string>https://grubb-ba0e4.firebaseio.com</string>
 </dict>
