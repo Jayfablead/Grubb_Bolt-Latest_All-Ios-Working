@@ -60,15 +60,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCszTozRWu-St62eVbqpEhiX3iHMe1Ie_A',
-    appId: '1:150496980543:ios:61ed227d443d98ac8fd28a',
+    appId: '1:150496980543:ios:1f79dce2aebfd9e08fd28a',
     messagingSenderId: '150496980543',
     projectId: 'grubb-ba0e4',
     databaseURL: 'https://grubb-ba0e4.firebaseio.com',
     storageBucket: 'grubb-ba0e4.appspot.com',
-    androidClientId:
-        '150496980543-gmm32rnu3ahl4oqh331131i2234pvtt1.apps.googleusercontent.com',
-    iosClientId:
-        '150496980543-nv833f3j9re3da5ko7gjkhtgankbdjts.apps.googleusercontent.com',
-    iosBundleId: 'com.geubb.driver',
+    androidClientId: '150496980543-0f7t3j0kq86l8mdae36pobql6637n2b8.apps.googleusercontent.com',
+    iosBundleId: 'com.dl.locate',
   );
+
 }

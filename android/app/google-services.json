@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "150496980543-kpfo7gf12bn5p74kd3193h25ot876323.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.geubb.driver",
+            "certificate_hash": "69c9e98b60445dc228660acde176715dfc6d6727"
+          }
+        },
+        {
           "client_id": "150496980543-n8ct3m6a1r79qjoar12ecah435m80oe1.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -51,6 +59,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "150496980543-0f7t3j0kq86l8mdae36pobql6637n2b8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grubb.customer",
+            "certificate_hash": "69c9e98b60445dc228660acde176715dfc6d6727"
+          }
+        },
+        {
           "client_id": "150496980543-n8ct3m6a1r79qjoar12ecah435m80oe1.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -86,6 +102,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "150496980543-73iafr15b91fflp21djd6iajrca1f66m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grubb.restaurant",
+            "certificate_hash": "69c9e98b60445dc228660acde176715dfc6d6727"
+          }
+        },
         {
           "client_id": "150496980543-n8ct3m6a1r79qjoar12ecah435m80oe1.apps.googleusercontent.com",
           "client_type": 3

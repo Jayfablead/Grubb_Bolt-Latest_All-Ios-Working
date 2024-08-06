@@ -2,12 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>150496980543-nv833f3j9re3da5ko7gjkhtgankbdjts.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.150496980543-nv833f3j9re3da5ko7gjkhtgankbdjts</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>150496980543-gmm32rnu3ahl4oqh331131i2234pvtt1.apps.googleusercontent.com</string>
+	<string>150496980543-0f7t3j0kq86l8mdae36pobql6637n2b8.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCszTozRWu-St62eVbqpEhiX3iHMe1Ie_A</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +11,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.geubb.driver</string>
+	<string>com.dl.locate</string>
 	<key>PROJECT_ID</key>
 	<string>grubb-ba0e4</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +27,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:150496980543:ios:61ed227d443d98ac8fd28a</string>
+	<string>1:150496980543:ios:1f79dce2aebfd9e08fd28a</string>
 	<key>DATABASE_URL</key>
 	<string>https://grubb-ba0e4.firebaseio.com</string>
 </dict>

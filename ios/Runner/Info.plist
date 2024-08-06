@@ -75,6 +75,8 @@
 	<string>Access to the Photos is required to review order as well as to set a profile picture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access to the Photos is required to review order as well as to set a profile picture.</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -99,7 +101,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 </dict>
 </plist>

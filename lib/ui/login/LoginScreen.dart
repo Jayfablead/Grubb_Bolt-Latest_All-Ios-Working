@@ -187,116 +187,116 @@ class _LoginScreen extends State<LoginScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Center(
-                child: Text(
-                  'OR',
-                  style: TextStyle(
-                      color: isDarkMode(context) ? Colors.white : Colors.black),
-                ).tr(),
-              ),
-            ),
-
-            /// facebook login button
-            Padding(
-              padding:
-                  const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: double.infinity),
-                child: ElevatedButton.icon(
-                    label: Expanded(
-                      child: Text(
-                        'Facebook Login',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey.shade200),
-                      ).tr(),
-                    ),
-                    icon: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Image.asset(
-                        'assets/images/facebook_logo.png',
-                        color: Colors.grey.shade200,
-                        height: 30,
-                        width: 30,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(FACEBOOK_BUTTON_COLOR),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        side: BorderSide(
-                          color: Color(FACEBOOK_BUTTON_COLOR),
-                        ),
-                      ),
-                    ),
-                    onPressed: () async => loginWithFacebook()),
-              ),
-            ),
-            FutureBuilder<bool>(
-              future: apple.TheAppleSignIn.isAvailable(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator.adaptive(
-                    valueColor: AlwaysStoppedAnimation(
-                      Color(COLOR_PRIMARY),
-                    ),
-                  );
-                }
-                if (!snapshot.hasData || (snapshot.data != true)) {
-                  return Container();
-                } else {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        right: 40.0, left: 40.0, bottom: 20),
-                    child: apple.AppleSignInButton(
-                      cornerRadius: 25.0,
-                      type: apple.ButtonType.signIn,
-                      style: isDarkMode(context)
-                          ? apple.ButtonStyle.white
-                          : apple.ButtonStyle.black,
-                      onPressed: () => loginWithApple(),
-                    ),
-                  );
-                }
-              },
-            ),
-
-            /// switch between login with phone number and email login states
-            InkWell(
-              onTap: () {
-                push(context, PhoneNumberInputScreen(login: true));
-              },
-              child: Padding(
-                padding: EdgeInsets.only(top: 10, right: 40, left: 40),
-                child: Container(
-                    alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        border:
-                            Border.all(color: Color(COLOR_PRIMARY), width: 1)),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(
-                            Icons.phone,
-                            color: Color(COLOR_PRIMARY),
-                          ),
-                          Text(
-                            'loginWithPhoneNumber'.tr(),
-                            style: TextStyle(
-                                color: Color(COLOR_PRIMARY),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                letterSpacing: 1),
-                          ),
-                        ])),
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.all(32.0),
+            //   child: Center(
+            //     child: Text(
+            //       'OR',
+            //       style: TextStyle(
+            //           color: isDarkMode(context) ? Colors.white : Colors.black),
+            //     ).tr(),
+            //   ),
+            // ),
+            //
+            // /// facebook login button
+            // Padding(
+            //   padding:
+            //       const EdgeInsets.only(right: 40.0, left: 40.0, bottom: 20),
+            //   child: ConstrainedBox(
+            //     constraints: const BoxConstraints(minWidth: double.infinity),
+            //     child: ElevatedButton.icon(
+            //         label: Expanded(
+            //           child: Text(
+            //             'Facebook Login',
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(
+            //                 fontSize: 20,
+            //                 fontWeight: FontWeight.bold,
+            //                 color: Colors.grey.shade200),
+            //           ).tr(),
+            //         ),
+            //         icon: Padding(
+            //           padding: const EdgeInsets.symmetric(vertical: 8.0),
+            //           child: Image.asset(
+            //             'assets/images/facebook_logo.png',
+            //             color: Colors.grey.shade200,
+            //             height: 30,
+            //             width: 30,
+            //           ),
+            //         ),
+            //         style: ElevatedButton.styleFrom(
+            //           backgroundColor: Color(FACEBOOK_BUTTON_COLOR),
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(25.0),
+            //             side: BorderSide(
+            //               color: Color(FACEBOOK_BUTTON_COLOR),
+            //             ),
+            //           ),
+            //         ),
+            //         onPressed: () async => loginWithFacebook()),
+            //   ),
+            // ),
+            // FutureBuilder<bool>(
+            //   future: apple.TheAppleSignIn.isAvailable(),
+            //   builder: (context, snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return CircularProgressIndicator.adaptive(
+            //         valueColor: AlwaysStoppedAnimation(
+            //           Color(COLOR_PRIMARY),
+            //         ),
+            //       );
+            //     }
+            //     if (!snapshot.hasData || (snapshot.data != true)) {
+            //       return Container();
+            //     } else {
+            //       return Padding(
+            //         padding: const EdgeInsets.only(
+            //             right: 40.0, left: 40.0, bottom: 20),
+            //         child: apple.AppleSignInButton(
+            //           cornerRadius: 25.0,
+            //           type: apple.ButtonType.signIn,
+            //           style: isDarkMode(context)
+            //               ? apple.ButtonStyle.white
+            //               : apple.ButtonStyle.black,
+            //           onPressed: () => loginWithApple(),
+            //         ),
+            //       );
+            //     }
+            //   },
+            // ),
+            //
+            // /// switch between login with phone number and email login states
+            // InkWell(
+            //   onTap: () {
+            //     push(context, PhoneNumberInputScreen(login: true));
+            //   },
+            //   child: Padding(
+            //     padding: EdgeInsets.only(top: 10, right: 40, left: 40),
+            //     child: Container(
+            //         alignment: Alignment.bottomCenter,
+            //         padding: EdgeInsets.all(10),
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(25),
+            //             border:
+            //                 Border.all(color: Color(COLOR_PRIMARY), width: 1)),
+            //         child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //             children: [
+            //               Icon(
+            //                 Icons.phone,
+            //                 color: Color(COLOR_PRIMARY),
+            //               ),
+            //               Text(
+            //                 'loginWithPhoneNumber'.tr(),
+            //                 style: TextStyle(
+            //                     color: Color(COLOR_PRIMARY),
+            //                     fontWeight: FontWeight.bold,
+            //                     fontSize: 17,
+            //                     letterSpacing: 1),
+            //               ),
+            //             ])),
+            //   ),
+            // )
           ],
         ),
       ),
