@@ -296,7 +296,8 @@ class WalletScreenState extends State<WalletScreen> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 35),
+                                      fontSize: 20
+                                  ),
                                 );
                               },
                             ),

@@ -217,7 +217,7 @@ class _ContainerScreen extends State<ContainerScreen> {
                   children: [
                     Consumer<User>(builder: (context, user, _) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.21,
+                        height: MediaQuery.of(context).size.height * 0.25,
                         margin: EdgeInsets.all(0.0),
                         padding: EdgeInsets.all(10),
                         child: Column(
