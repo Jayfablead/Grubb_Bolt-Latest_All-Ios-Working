@@ -64,17 +64,19 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera access is necessary to review order and also for profile picture.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need this in order to display surrounding restaurant.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need this in order to display surrounding restaurant.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We need this to provide voice communication.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Access to the Photos is required to review order as well as to set a profile picture.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Access to the Photos is required to review order as well as to set a profile picture.</string>
+    <string>Camera access is required for order review and setting a profile picture.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Location access is needed to show nearby restaurants.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Location access is needed to show nearby restaurants.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Location access is needed to show nearby restaurants.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Microphone access is required for voice communication.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Photo Library access is required for order review and setting a profile picture.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Photo Library access is required for order review and setting a profile picture.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
