@@ -10,7 +10,6 @@ import 'package:foodie_driver/services/helper.dart';
 import 'package:foodie_driver/ui/container/ContainerScreen.dart';
 import 'package:foodie_driver/ui/phoneAuth/PhoneNumberInputScreen.dart';
 import 'package:foodie_driver/ui/resetPasswordScreen/ResetPasswordScreen.dart';
-import 'package:the_apple_sign_in/the_apple_sign_in.dart' as apple;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -187,16 +186,16 @@ class _LoginScreen extends State<LoginScreen> {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(32.0),
-            //   child: Center(
-            //     child: Text(
-            //       'OR',
-            //       style: TextStyle(
-            //           color: isDarkMode(context) ? Colors.white : Colors.black),
-            //     ).tr(),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Center(
+                child: Text(
+                  'OR',
+                  style: TextStyle(
+                      color: isDarkMode(context) ? Colors.white : Colors.black),
+                ).tr(),
+              ),
+            ),
             //
             // /// facebook login button
             // Padding(
@@ -266,37 +265,37 @@ class _LoginScreen extends State<LoginScreen> {
             // ),
             //
             // /// switch between login with phone number and email login states
-            // InkWell(
-            //   onTap: () {
-            //     push(context, PhoneNumberInputScreen(login: true));
-            //   },
-            //   child: Padding(
-            //     padding: EdgeInsets.only(top: 10, right: 40, left: 40),
-            //     child: Container(
-            //         alignment: Alignment.bottomCenter,
-            //         padding: EdgeInsets.all(10),
-            //         decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(25),
-            //             border:
-            //                 Border.all(color: Color(COLOR_PRIMARY), width: 1)),
-            //         child: Row(
-            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //             children: [
-            //               Icon(
-            //                 Icons.phone,
-            //                 color: Color(COLOR_PRIMARY),
-            //               ),
-            //               Text(
-            //                 'loginWithPhoneNumber'.tr(),
-            //                 style: TextStyle(
-            //                     color: Color(COLOR_PRIMARY),
-            //                     fontWeight: FontWeight.bold,
-            //                     fontSize: 17,
-            //                     letterSpacing: 1),
-            //               ),
-            //             ])),
-            //   ),
-            // )
+            InkWell(
+              onTap: () {
+                push(context, PhoneNumberInputScreen(login: true));
+              },
+              child: Padding(
+                padding: EdgeInsets.only(top: 10, right: 40, left: 40),
+                child: Container(
+                    alignment: Alignment.bottomCenter,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border:
+                            Border.all(color: Color(COLOR_PRIMARY), width: 1)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.phone,
+                            color: Color(COLOR_PRIMARY),
+                          ),
+                          Text(
+                            'loginWithPhoneNumber'.tr(),
+                            style: TextStyle(
+                                color: Color(COLOR_PRIMARY),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                letterSpacing: 1),
+                          ),
+                        ])),
+              ),
+            )
           ],
         ),
       ),

@@ -573,46 +573,46 @@ class _SignUpState extends State<SignUpScreen> {
             ),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(32.0),
-        //   child: Center(
-        //     child: Text(
-        //       'OR',
-        //       style: TextStyle(
-        //           color: isDarkMode(context) ? Colors.white : Colors.black),
-        //     ).tr(),
-        //   ),
-        // ),
-        // InkWell(
-        //   onTap: () {
-        //     push(context, PhoneNumberInputScreen(login: false));
-        //   },
-        //   child: Padding(
-        //     padding: EdgeInsets.only(top: 10, right: 40, left: 40),
-        //     child: Container(
-        //         alignment: Alignment.bottomCenter,
-        //         padding: EdgeInsets.all(10),
-        //         decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(25),
-        //             border: Border.all(color: Color(COLOR_PRIMARY), width: 1)),
-        //         child: Row(
-        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //             children: [
-        //               Icon(
-        //                 Icons.phone,
-        //                 color: Color(COLOR_PRIMARY),
-        //               ),
-        //               Text(
-        //                 'signUpWithPhoneNumber'.tr(),
-        //                 style: TextStyle(
-        //                     color: Color(COLOR_PRIMARY),
-        //                     fontWeight: FontWeight.bold,
-        //                     fontSize: 15,
-        //                     letterSpacing: 1),
-        //               ),
-        //             ])),
-        //   ),
-        // )
+        Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Center(
+            child: Text(
+              'OR',
+              style: TextStyle(
+                  color: isDarkMode(context) ? Colors.white : Colors.black),
+            ).tr(),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            push(context, PhoneNumberInputScreen(login: false));
+          },
+          child: Padding(
+            padding: EdgeInsets.only(top: 10, right: 20, left: 40),
+            child: Container(
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Color(COLOR_PRIMARY), width: 1)),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        color: Color(COLOR_PRIMARY),
+                      ),
+                      Text(
+                        'signUpWithPhoneNumber'.tr(),
+                        style: TextStyle(
+                            color: Color(COLOR_PRIMARY),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            letterSpacing: 1),
+                      ),
+                    ])),
+          ),
+        )
       ],
     );
   }
@@ -622,6 +622,15 @@ class _SignUpState extends State<SignUpScreen> {
   _signUp() async {
     if (_key.currentState?.validate() ?? false) {
       _key.currentState!.save();
+      bool userExists =
+          await FireStoreUtils.checkIfUserExists(mobile!, 'driver');
+      print("userExists : $userExists");
+      if (userExists) {
+        await hideProgress();
+        showAlertDialog(context, "failed".tr(),
+            "Phone Number is Already Used Please Use Another".tr(), true);
+        return;
+      }
       await _signUpWithEmailAndPassword();
     } else {
       setState(() {

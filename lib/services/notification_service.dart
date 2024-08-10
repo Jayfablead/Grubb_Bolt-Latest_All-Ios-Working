@@ -506,7 +506,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //    */
 // }
 
-
 ///
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/material.dart';
@@ -689,10 +688,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //     }
 //   }
 // }
- ///
+///
 class NotificationService {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   static final NotificationService _instance = NotificationService._internal();
 
@@ -726,7 +726,8 @@ class NotificationService {
 
       if (settings.authorizationStatus == AuthorizationStatus.authorized) {
         print("Permission granted");
-      } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      } else if (settings.authorizationStatus ==
+          AuthorizationStatus.provisional) {
         print("User granted provisional permission");
       } else {
         print("User denied permission");
@@ -740,7 +741,8 @@ class NotificationService {
     try {
       print("Initializing Local Notification");
 
-      var androidInitializationSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
+      var androidInitializationSettings =
+          const AndroidInitializationSettings('@mipmap/ic_launcher');
       var iosInitializationSettings = const DarwinInitializationSettings();
 
       var initializationSetting = InitializationSettings(
@@ -811,7 +813,8 @@ class NotificationService {
       });
 
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        print("Handling message when app is opened: ${message.data.toString()}");
+        print(
+            "Handling message when app is opened: ${message.data.toString()}");
         handleMessage(message);
       });
 
@@ -840,7 +843,9 @@ class NotificationService {
         handleMessage(message);
       });
 
-      FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      FirebaseMessaging.instance
+          .getInitialMessage()
+          .then((RemoteMessage? message) {
         if (message != null) {
           handleMessage(message);
         }

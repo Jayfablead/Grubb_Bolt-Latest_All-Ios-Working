@@ -767,6 +767,15 @@ class FireStoreUtils {
     }
   }
 
+  static Future<bool> checkIfUserExists(String phoneNumber, String role) async {
+    QuerySnapshot result = await FirebaseFirestore.instance
+        .collection('users')
+        .where('phoneNumber', isEqualTo: phoneNumber)
+        .where('role', isEqualTo: role)
+        .get();
+    return result.docs.isNotEmpty;
+  }
+
   /// save a new user document in the USERS table in firebase firestore
   /// returns an error message on failure or null on success
   static Future<String?> firebaseCreateNewUser(User user) async {
@@ -841,7 +850,7 @@ class FireStoreUtils {
   /// submit the received code to firebase to complete the phone number
   /// verification process
   static Future<dynamic> firebaseSubmitPhoneNumberCode(
-      String verificationID, String code, String phoneNumber,
+      String verificationID, String email, String code, String phoneNumber,
       {String firstName = 'Anonymous',
       String lastName = 'User',
       File? image,
@@ -883,7 +892,7 @@ class FireStoreUtils {
         active: true,
         lastOnlineTimestamp: Timestamp.now(),
         settings: UserSettings(),
-        email: '',
+        email: email,
         role: USER_ROLE_DRIVER,
         carName: carName,
         carNumber: carPlates,

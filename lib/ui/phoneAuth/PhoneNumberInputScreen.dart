@@ -32,8 +32,15 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
   final ImagePicker _imagePicker = ImagePicker();
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
-  String? firstName, lastName, carName, carPlate, _phoneNumber, _verificationID;
+  String? firstName,
+      lastName,
+      carName,
+      carPlate,
+      _phoneNumber,
+      _verificationID,
+      email;
   bool _isPhoneValid = false, _codeSent = false;
   AutovalidateMode _validate = AutovalidateMode.disabled;
 
@@ -259,7 +266,50 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
                     ),
                   ),
                 ),
-
+                Visibility(
+                  visible: !_codeSent && !widget.login,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: double.infinity),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 16.0, right: 8.0, left: 8.0),
+                      child: TextFormField(
+                        validator: validateEmail,
+                        textAlignVertical: TextAlignVertical.center,
+                        cursorColor: Color(COLOR_PRIMARY),
+                        onSaved: (String? val) {
+                          email = val;
+                        },
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          contentPadding: new EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          fillColor: Colors.white,
+                          hintText: "Email Address".tr(),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                  color: Color(COLOR_PRIMARY), width: 2.0)),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Theme.of(context).errorColor),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade200),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Visibility(
                   visible: !_codeSent && !widget.login,
                   child: ConstrainedBox(
@@ -518,7 +568,7 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
     try {
       if (_verificationID != null) {
         dynamic result = await FireStoreUtils.firebaseSubmitPhoneNumberCode(
-            _verificationID!, code, _phoneNumber!,
+            _verificationID!, _emailController.text, code, _phoneNumber!,
             firstName: _firstNameController.text,
             carImage: _carImage,
             carPlates: carPlate ?? '',
@@ -659,6 +709,15 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
   _signUp() async {
     if (_key.currentState?.validate() ?? false) {
       _key.currentState!.save();
+      bool userExists =
+          await FireStoreUtils.checkIfUserExists(_phoneNumber!, 'driver');
+      print("userExists : $userExists");
+      if (widget.login && !userExists) {
+        // await hideProgress();
+        showAlertDialog(context, "failed".tr(),
+            "User does not exist. Please sign up.".tr(), true);
+        return;
+      }
       if (_isPhoneValid)
         await _submitPhoneNumber(_phoneNumber!);
       else
@@ -754,13 +813,13 @@ class _PhoneNumberInputScreenState extends State<PhoneNumberInputScreen> {
             }
             User user = User(
               firstName: _firstNameController.text,
-              lastName: _firstNameController.text,
+              lastName: _lastNameController.text,
               fcmToken: await FireStoreUtils.firebaseMessaging.getToken() ?? '',
               phoneNumber: phoneNumber,
               isActive: true,
               lastOnlineTimestamp: Timestamp.now(),
               settings: UserSettings(),
-              email: '',
+              email: _emailController.text,
               active: true,
               profilePictureURL: profileImageUrl,
               userID: userCredential.user?.uid ?? '',

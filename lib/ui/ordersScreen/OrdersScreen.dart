@@ -76,11 +76,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
     String extrasDisVal = '';
     orderModel.products.forEach((element) {
-      total += element.quantity * double.parse(element.price) + num.parse(element.packingcharges.toString());
+      total += element.quantity * double.parse(element.price) +
+          num.parse(element.packingcharges.toString());
       print("element.packingcharges${element.packingcharges}");
       // pakingcharge +=num.parse(element.packingcharges.toString());
 
-      deliverycharge += num.parse(orderModel.deliveryCharge! )+ num.parse(total.toString()) ;
+      deliverycharge +=
+          num.parse(orderModel.deliveryCharge!) + num.parse(total.toString());
 
       for (int i = 0; i < element.extras.length; i++) {
         extrasDisVal +=
@@ -269,7 +271,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Text(
-                  'Payment Method :'.tr() + ' ${orderModel.paymentMethod=="cod"?"Cash on delivery":"Online"}',
+                  'Payment Method :'.tr() +
+                      ' ${orderModel.paymentMethod == "cod" ? "Cash on delivery" : "Online"}',
                   style: TextStyle(
                       color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold),
                 ),
@@ -279,7 +282,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Text(
-                  'Your Earning :'.tr() + amountShow(amount: orderModel.deliveryCharge),
+                  'Your Earning :'.tr() +
+                      amountShow(amount: orderModel.deliveryCharge),
                   style: TextStyle(
                       color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold),
                 ),
@@ -289,13 +293,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Text(
-                  'Total : '.tr() + amountShow(amount: deliverycharge.toString()),
+                  'Total : '.tr() +
+                      amountShow(amount: deliverycharge.toString()),
                   style: TextStyle(
                       color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-
             SizedBox(
               height: 10,
             ),

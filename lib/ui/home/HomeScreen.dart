@@ -191,7 +191,7 @@ class HomeScreenState extends State<HomeScreen> {
       print("driver${_driverModel!.isActive}");
       if (_driverModel!.isActive) {
         print("--->${_driverModel!.orderRequestData}");
-        if (_driverModel!.orderRequestData != null ) {
+        if (_driverModel!.orderRequestData != null) {
           showDriverBottomSheet();
           playSound();
         }
@@ -256,7 +256,7 @@ class HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      "You have to minimum ${amountShow(amount: minimumDepositToRideAccept.toString())} wallet amount to receiving Order",
+                      " You have to top up wallet with minimum of ${amountShow(amount: minimumDepositToRideAccept.toString())} to start receiving orders.",
                       style: TextStyle(color: Colors.white),
                       textAlign: TextAlign.center),
                 ),
@@ -343,7 +343,6 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   showDriverBottomSheet() {
-
     double distanceInMeters = Geolocator.distanceBetween(
         _driverModel!.orderRequestData!.vendor.latitude,
         _driverModel!.orderRequestData!.vendor.longitude,
@@ -352,7 +351,9 @@ class HomeScreenState extends State<HomeScreen> {
         _driverModel!
             .orderRequestData!.author.shippingAddress.location.longitude);
     double kilometer = distanceInMeters / 1000;
-    num deliverycharge = num.parse(kilometer.toStringAsFixed(currencyModel!.decimal)) * num.parse(_driverModel!.orderRequestData!.deliveryCharge.toString()) ;
+    num deliverycharge = num.parse(
+            kilometer.toStringAsFixed(currencyModel!.decimal)) *
+        num.parse(_driverModel!.orderRequestData!.deliveryCharge.toString());
     return Padding(
       padding: EdgeInsets.all(10),
       child: Container(
@@ -386,7 +387,6 @@ class HomeScreenState extends State<HomeScreen> {
                       fontFamily: "Poppinsm",
                       letterSpacing: 0.5),
                 ),
-
               ],
             ),
             Row(
@@ -403,14 +403,12 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 Text(
                   // '0',
-                            _driverModel!.orderRequestData!.paymentMethod.toString(),
+                  _driverModel!.orderRequestData!.paymentMethod.toString(),
                   style: TextStyle(
                       color: Color(0xffFFFFFF),
                       fontFamily: "Poppinsm",
                       letterSpacing: 0.5),
                 ),
-
-
               ],
             ),
             SizedBox(
@@ -1201,13 +1199,16 @@ class HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   Future<void> updateAllDriversExceptCurrent(String orderModeid) async {
     // Assume _driverModel is your current user's driver model.
     final String currentUserId = _driverModel!.userID;
-    final CollectionReference driversCollection = FirebaseFirestore.instance.collection('users');
+    final CollectionReference driversCollection =
+        FirebaseFirestore.instance.collection('users');
 
     // Fetch all drivers except the current user.
-    QuerySnapshot querySnapshot = await driversCollection.where('role', isEqualTo: 'driver').get();
+    QuerySnapshot querySnapshot =
+        await driversCollection.where('role', isEqualTo: 'driver').get();
 
     // Begin a batch update
     WriteBatch batch = FirebaseFirestore.instance.batch();
@@ -1215,7 +1216,8 @@ class HomeScreenState extends State<HomeScreen> {
     // Iterate through each document (driver) and update the 'orderRequestData' to null if it matches the orderModeid.
     for (QueryDocumentSnapshot doc in querySnapshot.docs) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      if (data['orderRequestData'] != null && data['orderRequestData']['id'] == orderModeid) {
+      if (data['orderRequestData'] != null &&
+          data['orderRequestData']['id'] == orderModeid) {
         batch.update(doc.reference, {'orderRequestData': null});
       }
     }
@@ -1223,6 +1225,7 @@ class HomeScreenState extends State<HomeScreen> {
     // Commit the batch update
     await batch.commit();
   }
+
   acceptOrder() async {
     print("user data ");
     audioPlayer.stop();
