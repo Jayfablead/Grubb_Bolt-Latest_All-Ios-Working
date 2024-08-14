@@ -106,7 +106,9 @@ num haresh=0;
                   spreadRadius: 0.4,
                   offset: Offset(0.2, 0.2)),
             ],
-            color: Colors.white),
+            color: isDarkMode(context)
+                ? Colors.black
+                : Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -253,8 +255,8 @@ num haresh=0;
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: isDarkMode(context)
-                              ? Colors.black
-                              : Colors.white),
+                          ? Colors.white
+                          : Colors.black),
                     ),
                     trailing: Text(
                       amountShow(
@@ -263,8 +265,8 @@ num haresh=0;
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: isDarkMode(context)
-                              ? Colors.black
-                              : Colors.white),
+                              ? Colors.white
+                              : Colors.black),
                     ),
                   );
                 }),
