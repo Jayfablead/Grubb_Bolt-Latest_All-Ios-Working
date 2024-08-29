@@ -79,7 +79,7 @@ class User with ChangeNotifier {
       this.orderRequestData})
       : this.lastOnlineTimestamp = lastOnlineTimestamp ?? Timestamp.now(),
         this.settings = settings ?? UserSettings(),
-        this.appIdentifier = 'Grubb Locate ${Platform.operatingSystem}',
+        this.appIdentifier = 'Grubb Bolt${Platform.operatingSystem}',
         this.shippingAddress = shippingAddress ?? AddressModel(),
         this.userBankDetails = userBankDetails ?? UserBankDetails(),
         this.location = location ?? UserLocation();

@@ -20,8 +20,8 @@ class AuthScreen extends StatelessWidget {
               'assets/images/app_logo.png',
               // color: Color(COLOR_PRIMARY),
               fit: BoxFit.cover,
-              width: 150,
-              height: 150,
+              width: 170,
+              height: 170,
             ),
           ),
           Padding(

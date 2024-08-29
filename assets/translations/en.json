@@ -1,5 +1,5 @@
 {
-  "Welcome to Grubb Locate": "Welcome to Grubb Locate",
+  "Welcome to Grubb Locate": "Welcome to Grubb Bolt ",
   "Make extra cash by delivery orders to our customers.": "Make extra cash by delivery orders to our customers.",
   "Log In": "Log In",
   "Sign Up": "Sign Up",
@@ -99,9 +99,9 @@
   "Unexpected Error": "Unexpected Error",
   "Connection to server failed.": "Connection to server failed.",
   "Failed to retrieve user data.": "Failed to retrieve user data.",
-  "Grubb Locate ": "Grubb Locate ",
+  "Grubb Bolt ": "Grubb Bolt",
   "collectsLocationStore": "collects location data of store and other places nearby to identify pickup and delivery locations even when the app is closed or not in use.",
-  "Grubb Locate ": "Grubb Locate ",
+  "Grubb Bolt ": "Grubb Bolt ",
   "DENY": "DENY",
   "ACCEPT": "ACCEPT",
   "REJECT": "REJECT",

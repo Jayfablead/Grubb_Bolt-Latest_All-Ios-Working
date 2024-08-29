@@ -1261,7 +1261,7 @@ class WalletScreenState extends State<WalletScreen> {
     BuildContext context,
   ) async {
     final style = FlutterwaveStyle(
-      appBarText: "Grubb Locate",
+      appBarText: "Grubb Bolt",
       buttonColor: Color(COLOR_PRIMARY),
       buttonTextStyle: TextStyle(
         color: Colors.white,
@@ -1295,7 +1295,7 @@ class WalletScreenState extends State<WalletScreen> {
       context: context,
       publicKey: flutterWaveSettingData!.publicKey.trim(),
       paymentOptions: "card, payattitude",
-      customization: Customization(title: "Grubb Locate"),
+      customization: Customization(title: "Grubb Bolt"),
       txRef: _ref!,
       redirectUrl: '${GlobalURL}success',
       isTestMode: flutterWaveSettingData!.isSandbox,
@@ -1388,7 +1388,7 @@ class WalletScreenState extends State<WalletScreen> {
           amount: _amountController.text,
           currencyCode: currencyModel!.code,
           billingAgreementDescription: "djsghxghf",
-          displayName: 'Grubb Locate company');
+          displayName: 'Grubb Bolt company');
 
       BraintreePaymentMethodNonce? resultData;
 
@@ -1574,7 +1574,7 @@ class WalletScreenState extends State<WalletScreen> {
     var options = {
       'key': razorPayData!.razorpayKey,
       'amount': amount * 100,
-      'name': 'Grubb Locate',
+      'name': 'Grubb Bolt',
       'order_id': orderId,
       "currency": currencyModel?.code,
       'description': 'wallet Topup',
