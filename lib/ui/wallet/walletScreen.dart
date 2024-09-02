@@ -1055,78 +1055,78 @@ class WalletScreenState extends State<WalletScreen> {
                           ),
                         ),
                       ),
-                      Visibility(
-                        visible: paypalSettingData != null &&
-                            paypalSettingData!.isEnabled,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 3.0, horizontal: 20),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            elevation: paypal ? 0 : 2,
-                            child: RadioListTile(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  side: BorderSide(
-                                      color: paypal
-                                          ? Color(COLOR_PRIMARY)
-                                          : Colors.transparent)),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 6,
-                              ),
-                              controlAffinity: ListTileControlAffinity.trailing,
-                              value: "PayPal",
-                              groupValue: selectedRadioTile,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  stripe = false;
-                                  payTm = false;
-                                  mercadoPago = false;
-                                  flutterWave = false;
-                                  razorPay = false;
-                                  paypal = true;
-                                  payFast = false;
-                                  payStack = false;
-                                  selectedRadioTile = value!;
-                                });
-                              },
-                              selected: paypal,
-                              //selectedRadioTile == "strip" ? true : false,
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.blueGrey.shade50,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 3.0, horizontal: 10),
-                                        child: SizedBox(
-                                            width: 80,
-                                            height: 35,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 3.0),
-                                              child: Image.asset(
-                                                  "assets/images/paypal_@3x.png"),
-                                            )),
-                                      )),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text("PayPal"),
-                                ],
-                              ),
-                              //toggleable: true,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Visibility(
+                      //   visible: paypalSettingData != null &&
+                      //       paypalSettingData!.isEnabled,
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.symmetric(
+                      //         vertical: 3.0, horizontal: 20),
+                      //     child: Card(
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(8),
+                      //       ),
+                      //       elevation: paypal ? 0 : 2,
+                      //       child: RadioListTile(
+                      //         shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(8),
+                      //             side: BorderSide(
+                      //                 color: paypal
+                      //                     ? Color(COLOR_PRIMARY)
+                      //                     : Colors.transparent)),
+                      //         contentPadding: EdgeInsets.symmetric(
+                      //           horizontal: 6,
+                      //         ),
+                      //         controlAffinity: ListTileControlAffinity.trailing,
+                      //         value: "PayPal",
+                      //         groupValue: selectedRadioTile,
+                      //         onChanged: (String? value) {
+                      //           setState(() {
+                      //             stripe = false;
+                      //             payTm = false;
+                      //             mercadoPago = false;
+                      //             flutterWave = false;
+                      //             razorPay = false;
+                      //             paypal = true;
+                      //             payFast = false;
+                      //             payStack = false;
+                      //             selectedRadioTile = value!;
+                      //           });
+                      //         },
+                      //         selected: paypal,
+                      //         //selectedRadioTile == "strip" ? true : false,
+                      //         title: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.start,
+                      //           children: [
+                      //             Container(
+                      //                 decoration: BoxDecoration(
+                      //                   color: Colors.blueGrey.shade50,
+                      //                   borderRadius: BorderRadius.circular(8),
+                      //                 ),
+                      //                 child: Padding(
+                      //                   padding: const EdgeInsets.symmetric(
+                      //                       vertical: 3.0, horizontal: 10),
+                      //                   child: SizedBox(
+                      //                       width: 80,
+                      //                       height: 35,
+                      //                       child: Padding(
+                      //                         padding:
+                      //                             const EdgeInsets.symmetric(
+                      //                                 vertical: 3.0),
+                      //                         child: Image.asset(
+                      //                             "assets/images/paypal_@3x.png"),
+                      //                       )),
+                      //                 )),
+                      //             SizedBox(
+                      //               width: 20,
+                      //             ),
+                      //             Text("PayPal"),
+                      //           ],
+                      //         ),
+                      //         //toggleable: true,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 12.0, horizontal: 22),
@@ -1207,7 +1207,7 @@ class WalletScreenState extends State<WalletScreen> {
                             } else if (selectedRadioTile == "PayPal") {
                               Navigator.pop(context);
                               showLoadingAlert();
-                              _paypalPayment();
+                              // _paypalPayment();
                             } else if (selectedRadioTile == "PayStack") {
                               Navigator.pop(context);
                               showLoadingAlert();
@@ -1377,92 +1377,92 @@ class WalletScreenState extends State<WalletScreen> {
   }
 
   /// PayPal Payment Gateway
-  _paypalPayment() async {
-    PayPalClientTokenGen.paypalClientToken(
-            paypalSettingData: paypalSettingData!)
-        .then((value) async {
-      final String tokenizationKey = paypalSettingData!
-          .braintreeTokenizationKey; //"sandbox_w3dpbsks_5whrtf2sbrp4vx74";
-
-      var request = BraintreePayPalRequest(
-          amount: _amountController.text,
-          currencyCode: currencyModel!.code,
-          billingAgreementDescription: "djsghxghf",
-          displayName: 'Grubb Bolt company');
-
-      BraintreePaymentMethodNonce? resultData;
-
-      try {
-        resultData =
-            await Braintree.requestPaypalNonce(tokenizationKey, request);
-      } on Exception catch (ex) {
-        print("Stripe error");
-        showAlert(_globalKey.currentContext!,
-            response:
-                "Something went wrong, please contact admin.".tr() + " $ex",
-            colors: Colors.red);
-      }
-      print(resultData?.nonce);
-      print(resultData?.paypalPayerId);
-      if (resultData?.nonce != null) {
-        PayPalClientTokenGen.paypalSettleAmount(
-          paypalSettingData: paypalSettingData!,
-          nonceFromTheClient: resultData?.nonce,
-          amount: _amountController.text,
-          deviceDataFromTheClient: resultData?.typeLabel,
-        ).then((value) {
-          if (value['success'] == "true" || value['success'] == true) {
-            if (value['data']['success'] == "true" ||
-                value['data']['success'] == true) {
-              payPalSettel.PayPalClientSettleModel settleResult =
-                  payPalSettel.PayPalClientSettleModel.fromJson(value);
-              if (settleResult.data.success) {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    "Status : ${settleResult.data.transaction.status}\n"
-                    "Transaction id : ${settleResult.data.transaction.id}\n"
-                    "Amount : ${settleResult.data.transaction.amount}",
-                  ),
-                  duration: Duration(seconds: 8),
-                  backgroundColor: Colors.green,
-                ));
-
-                paymentCompleted(paymentMethod: "Paypal");
-              }
-            } else {
-              payPalCurrModel.PayPalCurrencyCodeErrorModel settleResult =
-                  payPalCurrModel.PayPalCurrencyCodeErrorModel.fromJson(value);
-              Navigator.pop(_scaffoldKey.currentContext!);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content:
-                    Text("Status :".tr() + " ${settleResult.data.message}"),
-                duration: Duration(seconds: 8),
-                backgroundColor: Colors.red,
-              ));
-            }
-          } else {
-            PayPalErrorSettleModel settleResult =
-                PayPalErrorSettleModel.fromJson(value);
-            Navigator.pop(_scaffoldKey.currentContext!);
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Status :".tr() + " ${settleResult.data.message}"),
-              duration: Duration(seconds: 8),
-              backgroundColor: Colors.red,
-            ));
-          }
-        });
-      } else {
-        Navigator.pop(_scaffoldKey.currentContext!);
-        ScaffoldMessenger.of(_scaffoldKey.currentContext!)
-            .showSnackBar(SnackBar(
-          content: Text('Status : Payment Incomplete!!'.tr()),
-          duration: Duration(seconds: 8),
-          backgroundColor: Colors.red,
-        ));
-      }
-    });
-  }
+  // _paypalPayment() async {
+  //   PayPalClientTokenGen.paypalClientToken(
+  //           paypalSettingData: paypalSettingData!)
+  //       .then((value) async {
+  //     final String tokenizationKey = paypalSettingData!
+  //         .braintreeTokenizationKey; //"sandbox_w3dpbsks_5whrtf2sbrp4vx74";
+  //
+  //     var request = BraintreePayPalRequest(
+  //         amount: _amountController.text,
+  //         currencyCode: currencyModel!.code,
+  //         billingAgreementDescription: "djsghxghf",
+  //         displayName: 'Grubb Bolt company');
+  //
+  //     BraintreePaymentMethodNonce? resultData;
+  //
+  //     try {
+  //       resultData =
+  //           await Braintree.requestPaypalNonce(tokenizationKey, request);
+  //     } on Exception catch (ex) {
+  //       print("Stripe error");
+  //       showAlert(_globalKey.currentContext!,
+  //           response:
+  //               "Something went wrong, please contact admin.".tr() + " $ex",
+  //           colors: Colors.red);
+  //     }
+  //     print(resultData?.nonce);
+  //     print(resultData?.paypalPayerId);
+  //     if (resultData?.nonce != null) {
+  //       PayPalClientTokenGen.paypalSettleAmount(
+  //         paypalSettingData: paypalSettingData!,
+  //         nonceFromTheClient: resultData?.nonce,
+  //         amount: _amountController.text,
+  //         deviceDataFromTheClient: resultData?.typeLabel,
+  //       ).then((value) {
+  //         if (value['success'] == "true" || value['success'] == true) {
+  //           if (value['data']['success'] == "true" ||
+  //               value['data']['success'] == true) {
+  //             payPalSettel.PayPalClientSettleModel settleResult =
+  //                 payPalSettel.PayPalClientSettleModel.fromJson(value);
+  //             if (settleResult.data.success) {
+  //               Navigator.pop(context);
+  //               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //                 content: Text(
+  //                   "Status : ${settleResult.data.transaction.status}\n"
+  //                   "Transaction id : ${settleResult.data.transaction.id}\n"
+  //                   "Amount : ${settleResult.data.transaction.amount}",
+  //                 ),
+  //                 duration: Duration(seconds: 8),
+  //                 backgroundColor: Colors.green,
+  //               ));
+  //
+  //               paymentCompleted(paymentMethod: "Paypal");
+  //             }
+  //           } else {
+  //             payPalCurrModel.PayPalCurrencyCodeErrorModel settleResult =
+  //                 payPalCurrModel.PayPalCurrencyCodeErrorModel.fromJson(value);
+  //             Navigator.pop(_scaffoldKey.currentContext!);
+  //             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //               content:
+  //                   Text("Status :".tr() + " ${settleResult.data.message}"),
+  //               duration: Duration(seconds: 8),
+  //               backgroundColor: Colors.red,
+  //             ));
+  //           }
+  //         } else {
+  //           PayPalErrorSettleModel settleResult =
+  //               PayPalErrorSettleModel.fromJson(value);
+  //           Navigator.pop(_scaffoldKey.currentContext!);
+  //           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //             content: Text("Status :".tr() + " ${settleResult.data.message}"),
+  //             duration: Duration(seconds: 8),
+  //             backgroundColor: Colors.red,
+  //           ));
+  //         }
+  //       });
+  //     } else {
+  //       Navigator.pop(_scaffoldKey.currentContext!);
+  //       ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+  //           .showSnackBar(SnackBar(
+  //         content: Text('Status : Payment Incomplete!!'.tr()),
+  //         duration: Duration(seconds: 8),
+  //         backgroundColor: Colors.red,
+  //       ));
+  //     }
+  //   });
+  // }
 
   /*
   /// Stripe Payment Gateway
