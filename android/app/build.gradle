@@ -41,9 +41,9 @@ android {
         minSdkVersion 26
         multiDexEnabled = true
         targetSdkVersion 34
-        versionCode 16
+        versionCode 18
 
-        versionName "16.0.0"
+        versionName "18.0.0"
         multiDexEnabled true
     }
 
@@ -51,7 +51,8 @@ android {
         release {
             keyAlias "grubbdriver"
             keyPassword "123456"
-            storeFile file("/Users/imac/StudioProjects/Grubb_Driver/android/grubbdriver.jks")
+//            storeFile file("/Users/imac/StudioProjects/Grubb_Driver/android/grubbdriver.jks")
+            storeFile file("D:\\Grubb_Driver\\android\\grubbdriver.jks")
             storePassword "123456"
         }
     }

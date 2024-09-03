@@ -14,23 +14,23 @@ import 'package:foodie_driver/model/FlutterWaveSettingDataModel.dart';
 import 'package:foodie_driver/model/MercadoPagoSettingsModel.dart';
 import 'package:foodie_driver/model/OrderModel.dart';
 import 'package:foodie_driver/model/PayFastSettingData.dart';
-import 'package:foodie_driver/model/PayPalCurrencyCodeErrorModel.dart'
-    as payPalCurrModel;
+// import 'package:foodie_driver/model/PayPalCurrencyCodeErrorModel.dart'
+//     as payPalCurrModel;
 import 'package:foodie_driver/model/PayStackSettingsModel.dart';
 import 'package:foodie_driver/model/createRazorPayOrderModel.dart';
 import 'package:foodie_driver/model/getPaytmTxtToken.dart';
 import 'package:foodie_driver/model/payStackURLModel.dart';
-import 'package:foodie_driver/model/paypalErrorSettle.dart';
+// import 'package:foodie_driver/model/paypalErrorSettle.dart';
 // import 'package:flutter_stripe/flutter_stripe.dart' as stripe1;
-import 'package:foodie_driver/model/paypalPaymentSettle.dart' as payPalSettel;
-import 'package:foodie_driver/model/paypalSettingData.dart';
+// import 'package:foodie_driver/model/paypalPaymentSettle.dart' as payPalSettel;
+// import 'package:foodie_driver/model/paypalSettingData.dart';
 import 'package:foodie_driver/model/paytmSettingData.dart';
 import 'package:foodie_driver/model/razorpayKeyModel.dart';
 import 'package:foodie_driver/model/stripeSettingData.dart';
 import 'package:foodie_driver/model/withdrawHistoryModel.dart';
 import 'package:foodie_driver/services/FirebaseHelper.dart';
 import 'package:foodie_driver/services/helper.dart';
-import 'package:foodie_driver/services/paypalclientToken.dart';
+// import 'package:foodie_driver/services/paypalclientToken.dart';
 import 'package:foodie_driver/services/paystack_url_genrater.dart';
 import 'package:foodie_driver/services/rozorpayConroller.dart';
 import 'package:foodie_driver/ui/topup/TopUpScreen.dart';
@@ -79,7 +79,7 @@ class WalletScreenState extends State<WalletScreen> {
   RazorPayModel? razorPayData;
   StripeSettingData? stripeData;
   PaytmSettingData? paytmSettingData;
-  PaypalSettingData? paypalSettingData;
+  // PaypalSettingData? paypalSettingData;
   PayStackSettingData? payStackSettingData;
   FlutterWaveSettingData? flutterWaveSettingData;
   PayFastSettingData? payFastSettingData;
@@ -170,7 +170,7 @@ class WalletScreenState extends State<WalletScreen> {
 
     razorPayData = await UserPreference.getRazorPayData();
     paytmSettingData = await UserPreference.getPaytmData();
-    paypalSettingData = await UserPreference.getPayPalData();
+    // paypalSettingData = await UserPreference.getPayPalData();
     payStackSettingData = await UserPreference.getPayStackData();
     flutterWaveSettingData = await UserPreference.getFlutterWaveData();
     payFastSettingData = await UserPreference.getPayFastData();
@@ -415,7 +415,7 @@ class WalletScreenState extends State<WalletScreen> {
 
   bool razorPay = false;
   bool payTm = false;
-  bool paypal = false;
+  // bool paypal = false;
   bool payStack = false;
   bool flutterWave = false;
   bool payFast = false;
@@ -583,7 +583,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   payStack = false;
                                   razorPay = false;
                                   payTm = false;
-                                  paypal = false;
+                                  // paypal = false;
                                   selectedRadioTile = value!;
                                 });
                               },
@@ -655,7 +655,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   payFast = false;
                                   razorPay = false;
                                   payTm = false;
-                                  paypal = false;
+                                  // paypal = false;
                                   selectedRadioTile = value!;
                                 });
                               },
@@ -728,7 +728,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   stripe = false;
                                   razorPay = false;
                                   payTm = false;
-                                  paypal = false;
+                                  // paypal = false;
                                   selectedRadioTile = value!;
                                 });
                               },
@@ -802,7 +802,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   razorPay = true;
                                   payTm = false;
                                   payFast = false;
-                                  paypal = false;
+                                  // paypal = false;
                                   payStack = false;
                                   selectedRadioTile = value!;
                                 });
@@ -867,7 +867,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   payStack = false;
                                   flutterWave = false;
                                   payTm = false;
-                                  paypal = false;
+                                  // paypal = false;
                                   selectedRadioTile = value!;
                                 });
                               },
@@ -940,7 +940,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   payTm = true;
                                   mercadoPago = false;
                                   razorPay = false;
-                                  paypal = false;
+                                  // paypal = false;
                                   payFast = false;
                                   payStack = false;
                                   selectedRadioTile = value!;
@@ -1012,7 +1012,7 @@ class WalletScreenState extends State<WalletScreen> {
                                   payStack = false;
                                   flutterWave = false;
                                   payTm = false;
-                                  paypal = false;
+                                  // paypal = false;
                                   selectedRadioTile = value!;
                                 });
                               },

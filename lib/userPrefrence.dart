@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:foodie_driver/model/razorpayKeyModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'model/paypalSettingData.dart';
+// import 'model/paypalSettingData.dart';
 import 'model/PayFastSettingData.dart';
 import 'model/MercadoPagoSettingsModel.dart';
 import 'model/stripeSettingData.dart';
@@ -56,18 +56,18 @@ class UserPreference {
     if (jsonData != null) return RazorPayModel.fromJson(jsonDecode(jsonData));
   }
 
-  static String paypalKey = "paypalKey";
+  // static String paypalKey = "paypalKey";
 
-  static setPayPalData(PaypalSettingData payPalSettingModel) async {
-    final jsonData = jsonEncode(payPalSettingModel);
-    await _preferences.setString(paypalKey, jsonData);
-  }
+  // static setPayPalData(PaypalSettingData payPalSettingModel) async {
+  //   final jsonData = jsonEncode(payPalSettingModel);
+  //   await _preferences.setString(paypalKey, jsonData);
+  // }
 
-  static getPayPalData() {
-    final String? jsonData = _preferences.getString(paypalKey);
-    if (jsonData != null)
-      return PaypalSettingData.fromJson((jsonDecode(jsonData)));
-  }
+  // static getPayPalData() {
+  //   final String? jsonData = _preferences.getString(paypalKey);
+  //   if (jsonData != null)
+  //     return PaypalSettingData.fromJson((jsonDecode(jsonData)));
+  // }
 
   static String payFast = "payFast";
 

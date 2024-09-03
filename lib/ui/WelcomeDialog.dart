@@ -31,7 +31,11 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
           title: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(10),
-            color:Color(COLOR_PRIMARY),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color:Color(COLOR_PRIMARY),
+            ),
+
             child: Text(
               'Location Disclosure',
               style: TextStyle(
@@ -80,7 +84,9 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.red),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                        color: Colors.red),
                     width: 110,
                     height: 40,
                     child: Text(
@@ -108,7 +114,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                     width: 110,
                     height: 40,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.green),
+                    decoration: BoxDecoration(  borderRadius: BorderRadius.circular(6),color:Color(COLOR_PRIMARY),),
                     child: Text(
                       'AGREE',
                       style: TextStyle(

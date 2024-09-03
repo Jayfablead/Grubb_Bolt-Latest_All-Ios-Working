@@ -1283,21 +1283,21 @@ class FireStoreUtils {
     return referralAmount;
   }
 
-  static getPaypalSettingData() async {
-    firestore
-        .collection(Setting)
-        .doc("paypalSettings")
-        .get()
-        .then((paypalData) {
-      try {
-        PaypalSettingData paypalDataModel =
-            PaypalSettingData.fromJson(paypalData.data() ?? {});
-        UserPreference.setPayPalData(paypalDataModel);
-      } catch (error) {
-        debugPrint(error.toString());
-      }
-    });
-  }
+  // static getPaypalSettingData() async {
+  //   firestore
+  //       .collection(Setting)
+  //       .doc("paypalSettings")
+  //       .get()
+  //       .then((paypalData) {
+  //     try {
+  //       // PaypalSettingData paypalDataModel =
+  //       //     PaypalSettingData.fromJson(paypalData.data() ?? {});
+  //       // UserPreference.setPayPalData(paypalDataModel);
+  //     } catch (error) {
+  //       debugPrint(error.toString());
+  //     }
+  //   });
+  // }
 
   static getStripeSettingData() async {
     firestore

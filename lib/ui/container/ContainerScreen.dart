@@ -106,7 +106,7 @@ class _ContainerScreen extends State<ContainerScreen> {
     });
 
     await FireStoreUtils().getRazorPayDemo();
-    await FireStoreUtils.getPaypalSettingData();
+    // await FireStoreUtils.getPaypalSettingData();
     await FireStoreUtils.getStripeSettingData();
     await FireStoreUtils.getPayStackSettingData();
     await FireStoreUtils.getFlutterWaveSettingData();
