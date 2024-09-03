@@ -11,11 +11,14 @@ import 'package:foodie_driver/model/mail_setting.dart';
 import 'package:foodie_driver/services/FirebaseHelper.dart';
 import 'package:foodie_driver/services/helper.dart';
 import 'package:foodie_driver/services/notification_service.dart';
+import 'package:foodie_driver/ui/WelcomeDialog.dart';
 import 'package:foodie_driver/ui/auth/AuthScreen.dart';
 import 'package:foodie_driver/ui/container/ContainerScreen.dart';
+import 'package:foodie_driver/ui/home/HomeScreen.dart';
 import 'package:foodie_driver/ui/onBoarding/OnBoardingScreen.dart';
 import 'package:foodie_driver/userPrefrence.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/User.dart';
@@ -133,48 +136,74 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        title: 'Grubb Locate'.tr(),
-        theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              centerTitle: true,
-              color: Colors.transparent,
-              elevation: 0,
-              actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
-              iconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
-            ),
-            bottomSheetTheme:
-                BottomSheetThemeData(backgroundColor: Colors.white),
-            primaryColor: Color(COLOR_PRIMARY),
-            textTheme: TextTheme(
-                headline6: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17.0,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w700)),
-            brightness: Brightness.light),
-        darkTheme: ThemeData(
-            appBarTheme: AppBarTheme(
-                centerTitle: true,
-                color: Colors.transparent,
-                elevation: 0,
-                actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
-                iconTheme: IconThemeData(color: Color(COLOR_PRIMARY))),
-            bottomSheetTheme:
-                BottomSheetThemeData(backgroundColor: Colors.grey.shade900),
-            primaryColor: Color(COLOR_PRIMARY),
-            textTheme: TextTheme(
-                headline6: TextStyle(
-                    color: Colors.grey[200],
-                    fontSize: 17.0,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.w700)),
-            brightness: Brightness.dark),
-        debugShowCheckedModeBanner: false,
-        color: Color(COLOR_PRIMARY),
-        home: OnBoarding());
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: 'Grubb Locate'.tr(),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          color: Colors.transparent,
+          elevation: 0,
+          actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
+          iconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
+        ),
+        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
+        primaryColor: Color(COLOR_PRIMARY),
+        textTheme: TextTheme(
+          headline6: TextStyle(
+            color: Colors.black,
+            fontSize: 17.0,
+            letterSpacing: 0,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          color: Colors.transparent,
+          elevation: 0,
+          actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
+          iconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
+        ),
+        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.grey.shade900),
+        primaryColor: Color(COLOR_PRIMARY),
+        textTheme: TextTheme(
+          headline6: TextStyle(
+            color: Colors.grey[200],
+            fontSize: 17.0,
+            letterSpacing: 0,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        brightness: Brightness.dark,
+      ),
+      debugShowCheckedModeBanner: false,
+      color: Color(COLOR_PRIMARY),
+      home: Builder(
+        builder: (context) {
+          // Check if the user has agreed to the terms
+          bool hasAgreed = UserPreference.getBoolean(UserPreference.userAgreementKey);
+          if (!hasAgreed) {
+            // Show WelcomeDialog if not agreed
+            return WelcomeDialog();
+          }
+
+          // Check if the user has finished onboarding
+          bool hasFinishedOnboarding = UserPreference.getBoolean(UserPreference.isFinishOnBoardingKey);
+          if (!hasFinishedOnboarding) {
+            // Show OnBoarding if onboarding not completed
+            return OnBoarding();
+          }
+
+          // Else, show main screen
+          return HomeScreen();
+        },
+      ),
+    );
+
   }
 
   @override

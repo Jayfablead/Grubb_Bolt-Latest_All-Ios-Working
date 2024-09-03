@@ -1,22 +1,30 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-import 'package:foodie_driver/model/FlutterWaveSettingDataModel.dart';
-import 'package:foodie_driver/model/PayFastSettingData.dart';
-import 'package:foodie_driver/model/PayStackSettingsModel.dart';
-import 'package:foodie_driver/model/paytmSettingData.dart';
+import 'package:foodie_driver/model/razorpayKeyModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'model/MercadoPagoSettingsModel.dart';
 import 'model/paypalSettingData.dart';
-import 'model/razorpayKeyModel.dart';
+import 'model/PayFastSettingData.dart';
+import 'model/MercadoPagoSettingsModel.dart';
 import 'model/stripeSettingData.dart';
+import 'model/FlutterWaveSettingDataModel.dart';
+import 'model/PayStackSettingsModel.dart';
+import 'model/paytmSettingData.dart';
 
 class UserPreference {
   static late SharedPreferences _preferences;
+  static const userAgreementKey = "userAgreementKey";
+  static const isFinishOnBoardingKey = "isFinishOnBoardingKey";
 
-  static Future init() async {
+  static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
+  }
+
+  static bool getBoolean(String key) {
+    return _preferences.getBool(key) ?? false;
+  }
+
+  static Future<void> setBoolean(String key, bool value) async {
+    await _preferences.setBool(key, value);
   }
 
   static const razorPayDataKey = "razorPayData";
@@ -149,9 +157,8 @@ class UserPreference {
     _preferences.setString(_orderId, orderId);
   }
 
-  static getOrderId() {
-    final String? orderId = _preferences.getString(_orderId);
-    return orderId != null ? orderId : "";
+  static String getOrderId() {
+    return _preferences.getString(_orderId) ?? "";
   }
 
   static const _paymentId = "paymentId";
@@ -165,3 +172,4 @@ class UserPreference {
     return paymentId != null ? paymentId : "";
   }
 }
+
