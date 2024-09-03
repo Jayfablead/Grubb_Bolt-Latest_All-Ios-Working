@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodie_driver/constants.dart';
 import 'package:foodie_driver/main.dart';
 import 'package:foodie_driver/userPrefrence.dart';
 import 'package:get/get.dart';
@@ -30,12 +31,12 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
           title: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.all(10),
-            color: Colors.lightGreen,
+            color:Color(COLOR_PRIMARY),
             child: Text(
               'Location Disclosure',
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.black,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
@@ -53,14 +54,14 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                           style: TextStyle(fontSize: 15)),
                       TextSpan(
                         text:
-                            'ParkPal utilizes the device\'s location in the background to search for available Parkings nearby as per your location.',
+                            'To provide timely deliveries and accurate navigation',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
                       TextSpan(
                         text: '\n\n'
-                            'These insights are crucial for the app to function. The app would not be able to search for Parkings nearby if it can not access your location.\n\n'
-                            'You can choose not to allow the permission, but the app won\'t be functional. Please allow the app to access your location.',
+                            'the Grubb Bolt app needs to access your location. If you choose not to allow this permission, the app won\'t be functional.\n\n'
+                            'Please tap "Allow" to continue using the app.',
                         style: TextStyle(fontSize: 15),
                       ),
                     ],
@@ -80,7 +81,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(color: Colors.red),
-                    width: 120,
+                    width: 110,
                     height: 40,
                     child: Text(
                       'NOT NOW',
@@ -104,7 +105,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                     Get.off(OnBoarding());
                   },
                   child: Container(
-                    width: 120,
+                    width: 110,
                     height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(color: Colors.green),
