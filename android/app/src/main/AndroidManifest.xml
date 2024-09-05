@@ -31,19 +31,19 @@
         android:roundIcon="@mipmap/ic_launcher">
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. -->
 
-        <activity
-            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
-            android:exported="false"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+<!--        <activity-->
+<!--            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"-->
+<!--            android:exported="false"-->
+<!--            android:launchMode="singleTask">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data android:scheme="${applicationId}.braintree" />
-            </intent-filter>
-        </activity>
+<!--                <data android:scheme="${applicationId}.braintree" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />

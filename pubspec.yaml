@@ -2,7 +2,7 @@ name: foodie_driver
 description: A new Flutter application.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 18.0.0+18
+version: 20.0.0+20
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -60,7 +60,6 @@ dependencies:
   get:
 #  flutter_stripe: any
   mercadopago_sdk: any
-  flutter_braintree: ^3.0.0
   paytm_allinonesdk: ^1.2.2
   flutterwave_standard: any
   mailer: ^6.0.1

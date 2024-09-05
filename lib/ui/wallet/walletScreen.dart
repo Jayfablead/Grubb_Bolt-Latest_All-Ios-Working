@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_braintree/flutter_braintree.dart';
+
 import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:foodie_driver/model/FlutterWaveSettingDataModel.dart';
 import 'package:foodie_driver/model/MercadoPagoSettingsModel.dart';
@@ -1204,11 +1204,13 @@ class WalletScreenState extends State<WalletScreen> {
                               showLoadingAlert();
                               getPaytmCheckSum(context,
                                   amount: double.parse(_amountController.text));
-                            } else if (selectedRadioTile == "PayPal") {
-                              Navigator.pop(context);
-                              showLoadingAlert();
-                              // _paypalPayment();
-                            } else if (selectedRadioTile == "PayStack") {
+                            }
+                            // else if (selectedRadioTile == "PayPal") {
+                            //   Navigator.pop(context);
+                            //   showLoadingAlert();
+                            //   // _paypalPayment();
+                            // }
+                            else if (selectedRadioTile == "PayStack") {
                               Navigator.pop(context);
                               showLoadingAlert();
                               payStackPayment();

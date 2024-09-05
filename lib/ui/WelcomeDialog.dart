@@ -37,7 +37,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
             ),
 
             child: Text(
-              'Location Disclosure',
+              'Location Access Required',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
@@ -54,18 +54,17 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
-                          text: 'With your explicit consent, ',
+                          text: '[Grubb Bolt] collects and transmits your location data to enable real-time order tracking and delivery services, even when the app is closed or not in use.',
                           style: TextStyle(fontSize: 15)),
                       TextSpan(
                         text:
-                            'To provide timely deliveries and accurate navigation',
+                            'By tapping "Agree," you consent to the use of your location data as described above and agree to the app’s Privacy Policy and Terms & Conditions.',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15),
                       ),
                       TextSpan(
                         text: '\n\n'
-                            'the Grubb Bolt app needs to access your location. If you choose not to allow this permission, the app won\'t be functional.\n\n'
-                            'Please tap "Allow" to continue using the app.',
+                            'Important: If you do not agree, the app will not be functional, and you will not be able to receive orders or use any features.',
                         style: TextStyle(fontSize: 15),
                       ),
                     ],

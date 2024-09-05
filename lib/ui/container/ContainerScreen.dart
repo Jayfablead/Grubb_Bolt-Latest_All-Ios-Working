@@ -430,7 +430,7 @@ class _ContainerScreen extends State<ContainerScreen> {
                         selected:
                             _drawerSelection == DrawerSelection.termsCondition,
                         leading: const Icon(Icons.policy),
-                        title: const Text('Terms and Condition').tr(),
+                        title: const Text('Privacy Policy').tr(),
                         onTap: () async {
                           push(context, const TermsAndCondition());
                         },

@@ -41,9 +41,9 @@ android {
         minSdkVersion 26
         multiDexEnabled = true
         targetSdkVersion 34
-        versionCode 18
+        versionCode 20
 
-        versionName "18.0.0"
+        versionName "20.0.0"
         multiDexEnabled true
     }
 
@@ -71,13 +71,14 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.google.android.material:material:1.8.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'androidx.window:window:1.0.0'
     implementation 'androidx.window:window-java:1.0.0'
     implementation 'io.card:android-sdk:5.+'
-    implementation "com.braintreepayments.api:braintree:3.0.0"
+
 
 }
 apply plugin: 'com.google.gms.google-services'
