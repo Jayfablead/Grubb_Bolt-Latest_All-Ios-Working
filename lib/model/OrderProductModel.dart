@@ -10,6 +10,9 @@ class OrderProductModel {
   String photo;
   String price;
   String packingcharges;
+  String? groceryWeight;
+  String? item;
+  String? groceryUnit;
   String discountPrice;
   int quantity;
   String vendorID;
@@ -23,6 +26,9 @@ class OrderProductModel {
       this.name = '',
       this.quantity = 0,
       this.vendorID = '',
+        this.groceryWeight = '',
+        this.groceryUnit = '',
+        this.item = '',
       this.extras = const [],
       this.extrasPrice = "",
       this.variantInfo,
@@ -76,6 +82,9 @@ class OrderProductModel {
       photo: parsedJson['photo'] == '' ? placeholderImage : parsedJson['photo'],
       price: parsedJson['price'] ?? '',
       packingcharges: parsedJson['packingcharges'] ?? '',
+      groceryUnit: parsedJson['groceryUnit'] ?? '',
+      groceryWeight: parsedJson['groceryWeight'] ?? '',
+      item: parsedJson['item'] ?? '',
       discountPrice: parsedJson['discount_price'] ?? '',
       quantity: quanVal,
       name: parsedJson['name'] ?? '',
@@ -97,6 +106,9 @@ class OrderProductModel {
       'photo': this.photo,
       'price': this.price,
       'packingcharges': this.packingcharges,
+      'item': this.item,
+      'groceryWeight': this.groceryWeight,
+      'groceryUnit': this.groceryUnit,
       'discount_price': this.discountPrice,
       'name': this.name,
       'quantity': this.quantity,

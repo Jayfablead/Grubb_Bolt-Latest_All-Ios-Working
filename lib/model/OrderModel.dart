@@ -36,6 +36,9 @@ class OrderModel {
   //String? extra_size;
   String? tipValue;
   String? adminCommission;
+  String? groceryWeight;
+  String? item;
+  String? groceryUnit;
   String? adminCommissionType;
   final bool? takeAway;
   List<TaxModel>? taxModel;
@@ -55,6 +58,10 @@ class OrderModel {
       this.paymentMethod = '',
       createdAt,
       this.id = '',
+        this.item,
+
+        this.groceryWeight,
+        this.groceryUnit,
       this.products = const [],
       this.status = '',
       this.discount = 0,
@@ -175,6 +182,15 @@ class OrderModel {
           ? User.fromJson(parsedJson['driver'])
           : null,
       driverID: parsedJson['driverID'] ?? null,
+      item: parsedJson["item"] != null
+          ? parsedJson["item"]
+          : "",
+      groceryUnit: parsedJson["groceryUnit"] != null
+          ? parsedJson["groceryUnit"]
+          : "",
+      groceryWeight: parsedJson["groceryWeight"] != null
+          ? parsedJson["groceryWeight"]
+          : "",
       adminCommission: parsedJson["adminCommission"]?.toString() ?? "",
       adminCommissionType: parsedJson["adminCommissionType"]?.toString() ?? "",
       tipValue: parsedJson["tip_amount"]?.toString() ?? "",
@@ -209,6 +225,9 @@ class OrderModel {
       'adminCommission': this.adminCommission,
       'adminCommissionType': this.adminCommissionType,
       "tip_amount": this.tipValue,
+      'item': this.item,
+      'groceryWeight': this.groceryWeight,
+      'groceryUnit': this.groceryUnit,
       "taxSetting":
           taxModel != null ? taxModel!.map((v) => v.toJson()).toList() : null,
       "takeAway": this.takeAway,

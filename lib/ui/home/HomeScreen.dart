@@ -1034,7 +1034,7 @@ class HomeScreenState extends State<HomeScreen> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        '${currentOrder!.products[index].name}',
+                                                        currentOrder!.products[index].item == "grocery"?currentOrder!.products[index].name + "(${currentOrder!.products[index].groceryWeight}${currentOrder!.products[index].groceryUnit})":currentOrder!.products[index].name,
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Poppinsr',

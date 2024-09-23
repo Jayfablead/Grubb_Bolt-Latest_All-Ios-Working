@@ -251,7 +251,7 @@ num haresh=0;
                       ),
                     ),
                     title: Text(
-                      product.name,
+                        product.item=="grocery"?product.name + "(${product.groceryWeight}${product.groceryUnit})":product.name,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: isDarkMode(context)
