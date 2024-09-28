@@ -238,8 +238,8 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
     final Map<String, dynamic> data = {
 
-    "email":widget.isNewAccount=="Edit Bank"?randomEmail:MyAppState?.currentUser?.email==null||MyAppState?.currentUser?.email==""?randomEmail:MyAppState?.currentUser?.email ?? "",
-      // "email":randomEmail,
+    // "email":widget.isNewAccount=="Edit Bank"?randomEmail:MyAppState?.currentUser?.email==null||MyAppState?.currentUser?.email==""?randomEmail:MyAppState?.currentUser?.email ?? "",
+      "email":"abc123456@gmail.com",
       "phone":MyAppState?.currentUser?.phoneNumber ?? "",
       "type":"route",
       "reference_id":_uniqueId,
@@ -496,6 +496,11 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
           holderNameController.text;
       user!.userBankDetails.otherDetails =
           otherInfoController.text;
+      user!.userBankDetails.otherDetails =otherInfoController.text;
+      user!.userBankDetails.pancard ="";
+      user!.userBankDetails.gstnumber =razoraddbankmodal?.id ?? "";
+      user!.userBankDetails.businessname ="";
+      user!.userBankDetails.businesstype ="";
 
       var updatedUser =
       await FireStoreUtils.updateCurrentUser(user!);

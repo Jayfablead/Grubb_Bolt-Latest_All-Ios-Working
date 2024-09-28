@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:foodie_driver/constants.dart';
 import 'package:foodie_driver/main.dart';
+import 'package:foodie_driver/model/OrderCretedRazorpayModal.dart';
 import 'package:foodie_driver/model/OrderModel.dart';
 import 'package:foodie_driver/model/User.dart';
 import 'package:foodie_driver/services/FirebaseHelper.dart';
@@ -19,8 +21,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
-
+import 'package:http/http.dart' as http;
 import '../../services/notification_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,7 +35,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   final fireStoreUtils = FireStoreUtils();
-
+  double razorpayamout = 0.0;
   GoogleMapController? _mapController;
 
   BitmapDescriptor? departureIcon;
@@ -171,8 +174,10 @@ class HomeScreenState extends State<HomeScreen> {
     ordersFuture = FireStoreUtils()
         .getOrderByID(_driverModel!.inProgressOrderID.toString());
     ordersFuture.listen((event) {
+      print("razorpayamoutrazorpayamoutrazorpayamout${event!.status}");
       print("------->${event!.status}");
       setState(() {
+
         currentOrder = event;
         getDirections();
       });
@@ -354,6 +359,8 @@ class HomeScreenState extends State<HomeScreen> {
     num deliverycharge = num.parse(
             kilometer.toStringAsFixed(currencyModel!.decimal)) *
         num.parse(_driverModel!.orderRequestData!.deliveryCharge.toString());
+    razorpayamout=double.parse((_driverModel!.orderRequestData?.deliveryCharge).toString());
+    print("razorpayamoutrazorpayamoutrazorpayamout${razorpayamout}");
     return Padding(
       padding: EdgeInsets.all(10),
       child: Container(
@@ -1230,7 +1237,7 @@ class HomeScreenState extends State<HomeScreen> {
     print("user data ");
     audioPlayer.stop();
     OrderModel orderModel = _driverModel!.orderRequestData!;
-
+    loginapp();
     _driverModel!.orderRequestData = null;
     _driverModel!.inProgressOrderID = orderModel.id;
 
@@ -1472,7 +1479,112 @@ class HomeScreenState extends State<HomeScreen> {
     //
     // return checkCameraLocation(cameraUpdate, mapController);
   }
+  OrderCretedRazorpayModal? ordercretedrazorpaymodal;
+  loginapp() async {
 
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(("please wait")),
+    ));
+
+    String keyId = 'rzp_live_aiiEEnXaiz5Rp1';
+    String secret = '4S1VTjOF4jDmN0o85vQbScPL';
+    String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
+    final Map<String, dynamic> data = {
+
+
+      "amount":razorpayamout * 100,
+      "payment_capture": 1,
+      "currency":"INR",
+      "transfers": [
+        {
+          "account": MyAppState?.currentUser?.userBankDetails?.gstnumber ?? "",//Please replace with appropriate ID.
+          "amount": razorpayamout * 100,
+          "currency": "INR",
+          "notes": {
+            "branch": "Acme Corp Bangalore South",
+            "name": MyAppState?.currentUser?.userBankDetails?.holderName ?? ""
+          },
+          "linked_account_notes": [
+            "branch"
+          ],
+          "on_hold": false,
+          "on_hold_until": null
+        }
+      ]
+
+
+    };
+    // Convert 'billing' to a string
+
+    print("datadatadatadatadata${data}");
+    final apiUrl = "https://api.razorpay.com/v1/orders";
+
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'authorization':basicAuth,
+
+    };
+    // Construct the request body
+    final requestBody = json.encode(data);
+
+    // Make the API call using http.post
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers:headers,
+      body: requestBody,
+    );
+
+    print("requestBody${requestBody}");
+    print("responsefkglkfdlgkfdg${response}");
+
+
+    // Handle the response
+
+    if (response.statusCode == 200) {
+      ordercretedrazorpaymodal = OrderCretedRazorpayModal.fromJson(json.decode(response.body));
+      print("loginapp api sucessfuuly ");
+
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Payment data to be stored
+      Map<String, dynamic> paymentData = {
+        "amount": razorpayamout,
+        "payment_capture": 1,
+        "currency": "INR",
+        "transfers": [
+          {
+            "account": MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
+            "amount": razorpayamout,
+            "currency": "INR",
+            "notes": {
+              "branch": "Acme Corp Bangalore South",
+              "name": MyAppState?.currentUser?.userBankDetails?.holderName ??
+                  "",
+            },
+            "linked_account_notes": ["branch"],
+            "on_hold": false,
+            "on_hold_until": null,
+          }
+        ]
+      };
+
+      // Adding the data to a Firestore collection (e.g., 'payments')
+      await firestore.collection('razorpayLinkedAccountsPayments').add(
+          paymentData);
+      setState(() {
+        razorpayamout=0.0;
+      });
+    } else {
+      // errorresponse = ErrorResponse.fromJson(json.decode(response.body));
+      print("sdsdfsdfsdfsdfsdf");
+      print("sgssfsd${response.body}");
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text((errorresponse?.error?.description ?? "")),
+      // ));
+    }
+  }
   Future<void> checkCameraLocation(
       CameraUpdate cameraUpdate, GoogleMapController mapController) async {
     mapController.animateCamera(cameraUpdate);

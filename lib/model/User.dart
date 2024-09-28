@@ -253,16 +253,24 @@ class UserLocation {
 class UserBankDetails {
   String bankName;
   String branchName;
+  String businessname;
+  String businesstype;
+  String pancard;
   String holderName;
   String accountNumber;
   String otherDetails;
+  String gstnumber;
 
   UserBankDetails({
     this.bankName = '',
     this.otherDetails = '',
     this.branchName = '',
+    this.businessname = '',
     this.accountNumber = '',
     this.holderName = '',
+    this.businesstype = '',
+    this.gstnumber = '',
+    this.pancard = '',
   });
 
   factory UserBankDetails.fromJson(Map<String, dynamic> parsedJson) {
@@ -270,8 +278,12 @@ class UserBankDetails {
       bankName: parsedJson['bankName'] ?? '',
       branchName: parsedJson['branchName'] ?? '',
       holderName: parsedJson['holderName'] ?? '',
+      businessname: parsedJson['businessname'] ?? '',
+      pancard: parsedJson['pancard'] ?? '',
+      gstnumber: parsedJson['gstnumber'] ?? '',
       accountNumber: parsedJson['accountNumber'] ?? '',
       otherDetails: parsedJson['otherDetails'] ?? '',
+      businesstype: parsedJson['businesstype'] ?? '',
     );
   }
 
@@ -281,7 +293,11 @@ class UserBankDetails {
       'branchName': this.branchName,
       'holderName': this.holderName,
       'accountNumber': this.accountNumber,
+      'pancard': this.pancard,
+      'gstnumber': this.gstnumber,
       'otherDetails': this.otherDetails,
+      'businessname': this.businessname,
+      'legalbusinessname': this.businesstype,
     };
   }
 }

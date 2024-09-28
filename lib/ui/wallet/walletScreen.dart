@@ -317,44 +317,44 @@ class WalletScreenState extends State<WalletScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10, top: 5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            buildButton(context, width: 0.44, title: 'WITHDRAW'.tr(),
-                onPress: () {
-              if (MyAppState
-                  .currentUser!.userBankDetails.accountNumber.isNotEmpty) {
-                withdrawAmountBottomSheet(context);
-              } else {
-                final snackBar = SnackBar(
-                  backgroundColor: Colors.red[400],
-                  content: Text(
-                    'Please add your Bank Details first'.tr(),
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-            }),
-            buildTransButton(context, width: 0.44, title: 'WITHDRAWAL'.tr(),
-                onPress: () {
-              if (MyAppState
-                  .currentUser!.userBankDetails.accountNumber.isNotEmpty) {
-                withdrawalHistoryBottomSheet(context);
-              } else {
-                final snackBar = SnackBar(
-                  backgroundColor: Colors.red[400],
-                  content: Text(
-                    'Please add your Bank Details first'.tr(),
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-            }),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.only(bottom: 10, top: 5),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //     children: [
+      //       buildButton(context, width: 0.44, title: 'WITHDRAW'.tr(),
+      //           onPress: () {
+      //         if (MyAppState
+      //             .currentUser!.userBankDetails.accountNumber.isNotEmpty) {
+      //           withdrawAmountBottomSheet(context);
+      //         } else {
+      //           final snackBar = SnackBar(
+      //             backgroundColor: Colors.red[400],
+      //             content: Text(
+      //               'Please add your Bank Details first'.tr(),
+      //             ),
+      //           );
+      //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //         }
+      //       }),
+      //       buildTransButton(context, width: 0.44, title: 'WITHDRAWAL'.tr(),
+      //           onPress: () {
+      //         if (MyAppState
+      //             .currentUser!.userBankDetails.accountNumber.isNotEmpty) {
+      //           withdrawalHistoryBottomSheet(context);
+      //         } else {
+      //           final snackBar = SnackBar(
+      //             backgroundColor: Colors.red[400],
+      //             content: Text(
+      //               'Please add your Bank Details first'.tr(),
+      //             ),
+      //           );
+      //           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //         }
+      //       }),
+      //     ],
+      //   ),
+      // ),
     );
   }
 
@@ -2165,299 +2165,299 @@ class WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  withdrawAmountBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25), topRight: Radius.circular(25)),
-        ),
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return Container(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom + 5),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25.0, bottom: 10),
-                      child: Text(
-                        "Withdraw".tr(),
-                        style: TextStyle(
-                          fontSize: 18,
-                          color:
-                              isDarkMode(context) ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 25),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            border: Border.all(
-                                color: Color(COLOR_ACCENT), width: 4)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15.0, horizontal: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    userBankDetail!.bankName,
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(COLOR_PRIMARY_DARK),
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.account_balance,
-                                    size: 40,
-                                    color: Color(COLOR_ACCENT),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                userBankDetail!.accountNumber,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDarkMode(context)
-                                      ? Colors.white.withOpacity(0.9)
-                                      : Colors.black.withOpacity(0.9),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                userBankDetail!.holderName,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDarkMode(context)
-                                      ? Colors.white.withOpacity(0.7)
-                                      : Colors.black.withOpacity(0.7),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    userBankDetail!.otherDetails,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: isDarkMode(context)
-                                          ? Colors.white.withOpacity(0.9)
-                                          : Colors.black.withOpacity(0.9),
-                                    ),
-                                  ),
-                                  Text(
-                                    userBankDetail!.branchName,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: isDarkMode(context)
-                                          ? Colors.white.withOpacity(0.7)
-                                          : Colors.black.withOpacity(0.7),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 5),
-                          child: RichText(
-                            text: TextSpan(
-                              text: "Amount to Withdraw".tr(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: isDarkMode(context)
-                                    ? Colors.white70
-                                    : Colors.black.withOpacity(0.7),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Form(
-                      key: _globalKeywithdraw,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 2),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0.0, horizontal: 8),
-                          child: TextFormField(
-                            controller: _amountController,
-                            style: TextStyle(
-                              color: Color(COLOR_PRIMARY_DARK),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            //initialValue:"50",
-                            maxLines: 1,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "*required Field".tr();
-                              } else {
-                                if (double.parse(value) <= 0) {
-                                  return "*Invalid Amount".tr();
-                                } else if (double.parse(value) >
-                                    double.parse(walletAmount)) {
-                                  return "*withdraw is more then wallet balance"
-                                      .tr();
-                                } else {
-                                  return null;
-                                }
-                              }
-                            },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+\.?\d{0,2}')),
-                            ],
-                            keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                            decoration: InputDecoration(
-                              prefix: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 2),
-                                child: Text(
-                                  "${currencyModel!.symbol}",
-                                  style: TextStyle(
-                                    color: isDarkMode(context)
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                              fillColor: Colors.grey[200],
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  borderSide: BorderSide(
-                                      color: Color(COLOR_PRIMARY),
-                                      width: 1.50)),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).errorColor),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).errorColor),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey.shade400),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 10),
-                      child: TextFormField(
-                        controller: _noteController,
-                        style: TextStyle(
-                          color: Color(COLOR_PRIMARY_DARK),
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        //initialValue:"50",
-                        maxLines: 1,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "*required Field".tr();
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: 'Add note'.tr(),
-                          fillColor: Colors.grey[200],
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                              borderSide: BorderSide(
-                                  color: Color(COLOR_PRIMARY), width: 1.50)),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Theme.of(context).errorColor),
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Theme.of(context).errorColor),
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(5.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: buildButton(context, title: "WITHDRAW".tr(),
-                          onPress: () {
-                        if (_globalKeywithdraw.currentState!.validate()) {
-                          print("------->");
-                          print(minimumAmountToWithdrawal);
-                          print(_amountController.text);
-                          if (double.parse(minimumAmountToWithdrawal) >
-                              double.parse(_amountController.text)) {
-                            showAlertDialog(
-                                context,
-                                "Failed!".tr(),
-                                'Withdraw amount must be greater or equal to ${amountShow(amount: minimumAmountToWithdrawal)}'
-                                    .tr(),
-                                true);
-                          } else {
-                            withdrawRequest();
-                          }
-                        }
-                      }),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
-        });
-  }
+  // withdrawAmountBottomSheet(BuildContext context) {
+  //   return showModalBottomSheet(
+  //       context: context,
+  //       isScrollControlled: true,
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+  //       ),
+  //       builder: (context) {
+  //         return StatefulBuilder(builder: (context, setState) {
+  //           return Container(
+  //             padding: EdgeInsets.only(
+  //                 bottom: MediaQuery.of(context).viewInsets.bottom + 5),
+  //             child: SingleChildScrollView(
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   Padding(
+  //                     padding: const EdgeInsets.only(top: 25.0, bottom: 10),
+  //                     child: Text(
+  //                       "Withdraw".tr(),
+  //                       style: TextStyle(
+  //                         fontSize: 18,
+  //                         color:
+  //                             isDarkMode(context) ? Colors.white : Colors.black,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Padding(
+  //                     padding: const EdgeInsets.symmetric(
+  //                         horizontal: 15.0, vertical: 25),
+  //                     child: Container(
+  //                       decoration: BoxDecoration(
+  //                           borderRadius: BorderRadius.circular(18),
+  //                           border: Border.all(
+  //                               color: Color(COLOR_ACCENT), width: 4)),
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.symmetric(
+  //                             vertical: 15.0, horizontal: 15),
+  //                         child: Column(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Row(
+  //                               mainAxisAlignment:
+  //                                   MainAxisAlignment.spaceBetween,
+  //                               children: [
+  //                                 Text(
+  //                                   userBankDetail!.bankName,
+  //                                   style: TextStyle(
+  //                                     fontSize: 22,
+  //                                     fontWeight: FontWeight.bold,
+  //                                     color: Color(COLOR_PRIMARY_DARK),
+  //                                   ),
+  //                                 ),
+  //                                 Icon(
+  //                                   Icons.account_balance,
+  //                                   size: 40,
+  //                                   color: Color(COLOR_ACCENT),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                             SizedBox(
+  //                               height: 2,
+  //                             ),
+  //                             Text(
+  //                               userBankDetail!.accountNumber,
+  //                               style: TextStyle(
+  //                                 fontSize: 20,
+  //                                 fontWeight: FontWeight.w600,
+  //                                 color: isDarkMode(context)
+  //                                     ? Colors.white.withOpacity(0.9)
+  //                                     : Colors.black.withOpacity(0.9),
+  //                               ),
+  //                             ),
+  //                             SizedBox(
+  //                               height: 10,
+  //                             ),
+  //                             Text(
+  //                               userBankDetail!.holderName,
+  //                               style: TextStyle(
+  //                                 fontSize: 18,
+  //                                 fontWeight: FontWeight.bold,
+  //                                 color: isDarkMode(context)
+  //                                     ? Colors.white.withOpacity(0.7)
+  //                                     : Colors.black.withOpacity(0.7),
+  //                               ),
+  //                             ),
+  //                             SizedBox(
+  //                               height: 4,
+  //                             ),
+  //                             Row(
+  //                               mainAxisAlignment:
+  //                                   MainAxisAlignment.spaceBetween,
+  //                               children: [
+  //                                 Text(
+  //                                   userBankDetail!.otherDetails,
+  //                                   style: TextStyle(
+  //                                     fontSize: 20,
+  //                                     color: isDarkMode(context)
+  //                                         ? Colors.white.withOpacity(0.9)
+  //                                         : Colors.black.withOpacity(0.9),
+  //                                   ),
+  //                                 ),
+  //                                 Text(
+  //                                   userBankDetail!.branchName,
+  //                                   style: TextStyle(
+  //                                     fontSize: 18,
+  //                                     color: isDarkMode(context)
+  //                                         ? Colors.white.withOpacity(0.7)
+  //                                         : Colors.black.withOpacity(0.7),
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                             SizedBox(
+  //                               height: 10,
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Row(
+  //                     children: [
+  //                       Padding(
+  //                         padding: const EdgeInsets.symmetric(
+  //                             horizontal: 20.0, vertical: 5),
+  //                         child: RichText(
+  //                           text: TextSpan(
+  //                             text: "Amount to Withdraw".tr(),
+  //                             style: TextStyle(
+  //                               fontSize: 16,
+  //                               color: isDarkMode(context)
+  //                                   ? Colors.white70
+  //                                   : Colors.black.withOpacity(0.7),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   Form(
+  //                     key: _globalKeywithdraw,
+  //                     child: Padding(
+  //                       padding: const EdgeInsets.symmetric(
+  //                           horizontal: 20.0, vertical: 2),
+  //                       child: Padding(
+  //                         padding: const EdgeInsets.symmetric(
+  //                             vertical: 0.0, horizontal: 8),
+  //                         child: TextFormField(
+  //                           controller: _amountController,
+  //                           style: TextStyle(
+  //                             color: Color(COLOR_PRIMARY_DARK),
+  //                             fontSize: 20,
+  //                             fontWeight: FontWeight.w700,
+  //                           ),
+  //                           //initialValue:"50",
+  //                           maxLines: 1,
+  //                           validator: (value) {
+  //                             if (value!.isEmpty) {
+  //                               return "*required Field".tr();
+  //                             } else {
+  //                               if (double.parse(value) <= 0) {
+  //                                 return "*Invalid Amount".tr();
+  //                               } else if (double.parse(value) >
+  //                                   double.parse(walletAmount)) {
+  //                                 return "*withdraw is more then wallet balance"
+  //                                     .tr();
+  //                               } else {
+  //                                 return null;
+  //                               }
+  //                             }
+  //                           },
+  //                           inputFormatters: [
+  //                             FilteringTextInputFormatter.allow(
+  //                                 RegExp(r'^\d+\.?\d{0,2}')),
+  //                           ],
+  //                           keyboardType:
+  //                               TextInputType.numberWithOptions(decimal: true),
+  //                           decoration: InputDecoration(
+  //                             prefix: Padding(
+  //                               padding: const EdgeInsets.symmetric(
+  //                                   horizontal: 12.0, vertical: 2),
+  //                               child: Text(
+  //                                 "${currencyModel!.symbol}",
+  //                                 style: TextStyle(
+  //                                   color: isDarkMode(context)
+  //                                       ? Colors.white
+  //                                       : Colors.black,
+  //                                   fontSize: 20,
+  //                                   fontWeight: FontWeight.w700,
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                             fillColor: Colors.grey[200],
+  //                             focusedBorder: OutlineInputBorder(
+  //                                 borderRadius: BorderRadius.circular(5.0),
+  //                                 borderSide: BorderSide(
+  //                                     color: Color(COLOR_PRIMARY),
+  //                                     width: 1.50)),
+  //                             errorBorder: OutlineInputBorder(
+  //                               borderSide: BorderSide(
+  //                                   color: Theme.of(context).errorColor),
+  //                               borderRadius: BorderRadius.circular(5.0),
+  //                             ),
+  //                             focusedErrorBorder: OutlineInputBorder(
+  //                               borderSide: BorderSide(
+  //                                   color: Theme.of(context).errorColor),
+  //                               borderRadius: BorderRadius.circular(5.0),
+  //                             ),
+  //                             enabledBorder: OutlineInputBorder(
+  //                               borderSide:
+  //                                   BorderSide(color: Colors.grey.shade400),
+  //                               borderRadius: BorderRadius.circular(5.0),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Padding(
+  //                     padding: const EdgeInsets.symmetric(
+  //                         horizontal: 25, vertical: 10),
+  //                     child: TextFormField(
+  //                       controller: _noteController,
+  //                       style: TextStyle(
+  //                         color: Color(COLOR_PRIMARY_DARK),
+  //                         fontSize: 20,
+  //                         fontWeight: FontWeight.w700,
+  //                       ),
+  //                       //initialValue:"50",
+  //                       maxLines: 1,
+  //                       validator: (value) {
+  //                         if (value!.isEmpty) {
+  //                           return "*required Field".tr();
+  //                         }
+  //                         return null;
+  //                       },
+  //                       keyboardType: TextInputType.text,
+  //                       decoration: InputDecoration(
+  //                         hintText: 'Add note'.tr(),
+  //                         fillColor: Colors.grey[200],
+  //                         focusedBorder: OutlineInputBorder(
+  //                             borderRadius: BorderRadius.circular(5.0),
+  //                             borderSide: BorderSide(
+  //                                 color: Color(COLOR_PRIMARY), width: 1.50)),
+  //                         errorBorder: OutlineInputBorder(
+  //                           borderSide:
+  //                               BorderSide(color: Theme.of(context).errorColor),
+  //                           borderRadius: BorderRadius.circular(5.0),
+  //                         ),
+  //                         focusedErrorBorder: OutlineInputBorder(
+  //                           borderSide:
+  //                               BorderSide(color: Theme.of(context).errorColor),
+  //                           borderRadius: BorderRadius.circular(5.0),
+  //                         ),
+  //                         enabledBorder: OutlineInputBorder(
+  //                           borderSide: BorderSide(color: Colors.grey.shade400),
+  //                           borderRadius: BorderRadius.circular(5.0),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Padding(
+  //                     padding: const EdgeInsets.symmetric(vertical: 10.0),
+  //                     child: buildButton(context, title: "WITHDRAW".tr(),
+  //                         onPress: () {
+  //                       if (_globalKeywithdraw.currentState!.validate()) {
+  //                         print("------->");
+  //                         print(minimumAmountToWithdrawal);
+  //                         print(_amountController.text);
+  //                         if (double.parse(minimumAmountToWithdrawal) >
+  //                             double.parse(_amountController.text)) {
+  //                           showAlertDialog(
+  //                               context,
+  //                               "Failed!".tr(),
+  //                               'Withdraw amount must be greater or equal to ${amountShow(amount: minimumAmountToWithdrawal)}'
+  //                                   .tr(),
+  //                               true);
+  //                         } else {
+  //                           withdrawRequest();
+  //                         }
+  //                       }
+  //                     }),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           );
+  //         });
+  //       });
+  // }
 
   withdrawRequest() {
     Navigator.pop(context);
