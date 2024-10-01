@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_driver/constants.dart';
@@ -64,6 +65,7 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
   void initState() {
     super.initState();
     _generateUniqueId();
+    getRazorpayCredentials();
     randomEmail = generateRandomEmail();
     FireStoreUtils.getCurrentUser(MyAppState.currentUser!.userID).then((value) {
       setState(() {
@@ -228,13 +230,37 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
       ),
     );
   }
+  String? razorpayKey;
+  String? razorpaySecret;
+  Future<void> getRazorpayCredentials() async {
+    try {
+      // Collection અને Document નું path આપો
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('settings')
+          .doc('razorpaySettings') // તમારા document નું ID નાખો
+          .get();
+
+      if (documentSnapshot.exists) {
+        // Document માંથી data મેળવવું
+        razorpayKey = documentSnapshot.get('razorpayKey');
+        razorpaySecret = documentSnapshot.get('razorpaySecret');
+
+        print('Razorpay Key: $razorpayKey');
+        print('Razorpay Secret: $razorpaySecret');
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching Razorpay credentials: $e');
+    }
+  }
   loginapp() async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(("please wait")),
     ));
 
-    String keyId = 'rzp_live_aiiEEnXaiz5Rp1';
-    String secret = '4S1VTjOF4jDmN0o85vQbScPL';
+    String keyId = razorpayKey.toString();
+    String secret = razorpaySecret.toString();
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
     final Map<String, dynamic> data = {
 
@@ -312,8 +338,8 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
   }
   StackholderErrorResponseModal? stackholdererrorresponsemodal;
   stakeholders(String id) async {
-    String keyId = 'rzp_live_aiiEEnXaiz5Rp1';
-    String secret = '4S1VTjOF4jDmN0o85vQbScPL';
+    String keyId = razorpayKey.toString();
+    String secret = razorpaySecret.toString();
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
     final Map<String, dynamic> data = {
 
@@ -385,8 +411,8 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
   }
   ProducatErrorResponseModal? producaterrorresponsemodal;
   producatui(String id) async {
-    String keyId = 'rzp_live_aiiEEnXaiz5Rp1';
-    String secret = '4S1VTjOF4jDmN0o85vQbScPL';
+    String keyId = razorpayKey.toString();
+    String secret = razorpaySecret.toString();
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
     final Map<String, dynamic> data = {
 
@@ -440,8 +466,8 @@ class _EnterBankDetailScreenState extends State<EnterBankDetailScreen> {
   }
   UpdateProducatErrorResponseModal? updateproducaterrorresponsemodal;
   updateproducatui(String acid,String pid) async {
-    String keyId = 'rzp_live_aiiEEnXaiz5Rp1';
-    String secret = '4S1VTjOF4jDmN0o85vQbScPL';
+    String keyId = razorpayKey.toString();
+    String secret = razorpaySecret.toString();
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
     final Map<String, dynamic> data = {
       "settlements": {

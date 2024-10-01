@@ -142,6 +142,7 @@ class HomeScreenState extends State<HomeScreen> {
     notificationService.getDeviceToken().then((value) {
       print("device token    $value");
     });
+    getRazorpayCredentials();
     getDriver();
     setIcons();
     updateDriverOrder();
@@ -1480,6 +1481,30 @@ class HomeScreenState extends State<HomeScreen> {
     // return checkCameraLocation(cameraUpdate, mapController);
   }
   OrderCretedRazorpayModal? ordercretedrazorpaymodal;
+  String? razorpayKey;
+  String? razorpaySecret;
+  Future<void> getRazorpayCredentials() async {
+    try {
+      // Collection અને Document નું path આપો
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('settings')
+          .doc('razorpaySettings') // તમારા document નું ID નાખો
+          .get();
+
+      if (documentSnapshot.exists) {
+        // Document માંથી data મેળવવું
+        razorpayKey = documentSnapshot.get('razorpayKey');
+        razorpaySecret = documentSnapshot.get('razorpaySecret');
+
+        print('Razorpay Key: $razorpayKey');
+        print('Razorpay Secret: $razorpaySecret');
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching Razorpay credentials: $e');
+    }
+  }
   loginapp() async {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1487,8 +1512,8 @@ class HomeScreenState extends State<HomeScreen> {
       content: Text(("please wait")),
     ));
 
-    String keyId = 'rzp_live_aiiEEnXaiz5Rp1';
-    String secret = '4S1VTjOF4jDmN0o85vQbScPL';
+    String keyId = razorpayKey.toString();
+    String secret = razorpaySecret.toString();
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
     final Map<String, dynamic> data = {
 
