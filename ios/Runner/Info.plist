@@ -9,7 +9,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Grubb Locate</string>
+	<string>Grubb Bolt</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,7 +22,7 @@
 		<string>ar</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>Grubb Locate</string>
+	<string>Grubb Bolt</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -54,7 +54,7 @@
 	<key>FacebookClientToken</key>
 	<string>dc034862a85b441b04bf742f0f791e3a</string>
 	<key>FacebookDisplayName</key>
-	<string>Grubb Locate</string>
+	<string>Grubb Bolt</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
