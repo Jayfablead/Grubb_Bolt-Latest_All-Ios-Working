@@ -16,19 +16,19 @@ class RazorAddBankModal {
 
   RazorAddBankModal(
       {this.id,
-        this.type,
-        this.status,
-        this.email,
-        this.profile,
-        this.notes,
-        this.createdAt,
-        this.phone,
-        this.contactName,
-        this.referenceId,
-        this.businessType,
-        this.legalBusinessName,
-        this.customerFacingBusinessName,
-        this.legalInfo});
+      this.type,
+      this.status,
+      this.email,
+      this.profile,
+      this.notes,
+      this.createdAt,
+      this.phone,
+      this.contactName,
+      this.referenceId,
+      this.businessType,
+      this.legalBusinessName,
+      this.customerFacingBusinessName,
+      this.legalInfo});
 
   RazorAddBankModal.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -36,7 +36,7 @@ class RazorAddBankModal {
     status = json['status'];
     email = json['email'];
     profile =
-    json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+        json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
 
     createdAt = json['created_at'];
     phone = json['phone'];
@@ -130,11 +130,11 @@ class Registered {
 
   Registered(
       {this.street1,
-        this.street2,
-        this.city,
-        this.state,
-        this.postalCode,
-        this.country});
+      this.street2,
+      this.city,
+      this.state,
+      this.postalCode,
+      this.country});
 
   Registered.fromJson(Map<String, dynamic> json) {
     street1 = json['street1'];

@@ -414,8 +414,11 @@ class _ChatScreensState extends State<ChatScreens> {
     if (widget.chatType == "Driver") {
       await FireStoreUtils.addDriverChat(conversationModel);
     }
-    FireStoreUtils.sendChatFcmMessageV1(title:widget.customerName.toString(),
-       message:  conversationModel.message.toString(),token: widget.token.toString() ,);
+    FireStoreUtils.sendChatFcmMessageV1(
+      title: widget.customerName.toString(),
+      message: conversationModel.message.toString(),
+      token: widget.token.toString(),
+    );
     FireStoreUtils.sendChatFcmMessage(widget.customerName.toString(),
         conversationModel.message.toString(), widget.token.toString());
   }

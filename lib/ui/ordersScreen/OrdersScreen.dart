@@ -69,7 +69,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     double total = 0.0;
     double deliverycharge = 0.0;
     double pakingcharge = 0.0;
-num haresh=0;
+    num haresh = 0;
     total = 0.0;
     pakingcharge = 0.0;
     deliverycharge = 0.0;
@@ -85,7 +85,8 @@ num haresh=0;
           num.parse(orderModel.deliveryCharge!) + num.parse(total.toString());
       print("orderModel.deliveryCharge${orderModel.deliveryCharge}");
       print("total.toString()${total.toString()}");
-      haresh = num.parse(orderModel.deliveryCharge!) + num.parse(total.toString());
+      haresh =
+          num.parse(orderModel.deliveryCharge!) + num.parse(total.toString());
       for (int i = 0; i < element.extras.length; i++) {
         extrasDisVal +=
             '${element.extras[i].toString().replaceAll("\"", "")} ${(i == element.extras.length - 1) ? "" : ","}';
@@ -106,9 +107,7 @@ num haresh=0;
                   spreadRadius: 0.4,
                   offset: Offset(0.2, 0.2)),
             ],
-            color: isDarkMode(context)
-                ? Colors.black
-                : Colors.white),
+            color: isDarkMode(context) ? Colors.black : Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -251,12 +250,15 @@ num haresh=0;
                       ),
                     ),
                     title: Text(
-                        product.item=="grocery"?product.name + "(${product.groceryWeight}${product.groceryUnit})":product.name,
+                      product.item == "grocery"
+                          ? product.name +
+                              "(${product.groceryWeight}${product.groceryUnit})"
+                          : product.name,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: isDarkMode(context)
-                          ? Colors.white
-                          : Colors.black),
+                              ? Colors.white
+                              : Colors.black),
                     ),
                     trailing: Text(
                       amountShow(
@@ -297,8 +299,7 @@ num haresh=0;
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Center(
                 child: Text(
-                  'Total : '.tr() +
-                      amountShow(amount: haresh.toString()),
+                  'Total : '.tr() + amountShow(amount: haresh.toString()),
                   style: TextStyle(
                       color: Color(COLOR_PRIMARY), fontWeight: FontWeight.bold),
                 ),

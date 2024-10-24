@@ -18,7 +18,6 @@ import 'package:foodie_driver/ui/home/HomeScreen.dart';
 import 'package:foodie_driver/ui/onBoarding/OnBoardingScreen.dart';
 import 'package:foodie_driver/userPrefrence.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/User.dart';
@@ -168,7 +167,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
           actionsIconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
           iconTheme: IconThemeData(color: Color(COLOR_PRIMARY)),
         ),
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.grey.shade900),
+        bottomSheetTheme:
+            BottomSheetThemeData(backgroundColor: Colors.grey.shade900),
         primaryColor: Color(COLOR_PRIMARY),
         textTheme: TextTheme(
           headline6: TextStyle(
@@ -185,14 +185,16 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       home: Builder(
         builder: (context) {
           // Check if the user has agreed to the terms
-          bool hasAgreed = UserPreference.getBoolean(UserPreference.userAgreementKey);
+          bool hasAgreed =
+              UserPreference.getBoolean(UserPreference.userAgreementKey);
           if (!hasAgreed) {
             // Show WelcomeDialog if not agreed
             return WelcomeDialog();
           }
 
           // Check if the user has finished onboarding
-          bool hasFinishedOnboarding = UserPreference.getBoolean(UserPreference.isFinishOnBoardingKey);
+          bool hasFinishedOnboarding =
+              UserPreference.getBoolean(UserPreference.isFinishOnBoardingKey);
           if (!hasFinishedOnboarding) {
             // Show OnBoarding if onboarding not completed
             return OnBoarding();
@@ -203,7 +205,6 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
         },
       ),
     );
-
   }
 
   @override

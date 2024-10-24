@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:foodie_driver/model/FlutterWaveSettingDataModel.dart';
 import 'package:foodie_driver/model/MercadoPagoSettingsModel.dart';
@@ -79,6 +78,7 @@ class WalletScreenState extends State<WalletScreen> {
   RazorPayModel? razorPayData;
   StripeSettingData? stripeData;
   PaytmSettingData? paytmSettingData;
+
   // PaypalSettingData? paypalSettingData;
   PayStackSettingData? payStackSettingData;
   FlutterWaveSettingData? flutterWaveSettingData;
@@ -415,6 +415,7 @@ class WalletScreenState extends State<WalletScreen> {
 
   bool razorPay = false;
   bool payTm = false;
+
   // bool paypal = false;
   bool payStack = false;
   bool flutterWave = false;

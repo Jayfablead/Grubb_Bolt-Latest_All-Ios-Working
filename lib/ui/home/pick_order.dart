@@ -124,7 +124,13 @@ class _PickOrderState extends State<PickOrder> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    widget.currentOrder!.products[index].item=="grocery" ?widget.currentOrder!.products[index].name + "(${widget.currentOrder!.products[index].groceryWeight}${widget.currentOrder!.products[index].groceryUnit})":widget.currentOrder!.products[index].name,
+                                    widget.currentOrder!.products[index].item ==
+                                            "grocery"
+                                        ? widget.currentOrder!.products[index]
+                                                .name +
+                                            "(${widget.currentOrder!.products[index].groceryWeight}${widget.currentOrder!.products[index].groceryUnit})"
+                                        : widget
+                                            .currentOrder!.products[index].name,
                                     style: TextStyle(
                                         fontFamily: 'Poppinsr',
                                         letterSpacing: 0.5,

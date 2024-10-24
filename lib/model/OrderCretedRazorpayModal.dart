@@ -15,18 +15,17 @@ class OrderCretedRazorpayModal {
 
   OrderCretedRazorpayModal(
       {this.amount,
-        this.amountDue,
-        this.amountPaid,
-        this.attempts,
-        this.createdAt,
-        this.currency,
-        this.entity,
-        this.id,
-
-        this.offerId,
-        this.receipt,
-        this.status,
-        this.transfers});
+      this.amountDue,
+      this.amountPaid,
+      this.attempts,
+      this.createdAt,
+      this.currency,
+      this.entity,
+      this.id,
+      this.offerId,
+      this.receipt,
+      this.status,
+      this.transfers});
 
   OrderCretedRazorpayModal.fromJson(Map<String, dynamic> json) {
     amount = json['amount'];
@@ -91,22 +90,22 @@ class Transfers {
 
   Transfers(
       {this.amount,
-        this.amountReversed,
-        this.createdAt,
-        this.currency,
-        this.entity,
-        this.error,
-        this.id,
-        this.linkedAccountNotes,
-        this.notes,
-        this.onHold,
-        this.onHoldUntil,
-        this.processedAt,
-        this.recipient,
-        this.recipientDetails,
-        this.recipientSettlementId,
-        this.source,
-        this.status});
+      this.amountReversed,
+      this.createdAt,
+      this.currency,
+      this.entity,
+      this.error,
+      this.id,
+      this.linkedAccountNotes,
+      this.notes,
+      this.onHold,
+      this.onHoldUntil,
+      this.processedAt,
+      this.recipient,
+      this.recipientDetails,
+      this.recipientSettlementId,
+      this.source,
+      this.status});
 
   Transfers.fromJson(Map<String, dynamic> json) {
     amount = json['amount'];
@@ -171,13 +170,13 @@ class Error {
 
   Error(
       {this.code,
-        this.description,
-        this.field,
-        this.id,
-        this.metadata,
-        this.reason,
-        this.source,
-        this.step});
+      this.description,
+      this.field,
+      this.id,
+      this.metadata,
+      this.reason,
+      this.source,
+      this.step});
 
   Error.fromJson(Map<String, dynamic> json) {
     code = json['code'];

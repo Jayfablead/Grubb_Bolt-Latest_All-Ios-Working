@@ -58,10 +58,9 @@ class OrderModel {
       this.paymentMethod = '',
       createdAt,
       this.id = '',
-        this.item,
-
-        this.groceryWeight,
-        this.groceryUnit,
+      this.item,
+      this.groceryWeight,
+      this.groceryUnit,
       this.products = const [],
       this.status = '',
       this.discount = 0,
@@ -182,12 +181,9 @@ class OrderModel {
           ? User.fromJson(parsedJson['driver'])
           : null,
       driverID: parsedJson['driverID'] ?? null,
-      item: parsedJson["item"] != null
-          ? parsedJson["item"]
-          : "",
-      groceryUnit: parsedJson["groceryUnit"] != null
-          ? parsedJson["groceryUnit"]
-          : "",
+      item: parsedJson["item"] != null ? parsedJson["item"] : "",
+      groceryUnit:
+          parsedJson["groceryUnit"] != null ? parsedJson["groceryUnit"] : "",
       groceryWeight: parsedJson["groceryWeight"] != null
           ? parsedJson["groceryWeight"]
           : "",

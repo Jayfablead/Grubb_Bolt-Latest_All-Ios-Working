@@ -4,6 +4,7 @@ class StakeholdersModal {
   List<Null>? relationship;
   List<Null>? phone;
   Notes? notes;
+
   // Kyc? kyc;
   String? name;
   String? email;
@@ -11,19 +12,18 @@ class StakeholdersModal {
 
   StakeholdersModal(
       {this.id,
-        this.entity,
-        this.relationship,
-        this.phone,
-        this.notes,
-        // this.kyc,
-        this.name,
-        this.email,
-        this.addresses});
+      this.entity,
+      this.relationship,
+      this.phone,
+      this.notes,
+      // this.kyc,
+      this.name,
+      this.email,
+      this.addresses});
 
   StakeholdersModal.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     entity = json['entity'];
-
 
     notes = json['notes'] != null ? new Notes.fromJson(json['notes']) : null;
     // kyc = json['kyc'] != null ? new Kyc.fromJson(json['kyc']) : null;

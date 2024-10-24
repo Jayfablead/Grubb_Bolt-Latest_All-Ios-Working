@@ -26,11 +26,11 @@ class Error {
 
   Error(
       {this.code,
-        this.description,
-        this.source,
-        this.step,
-        this.reason,
-        this.field});
+      this.description,
+      this.source,
+      this.step,
+      this.reason,
+      this.field});
 
   Error.fromJson(Map<String, dynamic> json) {
     code = json['code'];

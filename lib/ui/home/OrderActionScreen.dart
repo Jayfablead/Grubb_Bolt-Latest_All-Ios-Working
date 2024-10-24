@@ -688,9 +688,13 @@ class _OrderActionScreeenState extends State<OrderActionScreeen> {
     await FireStoreUtils.sendFcmMessage(
         driverCompleted, widget.currentOrder!.author.fcmToken);
     await FireStoreUtils.sendOneNotification(
-        type: driverCompleted,token: widget.currentOrder!.author.fcmToken ,);
+      type: driverCompleted,
+      token: widget.currentOrder!.author.fcmToken,
+    );
     await FireStoreUtils.sendOneNotification(
-      type: driverAccepted,token:widget.currentOrder!.vendor.fcmToken ,);
+      type: driverAccepted,
+      token: widget.currentOrder!.vendor.fcmToken,
+    );
     await FireStoreUtils.sendFcmMessage(
         driverAccepted, widget.currentOrder!.vendor.fcmToken);
     await FireStoreUtils.getFirestOrderOrNOt(widget.currentOrder!)

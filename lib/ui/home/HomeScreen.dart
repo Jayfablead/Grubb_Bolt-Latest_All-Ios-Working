@@ -6,7 +6,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:foodie_driver/constants.dart';
 import 'package:foodie_driver/main.dart';
@@ -21,9 +20,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
-import 'package:http/http.dart' as http;
+
 import '../../services/notification_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -178,7 +178,6 @@ class HomeScreenState extends State<HomeScreen> {
       print("razorpayamoutrazorpayamoutrazorpayamout${event!.status}");
       print("------->${event!.status}");
       setState(() {
-
         currentOrder = event;
         getDirections();
       });
@@ -360,7 +359,8 @@ class HomeScreenState extends State<HomeScreen> {
     num deliverycharge = num.parse(
             kilometer.toStringAsFixed(currencyModel!.decimal)) *
         num.parse(_driverModel!.orderRequestData!.deliveryCharge.toString());
-    razorpayamout=double.parse((_driverModel!.orderRequestData?.deliveryCharge).toString());
+    razorpayamout = double.parse(
+        (_driverModel!.orderRequestData?.deliveryCharge).toString());
     print("razorpayamoutrazorpayamoutrazorpayamout${razorpayamout}");
     return Padding(
       padding: EdgeInsets.all(10),
@@ -1042,7 +1042,19 @@ class HomeScreenState extends State<HomeScreen> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        currentOrder!.products[index].item == "grocery"?currentOrder!.products[index].name + "(${currentOrder!.products[index].groceryWeight}${currentOrder!.products[index].groceryUnit})":currentOrder!.products[index].name,
+                                                        currentOrder!
+                                                                    .products[
+                                                                        index]
+                                                                    .item ==
+                                                                "grocery"
+                                                            ? currentOrder!
+                                                                    .products[
+                                                                        index]
+                                                                    .name +
+                                                                "(${currentOrder!.products[index].groceryWeight}${currentOrder!.products[index].groceryUnit})"
+                                                            : currentOrder!
+                                                                .products[index]
+                                                                .name,
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Poppinsr',
@@ -1254,9 +1266,13 @@ class HomeScreenState extends State<HomeScreen> {
     await FireStoreUtils.sendFcmMessage(
         driverAccepted, orderModel.author.fcmToken);
     await FireStoreUtils.sendOneNotification(
-        type: driverAccepted,token: orderModel.author.fcmToken,);
+      type: driverAccepted,
+      token: orderModel.author.fcmToken,
+    );
     await FireStoreUtils.sendOneNotification(
-      type: driverAccepted,token: orderModel.vendor.fcmToken,);
+      type: driverAccepted,
+      token: orderModel.vendor.fcmToken,
+    );
     await FireStoreUtils.sendFcmMessage(
         driverAccepted, orderModel.vendor.fcmToken);
     setState(() {
@@ -1272,9 +1288,13 @@ class HomeScreenState extends State<HomeScreen> {
     await FireStoreUtils.sendFcmMessage(
         driverCompleted, currentOrder!.author.fcmToken);
     await FireStoreUtils.sendOneNotification(
-      type: driverCompleted,token:  currentOrder!.author.fcmToken,);
+      type: driverCompleted,
+      token: currentOrder!.author.fcmToken,
+    );
     await FireStoreUtils.sendOneNotification(
-      type: driverAccepted,token:  currentOrder!.vendor.fcmToken,);
+      type: driverAccepted,
+      token: currentOrder!.vendor.fcmToken,
+    );
     await FireStoreUtils.sendFcmMessage(
         driverAccepted, currentOrder!.vendor.fcmToken);
     await FireStoreUtils.getFirestOrderOrNOt(currentOrder!).then((value) async {
@@ -1488,9 +1508,11 @@ class HomeScreenState extends State<HomeScreen> {
     //
     // return checkCameraLocation(cameraUpdate, mapController);
   }
+
   OrderCretedRazorpayModal? ordercretedrazorpaymodal;
   String? razorpayKey;
   String? razorpaySecret;
+
   Future<void> getRazorpayCredentials() async {
     try {
       // Collection અને Document નું path આપો
@@ -1513,8 +1535,8 @@ class HomeScreenState extends State<HomeScreen> {
       print('Error fetching Razorpay credentials: $e');
     }
   }
-  loginapp() async {
 
+  loginapp() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(("please wait")),
@@ -1524,40 +1546,33 @@ class HomeScreenState extends State<HomeScreen> {
     String secret = razorpaySecret.toString();
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
     final Map<String, dynamic> data = {
-
-
-      "amount":razorpayamout * 100,
+      "amount": razorpayamout * 100,
       "payment_capture": 1,
-      "currency":"INR",
+      "currency": "INR",
       "transfers": [
         {
-          "account": MyAppState?.currentUser?.userBankDetails?.gstnumber ?? "",//Please replace with appropriate ID.
+          "account": MyAppState?.currentUser?.userBankDetails?.gstnumber ?? "",
+          //Please replace with appropriate ID.
           "amount": razorpayamout * 100,
           "currency": "INR",
           "notes": {
             "branch": "Acme Corp Bangalore South",
             "name": MyAppState?.currentUser?.userBankDetails?.holderName ?? ""
           },
-          "linked_account_notes": [
-            "branch"
-          ],
+          "linked_account_notes": ["branch"],
           "on_hold": false,
           "on_hold_until": null
         }
       ]
-
-
     };
     // Convert 'billing' to a string
 
     print("datadatadatadatadata${data}");
     final apiUrl = "https://api.razorpay.com/v1/orders";
 
-
     final headers = {
       'Content-Type': 'application/json',
-      'authorization':basicAuth,
-
+      'authorization': basicAuth,
     };
     // Construct the request body
     final requestBody = json.encode(data);
@@ -1565,18 +1580,18 @@ class HomeScreenState extends State<HomeScreen> {
     // Make the API call using http.post
     final response = await http.post(
       Uri.parse(apiUrl),
-      headers:headers,
+      headers: headers,
       body: requestBody,
     );
 
     print("requestBody${requestBody}");
     print("responsefkglkfdlgkfdg${response}");
 
-
     // Handle the response
 
     if (response.statusCode == 200) {
-      ordercretedrazorpaymodal = OrderCretedRazorpayModal.fromJson(json.decode(response.body));
+      ordercretedrazorpaymodal =
+          OrderCretedRazorpayModal.fromJson(json.decode(response.body));
       print("loginapp api sucessfuuly ");
 
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -1588,13 +1603,14 @@ class HomeScreenState extends State<HomeScreen> {
         "currency": "INR",
         "transfers": [
           {
-            "account": MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
+            "account":
+                MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
             "amount": razorpayamout,
             "currency": "INR",
             "notes": {
               "branch": "Acme Corp Bangalore South",
-              "name": MyAppState?.currentUser?.userBankDetails?.holderName ??
-                  "",
+              "name":
+                  MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
             },
             "linked_account_notes": ["branch"],
             "on_hold": false,
@@ -1604,10 +1620,11 @@ class HomeScreenState extends State<HomeScreen> {
       };
 
       // Adding the data to a Firestore collection (e.g., 'payments')
-      await firestore.collection('razorpayLinkedAccountsPayments').add(
-          paymentData);
+      await firestore
+          .collection('razorpayLinkedAccountsPayments')
+          .add(paymentData);
       setState(() {
-        razorpayamout=0.0;
+        razorpayamout = 0.0;
       });
     } else {
       // errorresponse = ErrorResponse.fromJson(json.decode(response.body));
@@ -1618,6 +1635,7 @@ class HomeScreenState extends State<HomeScreen> {
       // ));
     }
   }
+
   Future<void> checkCameraLocation(
       CameraUpdate cameraUpdate, GoogleMapController mapController) async {
     mapController.animateCamera(cameraUpdate);
@@ -1650,7 +1668,8 @@ class HomeScreenState extends State<HomeScreen> {
   // }
   playSound() async {
     print("audioplayer");
-    await audioPlayer.setSource(AssetSource('audio/mixkit-happy-bells-notification-937.mp3'));
+    await audioPlayer.setSource(
+        AssetSource('audio/mixkit-happy-bells-notification-937.mp3'));
     await audioPlayer.setReleaseMode(ReleaseMode.loop);
     await audioPlayer.play(
       AssetSource('audio/mixkit-happy-bells-notification-937.mp3'),
@@ -1667,6 +1686,5 @@ class HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-
   }
 }

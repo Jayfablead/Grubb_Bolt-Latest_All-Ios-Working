@@ -1,14 +1,16 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:foodie_driver/model/razorpayKeyModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'model/FlutterWaveSettingDataModel.dart';
+import 'model/MercadoPagoSettingsModel.dart';
 // import 'model/paypalSettingData.dart';
 import 'model/PayFastSettingData.dart';
-import 'model/MercadoPagoSettingsModel.dart';
-import 'model/stripeSettingData.dart';
-import 'model/FlutterWaveSettingDataModel.dart';
 import 'model/PayStackSettingsModel.dart';
 import 'model/paytmSettingData.dart';
+import 'model/stripeSettingData.dart';
 
 class UserPreference {
   static late SharedPreferences _preferences;
@@ -172,4 +174,3 @@ class UserPreference {
     return paymentId != null ? paymentId : "";
   }
 }
-

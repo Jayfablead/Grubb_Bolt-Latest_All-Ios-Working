@@ -33,9 +33,8 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
-              color:Color(COLOR_PRIMARY),
+              color: Color(COLOR_PRIMARY),
             ),
-
             child: Text(
               'Location Access Required',
               style: TextStyle(
@@ -54,7 +53,8 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
-                          text: '[Grubb Bolt] collects and transmits your location data to enable real-time order tracking and delivery services, even when the app is closed or not in use.',
+                          text:
+                              '[Grubb Bolt] collects and transmits your location data to enable real-time order tracking and delivery services, even when the app is closed or not in use.',
                           style: TextStyle(fontSize: 15)),
                       TextSpan(
                         text:
@@ -84,7 +84,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   child: Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(6),
                         color: Colors.red),
                     width: 110,
                     height: 40,
@@ -113,7 +113,10 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                     width: 110,
                     height: 40,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(  borderRadius: BorderRadius.circular(6),color:Color(COLOR_PRIMARY),),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Color(COLOR_PRIMARY),
+                    ),
                     child: Text(
                       'AGREE',
                       style: TextStyle(

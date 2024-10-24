@@ -30,7 +30,6 @@ import 'package:foodie_driver/model/conversation_model.dart';
 import 'package:foodie_driver/model/email_template_model.dart';
 import 'package:foodie_driver/model/inbox_model.dart';
 import 'package:foodie_driver/model/notification_model.dart';
-import 'package:foodie_driver/model/paypalSettingData.dart';
 import 'package:foodie_driver/model/paytmSettingData.dart';
 import 'package:foodie_driver/model/razorpayKeyModel.dart';
 import 'package:foodie_driver/model/referral_model.dart';
@@ -46,7 +45,9 @@ import 'package:the_apple_sign_in/the_apple_sign_in.dart' as apple;
 import 'package:uuid/uuid.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+
 String serverToken = '';
+
 class FireStoreUtils {
   static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -1123,10 +1124,10 @@ class FireStoreUtils {
       return false;
     }
   }
+
   static Future<void> sendOneNotification({
     required String token,
     required String type,
-
   }) async {
     GetServerToken Getservertoken = GetServerToken();
     serverToken = await Getservertoken.getAccessToken();
@@ -1175,14 +1176,10 @@ class FireStoreUtils {
       );
 
       if (response.statusCode == 200) {
-
-      } else {
-
-      }
-    } catch (e) {
-
-    }
+      } else {}
+    } catch (e) {}
   }
+
   static Future<bool> sendChatFcmMessage(
       String title, String message, String token) async {
     try {
@@ -1213,11 +1210,11 @@ class FireStoreUtils {
       return false;
     }
   }
+
   static Future<void> sendChatFcmMessageV1({
     required String token,
     required String title,
     required String message,
-
   }) async {
     GetServerToken Getservertoken = GetServerToken();
     serverToken = await Getservertoken.getAccessToken();
@@ -1233,7 +1230,7 @@ class FireStoreUtils {
         "token": token,
         "notification": {
           "title": title,
-          "body":message,
+          "body": message,
         },
         "android": {
           "notification": {
@@ -1268,13 +1265,15 @@ class FireStoreUtils {
       if (response.statusCode == 200) {
         print('Notification sent successfully');
       } else {
-        print('Failed to send notification. Status Code: ${response.statusCode}');
+        print(
+            'Failed to send notification. Status Code: ${response.statusCode}');
         print('Response: ${response.body}');
       }
     } catch (e) {
       print('Exception caught: $e');
     }
   }
+
   static Future topUpWalletAmountRefral(
       {String paymentMethod = "test",
       bool isTopup = true,
@@ -1435,10 +1434,12 @@ class FireStoreUtils {
       }
     });
   }
+
   static getDriverRadius() async {
     try {
       // Reference to the 'settings' collection and 'DriverNearBy' document
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
           .collection('settings')
           .doc('DriverNearBy')
           .get();

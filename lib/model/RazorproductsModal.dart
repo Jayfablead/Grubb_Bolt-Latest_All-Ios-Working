@@ -11,17 +11,16 @@ class RazorproductsModal {
 
   RazorproductsModal(
       {this.requestedConfiguration,
-        this.activeConfiguration,
-        this.requirements,
-        this.tnc,
-        this.id,
-        this.productName,
-        this.activationStatus,
-        this.accountId,
-        this.requestedAt});
+      this.activeConfiguration,
+      this.requirements,
+      this.tnc,
+      this.id,
+      this.productName,
+      this.activationStatus,
+      this.accountId,
+      this.requestedAt});
 
   RazorproductsModal.fromJson(Map<String, dynamic> json) {
-
     activeConfiguration = json['active_configuration'] != null
         ? new ActiveConfiguration.fromJson(json['active_configuration'])
         : null;

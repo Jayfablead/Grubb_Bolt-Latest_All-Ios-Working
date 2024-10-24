@@ -864,11 +864,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //   }
 // }
 
-
 class NotificationService {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   // Singleton pattern
   static final NotificationService _instance = NotificationService._internal();
@@ -920,7 +919,7 @@ class NotificationService {
       print("Initializing Local Notification");
 
       var androidInitializationSettings =
-      const AndroidInitializationSettings('@mipmap/ic_launcher');
+          const AndroidInitializationSettings('@mipmap/ic_launcher');
 
       var initializationSetting = InitializationSettings(
         android: androidInitializationSettings,
@@ -942,7 +941,7 @@ class NotificationService {
 
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.createNotificationChannel(channel);
     } catch (e) {
       print("Error initializing local notifications: $e");
@@ -1044,8 +1043,6 @@ class NotificationService {
     }
   }
 
-
-
   Future<String> getDeviceToken() async {
     try {
       String? token = await messaging.getToken();
@@ -1070,7 +1067,7 @@ class NotificationService {
   Future<void> setupInteractMessage(BuildContext context) async {
     try {
       RemoteMessage? initialMessage =
-      await FirebaseMessaging.instance.getInitialMessage();
+          await FirebaseMessaging.instance.getInitialMessage();
 
       if (initialMessage != null) {
         handleMessage(context, initialMessage);
