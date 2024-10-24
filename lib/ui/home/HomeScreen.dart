@@ -1253,6 +1253,10 @@ class HomeScreenState extends State<HomeScreen> {
 
     await FireStoreUtils.sendFcmMessage(
         driverAccepted, orderModel.author.fcmToken);
+    await FireStoreUtils.sendOneNotification(
+        type: driverAccepted,token: orderModel.author.fcmToken,);
+    await FireStoreUtils.sendOneNotification(
+      type: driverAccepted,token: orderModel.vendor.fcmToken,);
     await FireStoreUtils.sendFcmMessage(
         driverAccepted, orderModel.vendor.fcmToken);
     setState(() {
@@ -1267,6 +1271,10 @@ class HomeScreenState extends State<HomeScreen> {
     await FireStoreUtils.updateOrder(currentOrder!);
     await FireStoreUtils.sendFcmMessage(
         driverCompleted, currentOrder!.author.fcmToken);
+    await FireStoreUtils.sendOneNotification(
+      type: driverCompleted,token:  currentOrder!.author.fcmToken,);
+    await FireStoreUtils.sendOneNotification(
+      type: driverAccepted,token:  currentOrder!.vendor.fcmToken,);
     await FireStoreUtils.sendFcmMessage(
         driverAccepted, currentOrder!.vendor.fcmToken);
     await FireStoreUtils.getFirestOrderOrNOt(currentOrder!).then((value) async {
@@ -1642,22 +1650,16 @@ class HomeScreenState extends State<HomeScreen> {
   // }
   playSound() async {
     print("audioplayer");
-    final path = await rootBundle
-        .load("assets/audio/mixkit-happy-bells-notification-937.mp3");
-
-    audioPlayer.setSourceBytes(path.buffer.asUint8List());
-    audioPlayer.setReleaseMode(ReleaseMode.loop);
+    await audioPlayer.setSource(AssetSource('audio/mixkit-happy-bells-notification-937.mp3'));
+    await audioPlayer.setReleaseMode(ReleaseMode.loop);
     await audioPlayer.play(
-      BytesSource(path.buffer.asUint8List()),
-      volume: 50,
+      AssetSource('audio/mixkit-happy-bells-notification-937.mp3'),
+      volume: 0.5,
       ctx: AudioContext(
         android: AudioContextAndroid(
           contentType: AndroidContentType.music,
-          isSpeakerphoneOn: true,
-          stayAwake: true,
-          usageType: AndroidUsageType.alarm,
-          audioFocus: AndroidAudioFocus.gainTransient,
-          audioMode: AndroidAudioMode.ringtone,
+          usageType: AndroidUsageType.media,
+          audioFocus: AndroidAudioFocus.gain,
         ),
         iOS: AudioContextIOS(
           category: AVAudioSessionCategory.playback,
@@ -1665,5 +1667,6 @@ class HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+
   }
 }

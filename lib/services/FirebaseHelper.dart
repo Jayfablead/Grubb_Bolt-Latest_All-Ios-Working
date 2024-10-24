@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:foodie_driver/constants.dart';
+import 'package:foodie_driver/getAccessTokan/getAccessTokan.dart';
 import 'package:foodie_driver/main.dart';
 import 'package:foodie_driver/model/BlockUserModel.dart';
 import 'package:foodie_driver/model/ChatVideoContainer.dart';
@@ -45,7 +46,7 @@ import 'package:the_apple_sign_in/the_apple_sign_in.dart' as apple;
 import 'package:uuid/uuid.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-
+String serverToken = '';
 class FireStoreUtils {
   static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -1122,7 +1123,66 @@ class FireStoreUtils {
       return false;
     }
   }
+  static Future<void> sendOneNotification({
+    required String token,
+    required String type,
 
+  }) async {
+    GetServerToken Getservertoken = GetServerToken();
+    serverToken = await Getservertoken.getAccessToken();
+    print("serverToken${serverToken}");
+    final url =
+        'https://fcm.googleapis.com/v1/projects/grubb-ba0e4/messages:send';
+
+    // Unique message ID to avoid multiple notifications
+    final messageId = DateTime.now().millisecondsSinceEpoch.toString();
+    NotificationModel? notificationModel = await getNotificationContent(type);
+    final notificationPayload = {
+      "message": {
+        "token": token,
+        "notification": {
+          "title": notificationModel!.subject ?? '',
+          "body": notificationModel.message ?? '',
+        },
+        "android": {
+          "notification": {
+            "tag": "single_notification", // Tag to ensure only one notification
+            "sound": "tune.aiff", // Custom sound for Android
+          },
+        },
+        "apns": {
+          "headers": {
+            "apns-collapse-id": "single_notification", // Collapse ID for iOS
+          },
+          "payload": {
+            "aps": {
+              "thread-id": "single_notification",
+              "sound": "tune.aiff", // Custom sound for iOS
+            },
+          },
+        },
+      },
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $serverToken',
+        },
+        body: jsonEncode(notificationPayload),
+      );
+
+      if (response.statusCode == 200) {
+
+      } else {
+
+      }
+    } catch (e) {
+
+    }
+  }
   static Future<bool> sendChatFcmMessage(
       String title, String message, String token) async {
     try {
@@ -1153,7 +1213,68 @@ class FireStoreUtils {
       return false;
     }
   }
+  static Future<void> sendChatFcmMessageV1({
+    required String token,
+    required String title,
+    required String message,
 
+  }) async {
+    GetServerToken Getservertoken = GetServerToken();
+    serverToken = await Getservertoken.getAccessToken();
+    print("serverToken${serverToken}");
+    final url =
+        'https://fcm.googleapis.com/v1/projects/grubb-ba0e4/messages:send';
+
+    // Unique message ID to avoid multiple notifications
+    final messageId = DateTime.now().millisecondsSinceEpoch.toString();
+
+    final notificationPayload = {
+      "message": {
+        "token": token,
+        "notification": {
+          "title": title,
+          "body":message,
+        },
+        "android": {
+          "notification": {
+            "tag": "single_notification", // Tag to ensure only one notification
+            "sound": "tune.aiff", // Custom sound for Android
+          },
+        },
+        "apns": {
+          "headers": {
+            "apns-collapse-id": "single_notification", // Collapse ID for iOS
+          },
+          "payload": {
+            "aps": {
+              "thread-id": "single_notification",
+              "sound": "tune.aiff", // Custom sound for iOS
+            },
+          },
+        },
+      },
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $serverToken',
+        },
+        body: jsonEncode(notificationPayload),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully');
+      } else {
+        print('Failed to send notification. Status Code: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+    } catch (e) {
+      print('Exception caught: $e');
+    }
+  }
   static Future topUpWalletAmountRefral(
       {String paymentMethod = "test",
       bool isTopup = true,
@@ -1313,6 +1434,31 @@ class FireStoreUtils {
         debugPrint(error.toString());
       }
     });
+  }
+  static getDriverRadius() async {
+    try {
+      // Reference to the 'settings' collection and 'DriverNearBy' document
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+          .collection('settings')
+          .doc('DriverNearBy')
+          .get();
+
+      // Check if the document exists and contains the 'driverRadios' field
+      if (snapshot.exists && snapshot.data() != null) {
+        var data = snapshot.data();
+        if (data!.containsKey('driverRadios')) {
+          // Get the value of 'driverRadios' field
+          double driverRadius = data['driverRadios'];
+          print('Driver Radius: $driverRadius');
+        } else {
+          print('driverRadios field is not found');
+        }
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error getting document: $e');
+    }
   }
 
   static getFlutterWaveSettingData() async {

@@ -58,6 +58,7 @@ dependencies:
   flutter_background:
   permission_handler:
   get:
+  googleapis_auth:
 #  flutter_stripe: any
   mercadopago_sdk: any
   paytm_allinonesdk: ^1.2.2
@@ -85,6 +86,7 @@ flutter:
     - assets/flags/
     - assets/audio/
     - assets/tune/
+    - assets/audio/mixkit-happy-bells-notification-937.mp3
 
   fonts:
     - family: Poppinsb
