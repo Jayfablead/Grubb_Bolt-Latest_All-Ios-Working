@@ -1250,7 +1250,7 @@ class HomeScreenState extends State<HomeScreen> {
     print("user data ");
     audioPlayer.stop();
     OrderModel orderModel = _driverModel!.orderRequestData!;
-    loginapp();
+    // loginapp();
     _driverModel!.orderRequestData = null;
     _driverModel!.inProgressOrderID = orderModel.id;
 
@@ -1536,105 +1536,105 @@ class HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  loginapp() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(("please wait")),
-    ));
-
-    String keyId = razorpayKey.toString();
-    String secret = razorpaySecret.toString();
-    String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
-    final Map<String, dynamic> data = {
-      "amount": razorpayamout * 100,
-      "payment_capture": 1,
-      "currency": "INR",
-      "transfers": [
-        {
-          "account": MyAppState?.currentUser?.userBankDetails?.gstnumber ?? "",
-          //Please replace with appropriate ID.
-          "amount": razorpayamout * 100,
-          "currency": "INR",
-          "notes": {
-            "branch": "Acme Corp Bangalore South",
-            "name": MyAppState?.currentUser?.userBankDetails?.holderName ?? ""
-          },
-          "linked_account_notes": ["branch"],
-          "on_hold": false,
-          "on_hold_until": null
-        }
-      ]
-    };
-    // Convert 'billing' to a string
-
-    print("datadatadatadatadata${data}");
-    final apiUrl = "https://api.razorpay.com/v1/orders";
-
-    final headers = {
-      'Content-Type': 'application/json',
-      'authorization': basicAuth,
-    };
-    // Construct the request body
-    final requestBody = json.encode(data);
-
-    // Make the API call using http.post
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: headers,
-      body: requestBody,
-    );
-
-    print("requestBody${requestBody}");
-    print("responsefkglkfdlgkfdg${response}");
-
-    // Handle the response
-
-    if (response.statusCode == 200) {
-      ordercretedrazorpaymodal =
-          OrderCretedRazorpayModal.fromJson(json.decode(response.body));
-      print("loginapp api sucessfuuly ");
-
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-      // Payment data to be stored
-      Map<String, dynamic> paymentData = {
-        "amount": razorpayamout,
-        "payment_capture": 1,
-        "currency": "INR",
-        "transfers": [
-          {
-            "account":
-                MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
-            "amount": razorpayamout,
-            "currency": "INR",
-            "notes": {
-              "branch": "Acme Corp Bangalore South",
-              "name":
-                  MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
-            },
-            "linked_account_notes": ["branch"],
-            "on_hold": false,
-            "on_hold_until": null,
-          }
-        ]
-      };
-
-      // Adding the data to a Firestore collection (e.g., 'payments')
-      await firestore
-          .collection('razorpayLinkedAccountsPayments')
-          .add(paymentData);
-      setState(() {
-        razorpayamout = 0.0;
-      });
-    } else {
-      // errorresponse = ErrorResponse.fromJson(json.decode(response.body));
-      print("sdsdfsdfsdfsdfsdf");
-      print("sgssfsd${response.body}");
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text((errorresponse?.error?.description ?? "")),
-      // ));
-    }
-  }
+  // loginapp() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Text(("please wait")),
+  //   ));
+  //
+  //   String keyId = razorpayKey.toString();
+  //   String secret = razorpaySecret.toString();
+  //   String basicAuth = 'Basic ' + base64Encode(utf8.encode('$keyId:$secret'));
+  //   final Map<String, dynamic> data = {
+  //     "amount": razorpayamout * 100,
+  //     "payment_capture": 1,
+  //     "currency": "INR",
+  //     "transfers": [
+  //       {
+  //         "account": MyAppState?.currentUser?.userBankDetails?.gstnumber ?? "",
+  //         //Please replace with appropriate ID.
+  //         "amount": razorpayamout * 100,
+  //         "currency": "INR",
+  //         "notes": {
+  //           "branch": "Acme Corp Bangalore South",
+  //           "name": MyAppState?.currentUser?.userBankDetails?.holderName ?? ""
+  //         },
+  //         "linked_account_notes": ["branch"],
+  //         "on_hold": false,
+  //         "on_hold_until": null
+  //       }
+  //     ]
+  //   };
+  //   // Convert 'billing' to a string
+  //
+  //   print("datadatadatadatadata${data}");
+  //   final apiUrl = "https://api.razorpay.com/v1/orders";
+  //
+  //   final headers = {
+  //     'Content-Type': 'application/json',
+  //     'authorization': basicAuth,
+  //   };
+  //   // Construct the request body
+  //   final requestBody = json.encode(data);
+  //
+  //   // Make the API call using http.post
+  //   final response = await http.post(
+  //     Uri.parse(apiUrl),
+  //     headers: headers,
+  //     body: requestBody,
+  //   );
+  //
+  //   print("requestBody${requestBody}");
+  //   print("responsefkglkfdlgkfdg${response}");
+  //
+  //   // Handle the response
+  //
+  //   if (response.statusCode == 200) {
+  //     ordercretedrazorpaymodal =
+  //         OrderCretedRazorpayModal.fromJson(json.decode(response.body));
+  //     print("loginapp api sucessfuuly ");
+  //
+  //     FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //
+  //     // Payment data to be stored
+  //     Map<String, dynamic> paymentData = {
+  //       "amount": razorpayamout,
+  //       "payment_capture": 1,
+  //       "currency": "INR",
+  //       "transfers": [
+  //         {
+  //           "account":
+  //               MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
+  //           "amount": razorpayamout,
+  //           "currency": "INR",
+  //           "notes": {
+  //             "branch": "Acme Corp Bangalore South",
+  //             "name":
+  //                 MyAppState?.currentUser?.userBankDetails?.holderName ?? "",
+  //           },
+  //           "linked_account_notes": ["branch"],
+  //           "on_hold": false,
+  //           "on_hold_until": null,
+  //         }
+  //       ]
+  //     };
+  //
+  //     // Adding the data to a Firestore collection (e.g., 'payments')
+  //     await firestore
+  //         .collection('razorpayLinkedAccountsPayments')
+  //         .add(paymentData);
+  //     setState(() {
+  //       razorpayamout = 0.0;
+  //     });
+  //   } else {
+  //     // errorresponse = ErrorResponse.fromJson(json.decode(response.body));
+  //     print("sdsdfsdfsdfsdfsdf");
+  //     print("sgssfsd${response.body}");
+  //     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     //   content: Text((errorresponse?.error?.description ?? "")),
+  //     // ));
+  //   }
+  // }
 
   Future<void> checkCameraLocation(
       CameraUpdate cameraUpdate, GoogleMapController mapController) async {
