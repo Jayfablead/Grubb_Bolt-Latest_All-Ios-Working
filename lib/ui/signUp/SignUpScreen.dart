@@ -9,7 +9,6 @@ import 'package:foodie_driver/model/User.dart';
 import 'package:foodie_driver/services/FirebaseHelper.dart';
 import 'package:foodie_driver/services/helper.dart';
 import 'package:foodie_driver/ui/container/ContainerScreen.dart';
-import 'package:foodie_driver/ui/phoneAuth/PhoneNumberInputScreen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -402,37 +401,43 @@ class _SignUpState extends State<SignUpScreen> {
           ),
         ),
         ConstrainedBox(
-            constraints: BoxConstraints(minWidth: double.infinity),
-            child: Padding(
-                padding:
-                    const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
-                child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlignVertical: TextAlignVertical.center,
-                    textInputAction: TextInputAction.next,
-                    cursorColor: Color(COLOR_PRIMARY),
-                    validator: validateEmail,
-                    onSaved: (String? val) {
-                      email = val;
-                    },
-                    decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                        fillColor: Colors.white,
-                        hintText: 'Email Address'.tr(),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                                color: Color(COLOR_PRIMARY), width: 2.0)),
-                        errorBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).errorColor),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Theme.of(context).errorColor),
-                            borderRadius: BorderRadius.circular(25.0)))))),
+          constraints: BoxConstraints(minWidth: double.infinity),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
+            child: TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              textAlignVertical: TextAlignVertical.center,
+              textInputAction: TextInputAction.next,
+              cursorColor: Color(COLOR_PRIMARY),
+              validator: validateEmail,
+              onSaved: (String? val) {
+                email = val;
+              },
+              decoration: InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                fillColor: Colors.white,
+                hintText: 'Email Address'.tr(),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).errorColor),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).errorColor),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+              ),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 16.0, right: 8.0, left: 8.0),
           child: Container(
@@ -573,46 +578,46 @@ class _SignUpState extends State<SignUpScreen> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Center(
-            child: Text(
-              'OR',
-              style: TextStyle(
-                  color: isDarkMode(context) ? Colors.white : Colors.black),
-            ).tr(),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            push(context, PhoneNumberInputScreen(login: false));
-          },
-          child: Padding(
-            padding: EdgeInsets.only(top: 10, right: 20, left: 40),
-            child: Container(
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(color: Color(COLOR_PRIMARY), width: 1)),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.phone,
-                        color: Color(COLOR_PRIMARY),
-                      ),
-                      Text(
-                        'signUpWithPhoneNumber'.tr(),
-                        style: TextStyle(
-                            color: Color(COLOR_PRIMARY),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            letterSpacing: 1),
-                      ),
-                    ])),
-          ),
-        )
+        // Padding(
+        //   padding: const EdgeInsets.all(32.0),
+        //   child: Center(
+        //     child: Text(
+        //       'OR',
+        //       style: TextStyle(
+        //           color: isDarkMode(context) ? Colors.white : Colors.black),
+        //     ).tr(),
+        //   ),
+        // ),
+        // InkWell(
+        //   onTap: () {
+        //     push(context, PhoneNumberInputScreen(login: false));
+        //   },
+        //   child: Padding(
+        //     padding: EdgeInsets.only(top: 10, right: 20, left: 40),
+        //     child: Container(
+        //         alignment: Alignment.bottomCenter,
+        //         padding: EdgeInsets.all(10),
+        //         decoration: BoxDecoration(
+        //             borderRadius: BorderRadius.circular(25),
+        //             border: Border.all(color: Color(COLOR_PRIMARY), width: 1)),
+        //         child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //             children: [
+        //               Icon(
+        //                 Icons.phone,
+        //                 color: Color(COLOR_PRIMARY),
+        //               ),
+        //               Text(
+        //                 'signUpWithPhoneNumber'.tr(),
+        //                 style: TextStyle(
+        //                     color: Color(COLOR_PRIMARY),
+        //                     fontWeight: FontWeight.bold,
+        //                     fontSize: 15,
+        //                     letterSpacing: 1),
+        //               ),
+        //             ])),
+        //   ),
+        // )
       ],
     );
   }
