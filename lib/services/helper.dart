@@ -429,13 +429,21 @@ updateWallateAmount(OrderModel orderModel) async {
   double discount = 0.0;
   double specialDiscount = 0.0;
   double taxAmount = 0.0;
+  double packingcharge = 0.0;
   orderModel.products.forEach((element) {
     if (element.extrasPrice != null &&
         element.extrasPrice!.isNotEmpty &&
         double.parse(element.extrasPrice!) != 0.0) {
+      // packingcharge+=double.parse(element.packingcharges.toString());
       total += element.quantity * double.parse(element.extrasPrice!);
+
     }
-    total += element.quantity * double.parse(element.price);
+    packingcharge+=double.parse(element.packingcharges.toString());
+    total += element.quantity * double.parse(element.price)  + packingcharge ;
+    print("sdgdfgfdgfdgdfgdfgdfgfdg${element.packingcharges}");
+    print("sdgdfgfdgfdgdfgdfgdfgfdg${total}");
+    print("sdgdfgfdgfdgdfgdfgdfgfdg${double.parse(element.packingcharges.toString())}");
+    print("sdgdfgfdgfdgdfgdfgdfgfdg${packingcharge}");
   });
 
   if (orderModel.specialDiscount != null ||
@@ -449,6 +457,8 @@ updateWallateAmount(OrderModel orderModel) async {
   }
 
   var totalamount = total - discount - specialDiscount;
+print("dsfdsfsdfsdfsdfsdfsdfdsdfdsf${packingcharge}");
+print("dsfdsfsdfsdfsdfsdfsdfdsdfdsf${totalamount}");
 
   if (orderModel.taxModel != null) {
     for (var element in orderModel.taxModel!) {

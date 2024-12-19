@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_driver/constants.dart';
@@ -21,7 +22,193 @@ class PickOrder extends StatefulWidget {
 class _PickOrderState extends State<PickOrder> {
   bool _value = false;
   int val = -1;
+  void calculateTimeDifference(String vendorAcceptTime, String fullTimestamp) async{
+    // Define date format
+    final dateFormat = DateFormat("MMMM d, yyyy hh:mm:ss a");
 
+    try {
+      // Clean the strings to remove unwanted text
+      // vendorAcceptTime = vendorAcceptTime.replaceAll(RegExp(r'[a-zA-Z]+t'), '').trim();
+      // fullTimestamp = fullTimestamp.replaceAll(RegExp(r'[a-zA-Z]+t'), '').trim();
+      vendorAcceptTime = vendorAcceptTime
+          .replaceAll(RegExp(r'[a-zA-Z]+t'), '')
+          .trim()
+          .replaceFirst(' pm', ' PM')
+          .replaceFirst(' am', ' AM');
+      fullTimestamp = fullTimestamp
+          .replaceAll(RegExp(r'[a-zA-Z]+t'), '')
+          .trim()
+          .replaceFirst(' pm', ' PM')
+          .replaceFirst(' am', ' AM');
+
+      // Parse the strings to DateTime
+      final vendorTime = dateFormat.parse(vendorAcceptTime);
+      final fullTime = dateFormat.parse(fullTimestamp);
+
+      // Calculate the difference
+      final difference = fullTime.difference(vendorTime);
+
+      // Display the result
+      print("Time difference: ${difference.inMinutes} minutes");
+      showProgress(context, 'Updating order...', false);
+      widget.currentOrder!.status = ORDER_STATUS_IN_TRANSIT;
+      widget.currentOrder!.driverpickedtime =fullTimestamp;
+      widget.currentOrder!.totaltimediffert =difference.inMinutes.toString();
+      print("widget.currentOrder!.totaltimediffertwidget.currentOrder!.totaltimediffert${widget.currentOrder!.totaltimediffert}");
+      if (num.parse(speedorderCompleteTime.toString()) >= difference.inMinutes) {
+        // Update the field
+        updateCompletedOrders(speedCashChallengeid);
+
+        print('Field updated successfully!');
+      } else {
+        print('Condition not met.');
+      }
+      await FireStoreUtils.updateOrder(widget.currentOrder!);
+      hideProgress();
+      setState(() {});
+      Navigator.pop(context);
+    } catch (e) {
+      print("Error parsing time: $e");
+    }
+  }
+  void updateCompletedOrders(String speedCashChallengeid) async {
+    final docRef = FirebaseFirestore.instance.collection('speedCashChallenge').doc(speedCashChallengeid);
+
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      final docSnapshot = await transaction.get(docRef);
+
+      if (docSnapshot.exists) {
+        // વર્તમાન મૂલ્ય મેળવો
+        final currentString = docSnapshot.data()?['completedOrdersOfThisTask'] as String? ?? '0';
+
+        // તેને Int માં રૂપાંતરિત કરો, +1 કરો અને પછી ફરીથી String માં ફેરવો
+        final updatedValue = (int.tryParse(currentString) ?? 0) + 1;
+        if (num.parse(speedcashnumberOfOrders.toString()) == num.parse(updatedValue.toString())) {
+          // Update the field
+          transaction.update(docRef, {
+            'challengeStatus': "complete",
+            'end_datetime':fullTimestamp,
+          });
+
+          print('Field updated successfully!');
+        } else {
+          print('Condition not met.');
+        }
+        // અપડેટ કરો
+        transaction.update(docRef, {
+          'completedOrdersOfThisTask': updatedValue.toString(),
+        });
+      }
+    }).catchError((error) {
+      print('Error updating completedOrdersOfThisTask: $error');
+    });
+  }
+
+
+
+  String? timeZoneOffset;
+  String? fullTimestamp;
+
+  void timenow() {
+    DateTime now = DateTime.now();
+
+    // Format date and time
+    String formattedTime =
+    DateFormat("MMMM d, yyyy hh:mm:ss a 'UTC+5:30").format(now);
+
+    timeZoneOffset = now.timeZoneOffset.isNegative
+        ? '-${now.timeZoneOffset.inHours.abs()}:${(now.timeZoneOffset.inMinutes % 60).abs().toString().padLeft(2, '0')}'
+        : '+${now.timeZoneOffset.inHours}:${(now.timeZoneOffset.inMinutes % 60).toString().padLeft(2, '0')}';
+
+    fullTimestamp = '$formattedTime';
+    print('Current Time Stamp is : $fullTimestamp');
+    timediffent();
+  }
+  String? speedcashid;
+  String? speedcashnumberOfOrders;
+  String? speedorderCompleteTime;
+  void timediffent() {
+    String vendorAcceptTime = widget.currentOrder?.vendoraccepttime ?? "";
+    print("vendorAcceptTimevendorAcceptTimevendorAcceptTime${vendorAcceptTime}");// Replace with actual data
+    String fullTimestamp1 = fullTimestamp.toString();
+    calculateTimeDifference(vendorAcceptTime, fullTimestamp1);
+  }
+
+  Future<void> fetchSpeedcashData(String documentId) async {
+    try {
+      // Firestore instance મેળવવું
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      // Document માટે Data મેળવવું
+      DocumentSnapshot docSnapshot = await firestore
+          .collection('speedcash')
+          .doc(documentId) // તમારી જરૂરી ID મૂકો
+          .get();
+
+      if (docSnapshot.exists) {
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+
+        // Data Access કરો
+      setState(() {
+        speedcashid = docSnapshot.id; // Document ID
+        speedcashnumberOfOrders = data['number_of_orders'] ?? 0;
+        speedorderCompleteTime = data['order_complete_time'] ?? 0;
+      });
+
+        print('ID: $speedcashid');
+        print('Number of Orders: $speedcashnumberOfOrders');
+        print('Order Complete Time: ${speedorderCompleteTime}');
+        getVendorData(speedcashid ?? "");
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+  String speedCashChallengeid = "";
+  String vendorId = "";
+  String speedCashLevel = "";
+  String completedOrdersOfThisTask = "";
+
+  Future<void> getVendorData(String speedcashid) async {
+    try {
+      // Firestore ના collection ને access કરો
+      CollectionReference speedCashChallengeCollection =
+      FirebaseFirestore.instance.collection('speedCashChallenge');
+
+      // vendor_id પર આધારિત data filter કરો
+      QuerySnapshot querySnapshot = await speedCashChallengeCollection
+          .where('speedCashLevel', isEqualTo: speedcashid)
+          .get();
+
+      // Snapshot માંથી data મેળવો
+      for (var doc in querySnapshot.docs) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        speedCashChallengeid = doc.id; // Document ID
+        vendorId = data['vendor_id'];
+    speedCashLevel = data['speedCashLevel'];
+         completedOrdersOfThisTask = data['completedOrdersOfThisTask'];
+
+        print('IDdgffdsgfdfgdg: $speedCashChallengeid');
+        print('Vendor ID: $vendorId');
+        print('Speed Cash Level: $speedCashLevel');
+        print('Speed Cash Level: $completedOrdersOfThisTask');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // timenow();
+    fetchSpeedcashData(widget.currentOrder?.vendor.speedCashId ?? "");
+    print("widget.dhgdfgdfgfdgdfgdgdgdff${widget.currentOrder?.vendoraccepttime ?? ""}");
+    print("widget.dhgdfgdfgfdgdfgdgdgdff${widget.currentOrder?.vendor.speedCashId ?? ""}");
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -287,13 +474,27 @@ class _PickOrderState extends State<PickOrder> {
               style: TextStyle(letterSpacing: 0.5),
             ),
             onPressed: () async {
-              print('HomeScreenState.completePickUp');
-              showProgress(context, 'Updating order...', false);
-              widget.currentOrder!.status = ORDER_STATUS_IN_TRANSIT;
-              await FireStoreUtils.updateOrder(widget.currentOrder!);
-              hideProgress();
-              setState(() {});
-              Navigator.pop(context);
+              timenow();
+              // DateTime now = DateTime.now();
+              //
+              // Format date and time
+              // String formattedTime =
+              // DateFormat("MMMM d, yyyy hh:mm:ss a 'UTC+5:30'").format(now);
+              //
+              // timeZoneOffset = now.timeZoneOffset.isNegative
+              //     ? '-${now.timeZoneOffset.inHours.abs()}:${(now.timeZoneOffset.inMinutes % 60).abs().toString().padLeft(2, '0')}'
+              //     : '+${now.timeZoneOffset.inHours}:${(now.timeZoneOffset.inMinutes % 60).toString().padLeft(2, '0')}';
+              //
+              // fullTimestamp = '$formattedTime UTC$timeZoneOffset';
+              // print('Current Time Stamp is : $fullTimestamp');
+              // print('HomeScreenState.completePickUp');
+              // showProgress(context, 'Updating order...', false);
+              // widget.currentOrder!.status = ORDER_STATUS_IN_TRANSIT;
+              // widget.currentOrder!.driverpickedtime = fullTimestamp;
+              // await FireStoreUtils.updateOrder(widget.currentOrder!);
+              // hideProgress();
+              // setState(() {});
+              // Navigator.pop(context);
             },
           ),
         ),

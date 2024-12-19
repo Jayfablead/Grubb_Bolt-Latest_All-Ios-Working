@@ -14,6 +14,9 @@ class OrderModel {
   User? driver;
 
   String? driverID;
+  String? vendoraccepttime;
+  String? driverpickedtime;
+  String? totaltimediffert;
 
   List<OrderProductModel> products;
 
@@ -54,6 +57,9 @@ class OrderModel {
       author,
       this.driver,
       this.driverID,
+      this.vendoraccepttime,
+      this.driverpickedtime,
+      this.totaltimediffert,
       this.authorID = '',
       this.paymentMethod = '',
       createdAt,
@@ -181,6 +187,9 @@ class OrderModel {
           ? User.fromJson(parsedJson['driver'])
           : null,
       driverID: parsedJson['driverID'] ?? null,
+      vendoraccepttime: parsedJson['vendoraccepttime'] ?? "",
+      driverpickedtime: parsedJson['driverpickedtime'] ?? "",
+      totaltimediffert: parsedJson['totaltimediffert'] ?? "",
       item: parsedJson["item"] != null ? parsedJson["item"] : "",
       groceryUnit:
           parsedJson["groceryUnit"] != null ? parsedJson["groceryUnit"] : "",
@@ -231,6 +240,9 @@ class OrderModel {
       "specialDiscount": this.specialDiscount,
       "triggerDelevery": this.triggerDelevery,
       "driverID": this.driverID,
+      "vendoraccepttime": this.vendoraccepttime,
+      "driverpickedtime": this.driverpickedtime,
+      "totaltimediffert": this.totaltimediffert,
       "driver": driver != null ? this.driver!.toJson() : null,
       "estimatedTimeToPrepare": this.estimatedTimeToPrepare,
       "scheduleTime": this.scheduleTime,

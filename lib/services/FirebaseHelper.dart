@@ -500,6 +500,7 @@ class FireStoreUtils {
   }
 
   static Future updateOrder(OrderModel orderModel) async {
+
     await firestore
         .collection(ORDERS)
         .doc(orderModel.id)

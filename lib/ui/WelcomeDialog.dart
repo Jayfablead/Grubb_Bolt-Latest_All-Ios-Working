@@ -77,29 +77,29 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    SystemNavigator.pop();
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.red),
-                    width: 110,
-                    height: 40,
-                    child: Text(
-                      'NOT NOW',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: "Poppinsr",
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 5), // Add space between buttons
+                // GestureDetector(
+                //   onTap: () {
+                //     SystemNavigator.pop();
+                //   },
+                //   child: Container(
+                //     alignment: Alignment.center,
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(6),
+                //         color: Colors.red),
+                //     width: 110,
+                //     height: 40,
+                //     child: Text(
+                //       'NOT NOW',
+                //       style: TextStyle(
+                //         color: Colors.white,
+                //         fontSize: 16,
+                //         fontFamily: "Poppinsr",
+                //         fontWeight: FontWeight.bold,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(width: 5), // Add space between buttons
                 GestureDetector(
                   onTap: () async {
                     // Set user agreement to true
@@ -110,7 +110,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                     Get.off(OnBoarding());
                   },
                   child: Container(
-                    width: 110,
+                    width: 250,
                     height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -118,7 +118,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                       color: Color(COLOR_PRIMARY),
                     ),
                     child: Text(
-                      'AGREE',
+                      'AGREE And Continue',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

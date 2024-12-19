@@ -574,6 +574,7 @@ class HomeScreenState extends State<HomeScreen> {
     if (currentOrder!.status == ORDER_STATUS_SHIPPED ||
         currentOrder!.status == ORDER_STATUS_DRIVER_ACCEPTED) {
       title = '${currentOrder!.vendor.title}';
+
       buttonText = 'REACHED STORE FOR PICKUP'.tr();
     } else if (currentOrder!.status == ORDER_STATUS_IN_TRANSIT) {
       title = 'Deliver to {}'.tr(args: ['${currentOrder!.author.firstName}']);

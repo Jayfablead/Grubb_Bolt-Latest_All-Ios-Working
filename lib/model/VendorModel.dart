@@ -11,10 +11,11 @@ class VendorModel {
   String authorName;
 
   String authorProfilePic;
-
   String categoryID;
 
   String fcmToken;
+  String speedCashLevel;
+  String speedCashId;
 
   String categoryPhoto;
 
@@ -75,6 +76,8 @@ class VendorModel {
       this.description = '',
       this.phonenumber = '',
       this.fcmToken = '',
+      this.speedCashId = '',
+      this.speedCashLevel = '',
       this.id = '',
       this.latitude = 0.1,
       this.longitude = 0.1,
@@ -159,6 +162,8 @@ class VendorModel {
         restaurantMenuPhotos: parsedJson['restaurantMenuPhotos'] ?? [],
         location: parsedJson['location'] ?? '',
         fcmToken: parsedJson['fcmToken'] ?? '',
+        speedCashId: parsedJson['speedCashId'] ?? '',
+        speedCashLevel: parsedJson['speedCashLevel'] ?? '',
         reviewsCount: parsedJson['reviewsCount'] ?? 0,
         restaurantCost: restCost,
         reviewsSum: parsedJson['reviewsSum'] ?? 0,
@@ -196,6 +201,8 @@ class VendorModel {
       'restaurantMenuPhotos': this.restaurantMenuPhotos,
       'location': this.location,
       'fcmToken': this.fcmToken,
+      'speedCashId': this.speedCashId,
+      'speedCashLevel': this.speedCashLevel,
       'reviewsCount': this.reviewsCount,
       'reviewsSum': this.reviewsSum,
       'title': this.title,
